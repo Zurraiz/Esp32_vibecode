@@ -11,6 +11,7 @@ import Canvas from '@/components/Canvas'
 import CodePanel from '@/components/CodePanel'
 import LiveBar from '@/components/LiveBar'
 import FlashModal from '@/components/FlashModal'
+import AIAssistant from '@/components/AIAssistant'
 
 export default function Home() {
   const blocks = useAppStore((state) => state.blocks)
@@ -89,6 +90,7 @@ export default function Home() {
         onClose={() => setFlashModalOpen(false)}
         onDeviceLinked={handleDeviceLinked}
       />
+      <AIAssistant />
     </main>
   )
 }

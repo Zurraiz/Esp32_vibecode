@@ -281,8 +281,8 @@ export default function Canvas() {
         </Droppable>
       </DragDropContext>
 
-      {blocks.length > 0 && (
-        <div className="absolute bottom-3 right-3">
+      <div className="absolute bottom-3 right-3 flex items-center gap-2">
+        {blocks.length > 0 && (
           <button
             type="button"
             onClick={() => {
@@ -293,8 +293,17 @@ export default function Canvas() {
           >
             🗑️ Clear All
           </button>
-        </div>
-      )}
+        )}
+        <button
+          type="button"
+          onClick={() => window.dispatchEvent(new CustomEvent('open-ai-assistant'))}
+          className="w-10 h-10 rounded-full bg-[#2E4862] shadow-md hover:shadow-lg flex items-center justify-center"
+          aria-label="Open AI assistant"
+          title="AI Block Generator"
+        >
+          <img src="/robot.png" alt="AI" className="w-6 h-6 object-contain" />
+        </button>
+      </div>
     </div>
   );
 }
