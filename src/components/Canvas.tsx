@@ -9,6 +9,7 @@ import {
 } from '@hello-pangea/dnd';
 
 import { BLOCK_COLOURS } from '@/lib/blockCatalogue';
+import { validateBlocks } from '@/lib/utils';
 import { useAppStore } from '@/store/useAppStore';
 import type { Block, BlockParam } from '@/types';
 
@@ -115,6 +116,10 @@ export default function Canvas() {
   const updateBlockValue = useAppStore((state) => state.updateBlockValue);
   const reorderBlocks = useAppStore((state) => state.reorderBlocks);
   const clearBlocks = useAppStore((state) => state.clearBlocks);
+  const validationErrors = React.useMemo(
+    () => validateBlocks(blocks),
+    [blocks]
+  );
 
   const [selectedIds, setSelectedIds] = React.useState<Set<number>>(new Set());
 
@@ -218,6 +223,7 @@ export default function Canvas() {
                   {blocks.map((block, index) => {
                     const isSelected = selectedIds.has(block.id);
                     const colourClass = BLOCK_COLOURS[block.type] ?? 'bg-slate-500';
+                    const hasError = validationErrors.has(index);
 
                     return (
                       <React.Fragment key={block.id}>
@@ -227,9 +233,11 @@ export default function Canvas() {
                               ref={draggableProvided.innerRef}
                               {...draggableProvided.draggableProps}
                               onClick={(event) => handleBlockClick(block.id, event.shiftKey)}
-                              className={`rounded-xl py-2.5 px-3 text-white ${colourClass} ${
+                              className={`relative rounded-xl py-2.5 px-3 text-white ${colourClass} ${
                                 isSelected
                                   ? 'ring-2 ring-white ring-offset-1 ring-offset-transparent outline'
+                                  : hasError
+                                  ? 'ring-2 ring-red-500 ring-offset-1'
                                   : ''
                               }`}
                             >
@@ -260,6 +268,12 @@ export default function Canvas() {
                                 >
                                   ✕
                                 </button>
+
+                                {hasError && (
+                                  <div className="absolute -top-6 left-0 bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-md whitespace-nowrap z-10">
+                                    {validationErrors.get(index)}
+                                  </div>
+                                )}
                               </div>
                             </div>
                           )}
