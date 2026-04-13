@@ -9,6 +9,10 @@ type Category = {
   types: string[];
 };
 
+interface SidebarProps {
+  allowedBlocks?: string[];
+}
+
 const CATEGORIES: Category[] = [
   { title: '⚡ Output', types: ['pinMode', 'dw_high', 'dw_low', 'blink', 'tone_on', 'tone_off'] },
   { title: '🔆 PWM', types: ['pwm_setup', 'pwm_write', 'servo_write'] },
@@ -39,7 +43,7 @@ const makeShortName = (label: string): string => {
     .trim();
 };
 
-export default function Sidebar() {
+export default function Sidebar({ allowedBlocks }: SidebarProps) {
   const addBlock = useAppStore((state) => state.addBlock);
 
   const handleAddBlock = (type: string) => {
@@ -63,6 +67,7 @@ export default function Sidebar() {
     <aside className="h-full w-full p-3 overflow-y-auto">
       {CATEGORIES.map((category, index) => {
         const blocks = category.types
+          .filter((type) => !allowedBlocks || allowedBlocks.includes(type))
           .map((type) => BLOCK_CATALOGUE.find((block) => block.type === type))
           .filter((block): block is NonNullable<typeof block> => Boolean(block));
 

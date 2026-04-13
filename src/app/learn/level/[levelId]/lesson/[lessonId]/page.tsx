@@ -1,0 +1,286 @@
+'use client';
+
+import React from 'react';
+import { useParams, useRouter } from 'next/navigation';
+
+import Canvas from '@/components/Canvas';
+import CodePanel from '@/components/CodePanel';
+import Header from '@/components/Header';
+import Sidebar from '@/components/Sidebar';
+import { BLOCK_CATALOGUE } from '@/lib/blockCatalogue';
+import { LEVELS } from '@/lib/lessonConfig';
+import { useAppStore } from '@/store/useAppStore';
+
+export default function LessonPage() {
+  const router = useRouter();
+  const params = useParams<{ levelId: string; lessonId: string }>();
+  const clearBlocks = useAppStore((state) => state.clearBlocks);
+
+  const levelId = Number(params.levelId);
+  const lessonId = params.lessonId;
+
+  const level = LEVELS.find((l) => l.id === levelId);
+  const lesson = level?.lessons.find((l) => l.id === lessonId);
+
+  const [currentStepIndex, setCurrentStepIndex] = React.useState(0);
+  const [completedSteps, setCompletedSteps] = React.useState<Set<number>>(new Set());
+
+  const totalSteps = lesson?.steps.length ?? 0;
+  const currentStep = lesson?.steps[currentStepIndex];
+
+  React.useEffect(() => {
+    // Don't clear blocks on mapping step — student needs to see what they built
+    if (currentStep?.type !== 'mapping') {
+      clearBlocks();
+    }
+  }, [clearBlocks, currentStepIndex, currentStep?.type]);
+
+  if (!level || !lesson) {
+    return (
+      <main className="min-h-screen bg-[#EDEDED]">
+        <Header />
+        <div className="mx-auto max-w-3xl px-6 py-16">
+          <div className="rounded-xl bg-white p-6 shadow-sm">
+            <h1 className="text-xl font-bold text-[#2E4862]">Lesson not found</h1>
+            <button
+              type="button"
+              onClick={() => router.push('/learn')}
+              className="mt-3 text-sm text-gray-500 hover:text-[#2E4862]"
+            >
+              ← Back to Learning Path
+            </button>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (!currentStep) {
+    return (
+      <main className="min-h-screen bg-[#EDEDED]">
+        <Header />
+        <div className="mx-auto max-w-3xl px-6 py-16">
+          <div className="rounded-xl bg-white p-6 shadow-sm">
+            <h1 className="text-xl font-bold text-[#2E4862]">Lesson not found</h1>
+            <button
+              type="button"
+              onClick={() => router.push('/learn')}
+              className="mt-3 text-sm text-gray-500 hover:text-[#2E4862]"
+            >
+              ← Back to Learning Path
+            </button>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  const progressPercent = totalSteps > 0 ? ((currentStepIndex + 1) / totalSteps) * 100 : 0;
+
+  const handlePrev = () => {
+    if (currentStepIndex === 0) return;
+    setCurrentStepIndex((prev) => prev - 1);
+  };
+
+  const handleNext = () => {
+    setCompletedSteps((prev) => {
+      const next = new Set(prev);
+      next.add(currentStepIndex);
+      return next;
+    });
+
+    if (currentStepIndex >= totalSteps - 1) {
+      router.push('/learn');
+      return;
+    }
+
+    setCurrentStepIndex((prev) => prev + 1);
+  };
+
+  const allowedBlocksFromStep = currentStep?.allowedBlocks;
+  const allowedBlocks = allowedBlocksFromStep
+    ? allowedBlocksFromStep.filter((type) => BLOCK_CATALOGUE.some((b) => b.type === type))
+    : undefined;
+
+  return (
+    <main className="min-h-screen bg-[#EDEDED]">
+      <Header />
+
+      <div className="flex h-[calc(100vh-56px)] overflow-hidden">
+        <aside className="w-[260px] bg-white border-r border-gray-200 flex flex-col">
+          <div className="border-b border-gray-100 p-5">
+            <button
+              type="button"
+              onClick={() => router.push('/learn')}
+              className="text-xs text-gray-500 hover:text-[#2E4862]"
+            >
+              ← Levels
+            </button>
+
+            <h2 className="mt-3 text-base font-bold text-[#2E4862]">{lesson.title}</h2>
+            <p className="mt-1 text-xs text-gray-500">{lesson.description}</p>
+
+            <div className="mt-3 h-1.5 rounded-full bg-gray-100">
+              <div
+                className="h-1.5 rounded-full bg-[#2E4862]"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+            <p className="mt-1 text-xs text-gray-400">
+              {currentStepIndex + 1} of {totalSteps} steps
+            </p>
+          </div>
+
+          <div className="flex-1 overflow-y-auto py-3">
+            {lesson.steps.map((step, index) => {
+              const isActive = index === currentStepIndex;
+              const isCompleted = completedSteps.has(index);
+              const isLocked = index > completedSteps.size;
+
+              const icon = isCompleted ? '✅' : isActive ? '🔵' : isLocked ? '🔒' : '⚪';
+
+              return (
+                <button
+                  key={step.id}
+                  type="button"
+                  disabled={isLocked}
+                  onClick={() => setCurrentStepIndex(index)}
+                  className={`mx-3 mb-2 flex w-[calc(100%-24px)] items-center gap-2 rounded-lg px-3 py-2.5 text-left ${
+                    isActive
+                      ? 'bg-[#2E4862] text-white cursor-pointer'
+                      : isCompleted
+                      ? 'bg-green-50 text-green-700 border border-green-100 cursor-pointer'
+                      : isLocked
+                      ? 'opacity-40 cursor-not-allowed text-gray-600'
+                      : 'cursor-pointer text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  <span>{icon}</span>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-xs font-medium">{step.title}</p>
+                    <p className="mt-0.5 text-[10px] opacity-60 uppercase tracking-wide">{step.type}</p>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </aside>
+
+        <section className="flex flex-1 flex-col overflow-hidden">
+          <div className="border-b border-gray-100 bg-white px-8 py-5">
+            <h1 className="text-xl font-bold text-[#2E4862]">{currentStep.title}</h1>
+            <p className="mt-0.5 text-sm text-gray-500">{currentStep.description}</p>
+          </div>
+
+          <div className="flex-1 overflow-hidden">
+            {(currentStep.type === 'content' || currentStep.type === 'concept') && (
+              <div className="h-full overflow-y-auto px-8 py-6">
+                <div className="max-w-3xl rounded-xl bg-white p-8 shadow-sm">
+                  {currentStep.pdfLabel && (
+                    <div className="mb-4 flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-4 py-2">
+                      <span>📄</span>
+                      <span className="text-sm text-gray-600">{currentStep.pdfLabel}</span>
+                    </div>
+                  )}
+
+                  <div
+                    className="text-sm leading-relaxed text-gray-700"
+                    dangerouslySetInnerHTML={{ __html: currentStep.content ?? '<p>No content available.</p>' }}
+                  />
+                </div>
+              </div>
+            )}
+
+            {(currentStep.type === 'explore' || currentStep.type === 'challenge') && (
+              <div className="h-full p-3">
+                {currentStep.type === 'challenge' && (
+                  <div className="mb-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2 text-xs text-amber-700">
+                    💡 Hint: {currentStep.hint}
+                  </div>
+                )}
+
+                <div className="flex h-[calc(100%-0px)] overflow-hidden rounded-xl">
+                  <div className="w-[240px] overflow-hidden rounded-xl bg-white shadow-sm">
+                    <Sidebar allowedBlocks={allowedBlocks} />
+                  </div>
+
+                  <div className="ml-3 flex-1 overflow-hidden">
+                    <Canvas />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {currentStep.type === 'mapping' && (
+              <div className="h-full p-4 flex flex-col">
+                <p className="mb-3 text-sm text-gray-500 flex-shrink-0">
+                  🔍 See how each block maps to real Arduino C++ code
+                </p>
+                <div className="flex flex-1 gap-3 overflow-hidden">
+                  {/* Left — blocks list (read only, no sidebar) */}
+                  <div className="w-[360px] flex-shrink-0 overflow-hidden rounded-xl bg-white shadow-sm">
+                    <div className="bg-[#2E4862] px-4 py-2.5 rounded-t-xl">
+                      <p className="text-xs font-semibold text-white">Your Blocks</p>
+                    </div>
+                    <div className="overflow-y-auto h-[calc(100%-40px)] pointer-events-none">
+                      <Canvas />
+                    </div>
+                  </div>
+
+                  {/* Arrow indicator */}
+                  <div className="flex items-center justify-center flex-shrink-0">
+                    <div className="flex flex-col items-center gap-1 text-[#2E4862]">
+                      <div className="w-8 h-0.5 bg-[#2E4862]" />
+                      <span className="text-lg">→</span>
+                      <p className="text-[10px] text-gray-400 text-center w-16">generates</p>
+                    </div>
+                  </div>
+
+                  {/* Right — generated code */}
+                  <div className="flex-1 overflow-hidden rounded-xl bg-white shadow-sm">
+                    <CodePanel showLiveOutput={false} />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="flex items-center justify-between border-t border-gray-200 bg-white px-8 py-4">
+            <button
+              type="button"
+              onClick={handlePrev}
+              disabled={currentStepIndex === 0}
+              className="text-sm text-gray-500 hover:text-[#2E4862] disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              ← Back
+            </button>
+
+            <div className="flex items-center gap-2">
+              {lesson.steps.map((_, index) => {
+                const isActive = index === currentStepIndex;
+                const isCompleted = completedSteps.has(index);
+
+                return (
+                  <span
+                    key={index}
+                    className={`h-2 w-2 rounded-full ${
+                      isActive ? 'bg-[#2E4862]' : isCompleted ? 'bg-green-500' : 'bg-gray-200'
+                    }`}
+                  />
+                );
+              })}
+            </div>
+
+            <button
+              type="button"
+              onClick={handleNext}
+              className="rounded-lg bg-[#2E4862] px-6 py-2 text-sm font-medium text-white"
+            >
+              {currentStepIndex === totalSteps - 1 ? 'Complete Lesson ✓' : 'Next →'}
+            </button>
+          </div>
+        </section>
+      </div>
+    </main>
+  );
+}

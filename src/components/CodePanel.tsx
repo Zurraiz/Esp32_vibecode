@@ -7,7 +7,11 @@ import { useAppStore } from '@/store/useAppStore';
 import type { Block } from '@/types';
 import LiveOutput from '@/components/LiveOutput';
 
-export default function CodePanel() {
+interface CodePanelProps {
+  showLiveOutput?: boolean;
+}
+
+export default function CodePanel({ showLiveOutput = true }: CodePanelProps) {
   const blocks: Block[] = useAppStore((state) => state.blocks);
   const [copied, setCopied] = React.useState(false);
 
@@ -98,7 +102,7 @@ export default function CodePanel() {
           </div>
         )}
       </div>
-      <LiveOutput />
+      {showLiveOutput && <LiveOutput />}
     </section>
   );
 }
