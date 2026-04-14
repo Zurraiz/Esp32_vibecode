@@ -12,6 +12,7 @@ import CodePanel from '@/components/CodePanel'
 import LiveBar from '@/components/LiveBar'
 import FlashModal from '@/components/FlashModal'
 import AIAssistant from '@/components/AIAssistant'
+import TemplatesModal from '@/components/TemplatesModal'
 
 export default function Home() {
   const blocks = useAppStore((state) => state.blocks)
@@ -20,6 +21,7 @@ export default function Home() {
   const setActiveDeviceId = useAppStore((state) => state.setActiveDeviceId)
 
   const [flashModalOpen, setFlashModalOpen] = React.useState(false)
+  const [templatesOpen, setTemplatesOpen] = React.useState(false)
 
   const { connect, disconnect, runProgram, saveProgram, clearSavedProgram } = useMQTT()
 
@@ -67,6 +69,12 @@ export default function Home() {
     return () => window.removeEventListener('open-flash-modal', handler)
   }, [])
 
+  React.useEffect(() => {
+    const handler = () => setTemplatesOpen(true)
+    window.addEventListener('open-templates', handler)
+    return () => window.removeEventListener('open-templates', handler)
+  }, [])
+
   return (
     <main className="min-h-screen bg-[#EDEDED]">
       <Header />
@@ -91,6 +99,10 @@ export default function Home() {
         onDeviceLinked={handleDeviceLinked}
       />
       <AIAssistant />
+      <TemplatesModal
+        isOpen={templatesOpen}
+        onClose={() => setTemplatesOpen(false)}
+      />
     </main>
   )
 }

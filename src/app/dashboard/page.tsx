@@ -3,11 +3,22 @@
 import { useRouter } from 'next/navigation';
 
 import Header from '@/components/Header';
+import { PROJECT_TEMPLATES } from '@/lib/projectTemplates';
 import { useAppStore } from '@/store/useAppStore';
 
 export default function DashboardPage() {
   const router = useRouter();
   const activeDeviceId = useAppStore((state) => state.activeDeviceId);
+  const addBlock = useAppStore((state) => state.addBlock);
+  const clearBlocks = useAppStore((state) => state.clearBlocks);
+
+  const handleLoadTemplate = (templateId: string) => {
+    const template = PROJECT_TEMPLATES.find((t) => t.id === templateId);
+    if (!template) return;
+    clearBlocks();
+    template.blocks.forEach((block) => addBlock(block));
+    router.push('/');
+  };
 
   return (
     <main className="min-h-screen bg-[#EDEDED]">
@@ -63,6 +74,57 @@ export default function DashboardPage() {
             <span className="mt-6 w-fit rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-400">
               Coming Soon
             </span>
+          </div>
+        </section>
+
+        <section className="mt-10">
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="text-lg font-bold text-[#2E4862]">🚀 Quick Start</h3>
+            <button
+              onClick={() => router.push('/')}
+              className="text-xs text-gray-500 hover:text-[#2E4862]"
+            >
+              Open Playground →
+            </button>
+          </div>
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+            {PROJECT_TEMPLATES.map((template) => (
+              <button
+                key={template.id}
+                type="button"
+                onClick={() => handleLoadTemplate(template.id)}
+                className="cursor-pointer rounded-xl bg-white p-4 text-left shadow-sm transition-all hover:scale-[1.01] hover:shadow-md"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-2xl">{template.icon}</span>
+                  <span className="text-[10px] text-gray-400">{template.blocks.length} blocks</span>
+                </div>
+                <p className="mt-2 text-sm font-bold text-[#2E4862]">{template.title}</p>
+                <p className="mt-1 text-xs leading-relaxed text-gray-500">
+                  {template.description}
+                </p>
+                <div className="mt-2 flex flex-wrap gap-1">
+                  {template.teaches.map((t) => (
+                    <span
+                      key={t}
+                      className="rounded-full border border-green-100 bg-green-50 px-2 py-0.5 text-[10px] text-green-700"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                <div className="mt-2 flex flex-wrap gap-1">
+                  {template.components.slice(0, 2).map((c) => (
+                    <span
+                      key={c}
+                      className="rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[10px] text-blue-600"
+                    >
+                      {c}
+                    </span>
+                  ))}
+                </div>
+              </button>
+            ))}
           </div>
         </section>
 

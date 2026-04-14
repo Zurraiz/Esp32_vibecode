@@ -14,6 +14,7 @@ import { useAppStore } from '@/store/useAppStore';
 export default function LessonPage() {
   const router = useRouter();
   const params = useParams<{ levelId: string; lessonId: string }>();
+  const blocks = useAppStore((state) => state.blocks);
   const clearBlocks = useAppStore((state) => state.clearBlocks);
 
   const levelId = Number(params.levelId);
@@ -24,6 +25,8 @@ export default function LessonPage() {
 
   const [currentStepIndex, setCurrentStepIndex] = React.useState(0);
   const [completedSteps, setCompletedSteps] = React.useState<Set<number>>(new Set());
+  const [challengeError, setChallengeError] = React.useState<string | null>(null);
+  const [challengePassed, setChallengePassed] = React.useState(false);
 
   const totalSteps = lesson?.steps.length ?? 0;
   const currentStep = lesson?.steps[currentStepIndex];
@@ -33,6 +36,8 @@ export default function LessonPage() {
     if (currentStep?.type !== 'mapping') {
       clearBlocks();
     }
+    setChallengeError(null);
+    setChallengePassed(false);
   }, [clearBlocks, currentStepIndex, currentStep?.type]);
 
   if (!level || !lesson) {
@@ -82,7 +87,88 @@ export default function LessonPage() {
     setCurrentStepIndex((prev) => prev - 1);
   };
 
+  const validateChallenge = (): boolean => {
+    if (!currentStep?.challengeBlocks) return true;
+
+    const studentTypes = blocks.map((b) => b.type);
+    const requiredTypes = currentStep.challengeBlocks;
+    setChallengePassed(false);
+
+    if (studentTypes.length === 0) {
+      setChallengeError('Add some blocks to complete this challenge!');
+      return false;
+    }
+
+    if (currentStep.challengeStrict) {
+      // Order must match exactly
+      const matches =
+        studentTypes.length === requiredTypes.length &&
+        requiredTypes.every((type, index) => studentTypes[index] === type);
+      if (!matches) {
+        setChallengeError(
+          'Good start! Try reordering your blocks — check the hint for the right sequence.',
+        );
+        return false;
+      }
+    } else {
+      // Just check all required types are present
+      const missingBlocks = requiredTypes.filter((required) => {
+        if (required === 'delay_ms') {
+          return !studentTypes.includes('delay_ms') && !studentTypes.includes('delay_sec');
+        }
+
+        if (required === 'delay_sec') {
+          return !studentTypes.includes('delay_ms') && !studentTypes.includes('delay_sec');
+        }
+
+        return !studentTypes.includes(required);
+      });
+      if (missingBlocks.length > 0) {
+        const blockNames: Record<string, string> = {
+          pinMode: 'Set Pin Mode',
+          dw_high: 'Turn ON LED',
+          dw_low: 'Turn OFF LED',
+          delay_ms: 'Wait (ms)',
+          delay_sec: 'Wait (seconds)',
+          serial_begin: 'Start Serial',
+          btn_read: 'Read Button',
+          if_block: 'If condition',
+          end_if: 'End If',
+        };
+        const missing = missingBlocks.map((b) => blockNames[b] || b).join(', ');
+        setChallengeError(
+          `Almost there! You still need: ${missing}. Check the hint for guidance.`,
+        );
+        return false;
+      }
+    }
+
+    // Check pin values if specified
+    if (currentStep.challengePinValues) {
+      for (const [blockType, expectedPin] of Object.entries(currentStep.challengePinValues)) {
+        const block = blocks.find((b) => b.type === blockType);
+        if (block && Number(block.values.pin) !== expectedPin) {
+          setChallengeError(
+            `Check the pin number on your ${blockType} block — expected Pin ${expectedPin}`,
+          );
+          return false;
+        }
+      }
+    }
+
+    setChallengeError(null);
+    setChallengePassed(true);
+    return true;
+  };
+
   const handleNext = () => {
+    if (currentStep.type === 'challenge') {
+      const isValid = validateChallenge();
+      if (!isValid) {
+        return;
+      }
+    }
+
     setCompletedSteps((prev) => {
       const next = new Set(prev);
       next.add(currentStepIndex);
@@ -193,11 +279,23 @@ export default function LessonPage() {
 
             {(currentStep.type === 'explore' || currentStep.type === 'challenge') && (
               <div className="h-full p-3">
-                {currentStep.type === 'challenge' && (
-                  <div className="mb-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2 text-xs text-amber-700">
-                    💡 Hint: {currentStep.hint}
-                  </div>
-                )}
+                <div className="flex-shrink-0 px-4 pt-3 flex flex-col gap-2">
+                  {currentStep.hint && (
+                    <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-2 text-xs text-amber-700">
+                      💡 Hint: {currentStep.hint}
+                    </div>
+                  )}
+                  {currentStep.type === 'challenge' && challengeError && (
+                    <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-xs text-red-700">
+                      ❌ {challengeError}
+                    </div>
+                  )}
+                  {currentStep.type === 'challenge' && challengePassed && (
+                    <div className="rounded-lg border border-green-200 bg-green-50 px-4 py-2 text-xs text-green-700">
+                      ✅ Great job! Your solution looks correct. Click Next to continue.
+                    </div>
+                  )}
+                </div>
 
                 <div className="flex h-[calc(100%-0px)] overflow-hidden rounded-xl">
                   <div className="w-[240px] overflow-hidden rounded-xl bg-white shadow-sm">
@@ -205,7 +303,7 @@ export default function LessonPage() {
                   </div>
 
                   <div className="ml-3 flex-1 overflow-hidden">
-                    <Canvas />
+                    <Canvas showAIButton={false} />
                   </div>
                 </div>
               </div>
@@ -223,7 +321,7 @@ export default function LessonPage() {
                       <p className="text-xs font-semibold text-white">Your Blocks</p>
                     </div>
                     <div className="overflow-y-auto h-[calc(100%-40px)] pointer-events-none">
-                      <Canvas />
+                      <Canvas showAIButton={false} />
                     </div>
                   </div>
 

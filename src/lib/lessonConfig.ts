@@ -7,6 +7,8 @@ export type LessonStep = {
   pdfLabel?: string;
   allowedBlocks?: string[];
   challengeBlocks?: string[];
+  challengeStrict?: boolean;
+  challengePinValues?: Record<string, number>;
   hint?: string;
 };
 
@@ -72,8 +74,9 @@ export const LEVELS: Level[] = [
             title: 'Student Task',
             description: 'Build a proper blinking LED program',
             allowedBlocks: ['pinMode', 'dw_high', 'dw_low', 'delay_ms', 'delay_sec'],
-            challengeBlocks: ['pinMode', 'dw_high', 'delay_ms', 'dw_low', 'delay_ms'],
-            hint: 'Remember: set pinMode first, then alternate HIGH/LOW with delays',
+            challengeBlocks: ['pinMode', 'dw_high', 'dw_low', 'delay_ms'],
+            challengeStrict: false,
+            hint: 'Add a pinMode, turn the LED on, add a delay, then turn it off',
           },
           {
             id: 'mapping',

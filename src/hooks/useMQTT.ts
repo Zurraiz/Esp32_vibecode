@@ -36,7 +36,7 @@ export function useMQTT() {
     heartbeatTimerRef.current = setTimeout(() => {
       setDeviceStatus('offline');
       addLogEntry('No heartbeat - device may be offline', 'err');
-    }, 8000);
+    }, 15000);
   }, [addLogEntry, clearHeartbeatTimer, setDeviceStatus]);
 
   const publishToDevice = useCallback(
@@ -96,8 +96,7 @@ export function useMQTT() {
         }
 
         if (msg.status === 'offline') {
-          setDeviceStatus('offline');
-          addLogEntry('Device reported offline.', 'err');
+          addLogEntry('⚠️ Device disconnected - waiting for reconnect...', 'warn');
           return;
         }
 
@@ -180,6 +179,7 @@ export function useMQTT() {
         client.publish(`esp32/${trimmedId}/commands`, JSON.stringify({ action: 'ping' }));
 
         addLogEntry('Connected to broker. Waiting for device...', 'warn');
+        scheduleHeartbeatDropout();
       });
 
       client.on('message', handleMessage);
@@ -198,7 +198,7 @@ export function useMQTT() {
         setDeviceStatus('connecting');
       });
     },
-    [addLogEntry, clearHeartbeatTimer, handleMessage, setDeviceStatus],
+    [addLogEntry, clearHeartbeatTimer, handleMessage, scheduleHeartbeatDropout, setDeviceStatus],
   );
 
   const runProgram = useCallback(

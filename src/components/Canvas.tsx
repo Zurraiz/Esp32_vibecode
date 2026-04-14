@@ -15,6 +15,10 @@ import type { Block, BlockParam } from '@/types';
 
 const TOKEN_REGEX = /(<[^>]+>)/g;
 
+interface CanvasProps {
+  showAIButton?: boolean;
+}
+
 const stopEvent = (event: React.MouseEvent<HTMLElement>) => {
   event.stopPropagation();
 };
@@ -110,7 +114,7 @@ const renderInlineLabel = (
   });
 };
 
-export default function Canvas() {
+export default function Canvas({ showAIButton = true }: CanvasProps) {
   const blocks = useAppStore((state) => state.blocks);
   const removeBlock = useAppStore((state) => state.removeBlock);
   const updateBlockValue = useAppStore((state) => state.updateBlockValue);
@@ -295,6 +299,16 @@ export default function Canvas() {
         </Droppable>
       </DragDropContext>
 
+      <div className="absolute bottom-3 left-3">
+        <button
+          type="button"
+          onClick={() => window.dispatchEvent(new CustomEvent('open-templates'))}
+          className="bg-white border border-gray-200 text-[#2E4862] rounded-lg px-3 py-1.5 text-sm shadow-sm hover:bg-gray-50 font-medium"
+        >
+          🚀 Templates
+        </button>
+      </div>
+
       <div className="absolute bottom-3 right-3 flex items-center gap-2">
         {blocks.length > 0 && (
           <button
@@ -308,15 +322,17 @@ export default function Canvas() {
             🗑️ Clear All
           </button>
         )}
-        <button
-          type="button"
-          onClick={() => window.dispatchEvent(new CustomEvent('open-ai-assistant'))}
-          className="w-10 h-10 rounded-full bg-[#2E4862] shadow-md hover:shadow-lg flex items-center justify-center"
-          aria-label="Open AI assistant"
-          title="AI Block Generator"
-        >
-          <img src="/robot.png" alt="AI" className="w-6 h-6 object-contain" />
-        </button>
+        {showAIButton && (
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new CustomEvent('open-ai-assistant'))}
+            className="w-10 h-10 rounded-full bg-[#2E4862] shadow-md hover:shadow-lg flex items-center justify-center"
+            aria-label="Open AI assistant"
+            title="AI Block Generator"
+          >
+            <img src="/robot.png" alt="AI" className="w-6 h-6 object-contain" />
+          </button>
+        )}
       </div>
     </div>
   );
