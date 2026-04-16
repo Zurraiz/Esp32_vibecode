@@ -165,10 +165,14 @@ export default function LessonPage() {
 
   const handleNext = () => {
     if (currentStep.type === 'challenge') {
-      const isValid = validateChallenge();
-      if (!isValid) {
+      // If not yet passed, run validation
+      if (!challengePassed) {
+        const isValid = validateChallenge();
+        if (!isValid) return;
+        // Validation just passed — stay on this step to show simulator
         return;
       }
+      // challengePassed is already true — this is the second click, advance
     }
 
     setCompletedSteps((prev) => {
@@ -393,7 +397,11 @@ export default function LessonPage() {
               onClick={handleNext}
               className="rounded-lg bg-[#2E4862] px-6 py-2 text-sm font-medium text-white"
             >
-              {currentStepIndex === totalSteps - 1 ? 'Complete Lesson ✓' : 'Next →'}
+              {currentStepIndex === totalSteps - 1
+                ? 'Complete Lesson ✓'
+                : currentStep.type === 'challenge' && challengePassed
+                ? 'Continue →'
+                : 'Next →'}
             </button>
           </div>
         </section>
