@@ -9,6 +9,7 @@ import Header from '@/components/Header';
 import MissingDelaySimulator from '@/components/MissingDelaySimulator';
 import PDFViewer from '@/components/PDFViewer';
 import Sidebar from '@/components/Sidebar';
+import SimulationOverlay from '@/components/SimulationOverlay';
 import { BLOCK_CATALOGUE } from '@/lib/blockCatalogue';
 import { LEVELS } from '@/lib/lessonConfig';
 import { useAppStore } from '@/store/useAppStore';
@@ -163,18 +164,7 @@ export default function LessonPage() {
     return true;
   };
 
-  const handleNext = () => {
-    if (currentStep.type === 'challenge') {
-      // If not yet passed, run validation
-      if (!challengePassed) {
-        const isValid = validateChallenge();
-        if (!isValid) return;
-        // Validation just passed — stay on this step to show simulator
-        return;
-      }
-      // challengePassed is already true — this is the second click, advance
-    }
-
+  const handleAdvance = () => {
     setCompletedSteps((prev) => {
       const next = new Set(prev);
       next.add(currentStepIndex);
@@ -187,6 +177,21 @@ export default function LessonPage() {
     }
 
     setCurrentStepIndex((prev) => prev + 1);
+  };
+
+  const handleNext = () => {
+    if (currentStep.type === 'challenge') {
+      if (!challengePassed) {
+        const isValid = validateChallenge();
+        if (!isValid) return;
+        // Validation just passed — overlay will open, stay on this step
+        return;
+      }
+      // challengePassed already true — advance
+      handleAdvance();
+      return;
+    }
+    handleAdvance();
   };
 
   const allowedBlocksFromStep = currentStep?.allowedBlocks;
@@ -308,27 +313,25 @@ export default function LessonPage() {
                   )}
                 </div>
 
-                <div className={`flex overflow-hidden rounded-xl ${challengePassed ? 'h-auto' : 'h-[calc(100%-0px)]'}`}>
+                <div className="flex h-[calc(100%-0px)] overflow-hidden rounded-xl">
                   <div className="w-[240px] overflow-hidden rounded-xl bg-white shadow-sm flex-shrink-0">
                     <Sidebar allowedBlocks={allowedBlocks} />
                   </div>
-
-                  <div className="ml-3 flex-1 overflow-hidden flex flex-col gap-3">
-                    <div className={challengePassed ? 'h-[280px] flex-shrink-0' : 'h-full'}>
-                      <Canvas showAIButton={false} />
-                    </div>
-                    {challengePassed && currentStep.type === 'challenge' && (
-                      <div className="flex-shrink-0">
-                        <div className="mb-2 px-1">
-                          <p className="text-xs font-semibold text-[#2E4862]">
-                            🔬 See what your code actually does on the hardware:
-                          </p>
-                        </div>
-                        <MissingDelaySimulator />
-                      </div>
-                    )}
+                  <div className="ml-3 flex-1 overflow-hidden">
+                    <Canvas showAIButton={false} />
                   </div>
                 </div>
+
+                {currentStep.type === 'challenge' && (
+                  <SimulationOverlay
+                    isOpen={challengePassed}
+                    onContinue={handleAdvance}
+                    blocks={blocks}
+                    title="See what your code does on the hardware"
+                  >
+                    <MissingDelaySimulator />
+                  </SimulationOverlay>
+                )}
               </div>
             )}
 
@@ -397,11 +400,7 @@ export default function LessonPage() {
               onClick={handleNext}
               className="rounded-lg bg-[#2E4862] px-6 py-2 text-sm font-medium text-white"
             >
-              {currentStepIndex === totalSteps - 1
-                ? 'Complete Lesson ✓'
-                : currentStep.type === 'challenge' && challengePassed
-                ? 'Continue →'
-                : 'Next →'}
+              {currentStepIndex === totalSteps - 1 ? 'Complete Lesson ✓' : 'Next →'}
             </button>
           </div>
         </section>
