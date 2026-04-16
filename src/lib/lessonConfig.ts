@@ -6,7 +6,6 @@ export type LessonStep = {
   content?: string;
   pdfLabel?: string;
   pdfUrl?: string;
-  simulationId?: 'missing-delay';
   allowedBlocks?: string[];
   challengeBlocks?: string[];
   challengeStrict?: boolean;
@@ -69,7 +68,6 @@ export const LEVELS: Level[] = [
             description: 'Why microcontrollers need delays',
             pdfLabel: 'Hardware_Logic_DeepDive.pdf',
             pdfUrl: '/pdfs/level-1/lesson-1-1/concept-building.pdf',
-            simulationId: 'missing-delay',
           },
           {
             id: 'challenge',

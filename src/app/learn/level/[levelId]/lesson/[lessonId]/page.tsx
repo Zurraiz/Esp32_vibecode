@@ -255,7 +255,7 @@ export default function LessonPage() {
         </aside>
 
         <section className="flex flex-1 flex-col overflow-hidden">
-          {!currentStep.pdfUrl && !currentStep.simulationId && (
+          {!currentStep.pdfUrl && (
             <div className="border-b border-gray-100 bg-white px-8 py-5">
               <h1 className="text-xl font-bold text-[#2E4862]">{currentStep.title}</h1>
               <p className="mt-0.5 text-sm text-gray-500">{currentStep.description}</p>
@@ -267,8 +267,6 @@ export default function LessonPage() {
               <div className="h-full px-8 py-6 overflow-y-auto">
                 {currentStep.pdfUrl ? (
                   <PDFViewer url={currentStep.pdfUrl} title={currentStep.pdfLabel} />
-                ) : currentStep.simulationId === 'missing-delay' ? (
-                  <MissingDelaySimulator />
                 ) : (
                   <div className="max-w-3xl rounded-xl bg-white p-8 shadow-sm">
                     {currentStep.pdfLabel && (
@@ -306,13 +304,25 @@ export default function LessonPage() {
                   )}
                 </div>
 
-                <div className="flex h-[calc(100%-0px)] overflow-hidden rounded-xl">
-                  <div className="w-[240px] overflow-hidden rounded-xl bg-white shadow-sm">
+                <div className={`flex overflow-hidden rounded-xl ${challengePassed ? 'h-auto' : 'h-[calc(100%-0px)]'}`}>
+                  <div className="w-[240px] overflow-hidden rounded-xl bg-white shadow-sm flex-shrink-0">
                     <Sidebar allowedBlocks={allowedBlocks} />
                   </div>
 
-                  <div className="ml-3 flex-1 overflow-hidden">
-                    <Canvas showAIButton={false} />
+                  <div className="ml-3 flex-1 overflow-hidden flex flex-col gap-3">
+                    <div className={challengePassed ? 'h-[280px] flex-shrink-0' : 'h-full'}>
+                      <Canvas showAIButton={false} />
+                    </div>
+                    {challengePassed && currentStep.type === 'challenge' && (
+                      <div className="flex-shrink-0">
+                        <div className="mb-2 px-1">
+                          <p className="text-xs font-semibold text-[#2E4862]">
+                            🔬 See what your code actually does on the hardware:
+                          </p>
+                        </div>
+                        <MissingDelaySimulator />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
