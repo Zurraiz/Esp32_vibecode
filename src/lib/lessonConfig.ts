@@ -6,6 +6,7 @@ export type LessonStep = {
   content?: string;
   pdfLabel?: string;
   pdfUrl?: string;
+  simulationId?: 'missing-delay';
   allowedBlocks?: string[];
   challengeBlocks?: string[];
   challengeStrict?: boolean;
@@ -41,7 +42,7 @@ export const LEVELS: Level[] = [
     lessons: [
       {
         id: '1-1',
-        title: 'Blink an LED',
+        title: 'Your First Blink',
         description: 'Control a basic LED sequence with proper setup and timing.',
         icon: '💡',
         estimatedMinutes: 20,
@@ -68,16 +69,17 @@ export const LEVELS: Level[] = [
             description: 'Why microcontrollers need delays',
             pdfLabel: 'Hardware_Logic_DeepDive.pdf',
             pdfUrl: '/pdfs/level-1/lesson-1-1/concept-building.pdf',
+            simulationId: 'missing-delay',
           },
           {
             id: 'challenge',
             type: 'challenge',
             title: 'Student Task',
             description: 'Build a proper blinking LED program',
-            allowedBlocks: ['pinMode', 'dw_high', 'dw_low', 'delay_ms', 'delay_sec'],
-            challengeBlocks: ['pinMode', 'dw_high', 'dw_low', 'delay_ms'],
+            allowedBlocks: ['pinMode', 'dw_high', 'dw_low'],
+            challengeBlocks: ['pinMode', 'dw_high', 'dw_low'],
             challengeStrict: false,
-            hint: 'Add a pinMode, turn the LED on, add a delay, then turn it off',
+            hint: 'Set the pin mode first, then turn the LED on, then turn it off',
           },
           {
             id: 'mapping',
