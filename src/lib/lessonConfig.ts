@@ -5,6 +5,7 @@ export type LessonStep = {
   description: string;
   content?: string;
   pdfLabel?: string;
+  pdfUrl?: string;
   allowedBlocks?: string[];
   challengeBlocks?: string[];
   challengeStrict?: boolean;
@@ -51,7 +52,7 @@ export const LEVELS: Level[] = [
             title: 'Introduction',
             description: 'Learn the basics of LED control',
             pdfLabel: 'Level1_LED_Basics.pdf',
-            content: '<p>Welcome to your first ESP32 lesson...</p>',
+            pdfUrl: '/pdfs/level-1/lesson-1-1/introduction.pdf',
           },
           {
             id: 'explore',
@@ -66,7 +67,7 @@ export const LEVELS: Level[] = [
             title: 'Concept Building',
             description: 'Why microcontrollers need delays',
             pdfLabel: 'Hardware_Logic_DeepDive.pdf',
-            content: '<p>Microcontrollers execute at millions of cycles per second...</p>',
+            pdfUrl: '/pdfs/level-1/lesson-1-1/concept-building.pdf',
           },
           {
             id: 'challenge',

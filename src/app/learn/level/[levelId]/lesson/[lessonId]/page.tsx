@@ -6,6 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Canvas from '@/components/Canvas';
 import CodePanel from '@/components/CodePanel';
 import Header from '@/components/Header';
+import PDFViewer from '@/components/PDFViewer';
 import Sidebar from '@/components/Sidebar';
 import { BLOCK_CATALOGUE } from '@/lib/blockCatalogue';
 import { LEVELS } from '@/lib/lessonConfig';
@@ -253,28 +254,35 @@ export default function LessonPage() {
         </aside>
 
         <section className="flex flex-1 flex-col overflow-hidden">
-          <div className="border-b border-gray-100 bg-white px-8 py-5">
-            <h1 className="text-xl font-bold text-[#2E4862]">{currentStep.title}</h1>
-            <p className="mt-0.5 text-sm text-gray-500">{currentStep.description}</p>
-          </div>
+          {!currentStep.pdfUrl && (
+            <div className="border-b border-gray-100 bg-white px-8 py-5">
+              <h1 className="text-xl font-bold text-[#2E4862]">{currentStep.title}</h1>
+              <p className="mt-0.5 text-sm text-gray-500">{currentStep.description}</p>
+            </div>
+          )}
 
           <div className="flex-1 overflow-hidden">
             {(currentStep.type === 'content' || currentStep.type === 'concept') && (
-              <div className="h-full overflow-y-auto px-8 py-6">
-                <div className="max-w-3xl rounded-xl bg-white p-8 shadow-sm">
-                  {currentStep.pdfLabel && (
-                    <div className="mb-4 flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-4 py-2">
-                      <span>📄</span>
-                      <span className="text-sm text-gray-600">{currentStep.pdfLabel}</span>
+              <div className="h-full px-8 py-6">
+                {currentStep.pdfUrl ? (
+                  <PDFViewer url={currentStep.pdfUrl} title={currentStep.pdfLabel} />
+                ) : (
+                  <div className="h-full overflow-y-auto">
+                    <div className="max-w-3xl rounded-xl bg-white p-8 shadow-sm">
+                      {currentStep.pdfLabel && (
+                        <div className="mb-4 flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-4 py-2">
+                          <span>📄</span>
+                          <span className="text-sm text-gray-600">{currentStep.pdfLabel}</span>
+                        </div>
+                      )}
+                      <div
+                        className="text-sm leading-relaxed text-gray-700"
+                        dangerouslySetInnerHTML={{ __html: currentStep.content ?? '<p>No content available.</p>' }}
+                      />
                     </div>
-                  )}
-
-                  <div
-                    className="text-sm leading-relaxed text-gray-700"
-                    dangerouslySetInnerHTML={{ __html: currentStep.content ?? '<p>No content available.</p>' }}
-                  />
+                  </div>
+                )}
                 </div>
-              </div>
             )}
 
             {(currentStep.type === 'explore' || currentStep.type === 'challenge') && (
