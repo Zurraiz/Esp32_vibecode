@@ -41,7 +41,7 @@ export const LEVELS: Level[] = [
     lessons: [
       {
         id: '1-1',
-        title: 'Blink an LED',
+        title: 'Your First Blink',
         description: 'Control a basic LED sequence with proper setup and timing.',
         icon: '💡',
         estimatedMinutes: 20,
@@ -74,10 +74,10 @@ export const LEVELS: Level[] = [
             type: 'challenge',
             title: 'Student Task',
             description: 'Build a proper blinking LED program',
-            allowedBlocks: ['pinMode', 'dw_high', 'dw_low', 'delay_ms', 'delay_sec'],
-            challengeBlocks: ['pinMode', 'dw_high', 'dw_low', 'delay_ms'],
+            allowedBlocks: ['pinMode', 'dw_high', 'dw_low'],
+            challengeBlocks: ['pinMode', 'dw_high', 'dw_low'],
             challengeStrict: false,
-            hint: 'Add a pinMode, turn the LED on, add a delay, then turn it off',
+            hint: 'Set the pin mode first, then turn the LED on, then turn it off',
           },
           {
             id: 'mapping',
