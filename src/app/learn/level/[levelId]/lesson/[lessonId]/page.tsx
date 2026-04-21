@@ -6,6 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Canvas from '@/components/Canvas';
 import CodePanel from '@/components/CodePanel';
 import Header from '@/components/Header';
+import LedDelaySimulator from '@/components/LedDelaySimulator';
 import MissingDelaySimulator from '@/components/MissingDelaySimulator';
 import PDFViewer from '@/components/PDFViewer';
 import Sidebar from '@/components/Sidebar';
@@ -329,7 +330,8 @@ export default function LessonPage() {
                     blocks={blocks}
                     title="See what your code does on the hardware"
                   >
-                    <MissingDelaySimulator />
+                    {lessonId === '1-1' && <MissingDelaySimulator />}
+                    {lessonId === '1-2' && <LedDelaySimulator />}
                   </SimulationOverlay>
                 )}
               </div>
