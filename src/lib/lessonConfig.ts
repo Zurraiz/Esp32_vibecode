@@ -8,6 +8,7 @@ export type LessonStep = {
   pdfUrl?: string;
   allowedBlocks?: string[];
   challengeBlocks?: string[];
+  simulationId?: string;
   challengeStrict?: boolean;
   challengePinValues?: Record<string, number>;
   hint?: string;
@@ -76,6 +77,7 @@ export const LEVELS: Level[] = [
             description: 'Build a proper blinking LED program',
             allowedBlocks: ['pinMode', 'dw_high', 'dw_low'],
             challengeBlocks: ['pinMode', 'dw_high', 'dw_low'],
+            simulationId: 'missing-delay',
             challengeStrict: false,
             hint: 'Set the pin mode first, then turn the LED on, then turn it off',
           },
@@ -124,6 +126,7 @@ export const LEVELS: Level[] = [
             description: 'Build a proper blinking LED program with delays',
             allowedBlocks: ['pinMode', 'dw_high', 'dw_low', 'delay_ms', 'delay_sec'],
             challengeBlocks: ['pinMode', 'dw_high', 'delay_ms', 'dw_low', 'delay_ms'],
+            simulationId: 'led-delay',
             challengeStrict: false,
             hint: 'Set the pin mode, turn the LED on, wait, turn it off, then wait again',
           },
