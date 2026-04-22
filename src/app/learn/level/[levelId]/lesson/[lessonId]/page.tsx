@@ -6,12 +6,12 @@ import { useParams, useRouter } from 'next/navigation';
 import Canvas from '@/components/Canvas';
 import CodePanel from '@/components/CodePanel';
 import Header from '@/components/Header';
-import MissingDelaySimulator from '@/components/MissingDelaySimulator';
 import PDFViewer from '@/components/PDFViewer';
 import Sidebar from '@/components/Sidebar';
 import SimulationOverlay from '@/components/SimulationOverlay';
 import { BLOCK_CATALOGUE } from '@/lib/blockCatalogue';
 import { LEVELS } from '@/lib/lessonConfig';
+import { SIMULATION_REGISTRY } from '@/lib/simulationRegistry';
 import { useAppStore } from '@/store/useAppStore';
 
 export default function LessonPage() {
@@ -198,6 +198,9 @@ export default function LessonPage() {
   const allowedBlocks = allowedBlocksFromStep
     ? allowedBlocksFromStep.filter((type) => BLOCK_CATALOGUE.some((b) => b.type === type))
     : undefined;
+  const SimulationComponent = currentStep?.simulationId
+    ? SIMULATION_REGISTRY[currentStep.simulationId] ?? null
+    : null;
 
   return (
     <main className="min-h-screen bg-[#EDEDED]">
@@ -322,14 +325,14 @@ export default function LessonPage() {
                   </div>
                 </div>
 
-                {currentStep.type === 'challenge' && (
+                {currentStep.type === 'challenge' && SimulationComponent && (
                   <SimulationOverlay
                     isOpen={challengePassed}
                     onContinue={handleAdvance}
                     blocks={blocks}
                     title="See what your code does on the hardware"
                   >
-                    <MissingDelaySimulator />
+                    <SimulationComponent />
                   </SimulationOverlay>
                 )}
               </div>

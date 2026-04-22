@@ -8,6 +8,7 @@ export type LessonStep = {
   pdfUrl?: string;
   allowedBlocks?: string[];
   challengeBlocks?: string[];
+  simulationId?: string;
   challengeStrict?: boolean;
   challengePinValues?: Record<string, number>;
   hint?: string;
@@ -76,6 +77,7 @@ export const LEVELS: Level[] = [
             description: 'Build a proper blinking LED program',
             allowedBlocks: ['pinMode', 'dw_high', 'dw_low'],
             challengeBlocks: ['pinMode', 'dw_high', 'dw_low'],
+            simulationId: 'missing-delay',
             challengeStrict: false,
             hint: 'Set the pin mode first, then turn the LED on, then turn it off',
           },
@@ -89,7 +91,7 @@ export const LEVELS: Level[] = [
       },
       {
         id: '1-2',
-        title: 'Using Delays',
+        title: 'Making Changes Visible (Using Delays)',
         description: 'Understand timing control for smooth and readable behavior.',
         icon: '⏱️',
         estimatedMinutes: 15,
@@ -100,7 +102,7 @@ export const LEVELS: Level[] = [
             title: 'Introduction',
             description: 'Learn how timing changes program behavior',
             pdfLabel: 'Level1_Delays_Intro.pdf',
-            content: '<p>Delays give your program pacing and make hardware actions visible...</p>',
+            pdfUrl: '/pdfs/level-1/lesson-1-2/introduction.pdf',
           },
           {
             id: 'explore',
@@ -115,7 +117,24 @@ export const LEVELS: Level[] = [
             title: 'Concept Building',
             description: 'Blocking delays vs responsive loops',
             pdfLabel: 'Timing_Control_Concepts.pdf',
-            content: '<p>Delay is simple and useful, but too much blocking can limit responsiveness...</p>',
+            pdfUrl: '/pdfs/level-1/lesson-1-2/concept-building.pdf',
+          },
+          {
+            id: 'challenge',
+            type: 'challenge',
+            title: 'Student Task',
+            description: 'Build a proper blinking LED program with delays',
+            allowedBlocks: ['pinMode', 'dw_high', 'dw_low', 'delay_ms', 'delay_sec'],
+            challengeBlocks: ['pinMode', 'dw_high', 'delay_ms', 'dw_low', 'delay_ms'],
+            simulationId: 'led-delay',
+            challengeStrict: false,
+            hint: 'Set the pin mode, turn the LED on, wait, turn it off, then wait again',
+          },
+          {
+            id: 'mapping',
+            type: 'mapping',
+            title: 'Arduino Mapping',
+            description: 'See how your blocks become real C++ code',
           },
         ],
       },
