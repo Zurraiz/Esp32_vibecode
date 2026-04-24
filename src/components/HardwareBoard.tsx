@@ -6,6 +6,10 @@ interface HardwareBoardProps {
   peripherals: HardwarePeripheral[];
 }
 
+/**
+ * A hardcoded map of the physical pin layout on an ESP32 WROOM-32 board.
+ * Provides X/Y coordinates and the side of the board for drawing connections.
+ */
 const PIN_MAP: Record<number, { x: number; y: number; side: 'left' | 'right' }> = {
   // Left side pins (top to bottom)
   36: { x: 0, y: 30, side: 'left' },
@@ -36,12 +40,22 @@ const PIN_MAP: Record<number, { x: number; y: number; side: 'left' | 'right' }> 
   15: { x: 120, y: 270, side: 'right' },
 };
 
+/**
+ * Returns the mapped X/Y SVG coordinates for a given ESP32 pin.
+ * Falls back to the bottom of the board if the pin is unmapped.
+ */
 const getPinLoc = (pin: number) => {
   if (PIN_MAP[pin]) return PIN_MAP[pin];
   // fallback if pin not mapped
   return { x: 60, y: 290, side: 'bottom' };
 };
 
+/**
+ * The Interactive SVG Hardware Board.
+ * It dynamically renders an ESP32, physical wires, and interactive hardware 
+ * icons based on the currently connected blocks. It reads live state from 
+ * the Zustand store to animate LEDs, Servos, and Buzzers in real-time.
+ */
 export default function HardwareBoard({ peripherals }: HardwareBoardProps) {
   const pins = useSimulatorStore((state) => state.pins);
   const setPin = useSimulatorStore((state) => state.setPin);

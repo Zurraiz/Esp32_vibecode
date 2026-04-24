@@ -85,6 +85,14 @@ const handlers: Record<string, BlockHandler> = {
   }
 };
 
+/**
+ * Safely evaluates a logic condition (e.g., "btnState == 1") dynamically against the 
+ * current simulation variables. Uses a restricted Function scope to prevent errors.
+ * 
+ * @param cond - The condition string from the if_block or while_loop
+ * @param variables - The dictionary of current variable values in the simulation
+ * @returns boolean evaluating if the condition is true or false
+ */
 function evaluateCondition(cond: string, variables: Record<string, any>): boolean {
   try {
     const keys = Object.keys(variables);
@@ -99,9 +107,18 @@ function evaluateCondition(cond: string, variables: Record<string, any>): boolea
   }
 }
 
+/**
+ * The core asynchronous Code Interpreter. 
+ * Replaces simple loop evaluation with an Instruction Pointer (IP) based engine 
+ * to support variable state reading, If/Otherwise branches, and While/For loops.
+ * 
+ * @param blocks - The array of blocks to execute
+ * @param ctx - The simulation context containing pin setter and variables
+ */
 async function execute(blocks: Block[], ctx: SimulationContext) {
-  let ip = 0;
-  const loopStack: number[] = [];
+  let ip = 0; // Instruction Pointer
+  const loopStack: number[] = []; // Tracks return points for loops
+  const loopCounters: Record<number, number> = {}; // Tracks iteration limits for for_loops
 
   while (ip < blocks.length && useSimulatorStore.getState().isRunning) {
     const block = blocks[ip];
@@ -134,7 +151,7 @@ async function execute(blocks: Block[], ctx: SimulationContext) {
         ip++;
         break;
       }
-      
+
       case 'if_block': {
         const cond = String(block.values.cond ?? 'false');
         if (evaluateCondition(cond, ctx.variables)) {
@@ -175,7 +192,7 @@ async function execute(blocks: Block[], ctx: SimulationContext) {
         ip++;
         break;
       }
-      
+
       case 'while_loop': {
         const cond = String(block.values.cond ?? 'false');
         if (evaluateCondition(cond, ctx.variables)) {
@@ -186,25 +203,57 @@ async function execute(blocks: Block[], ctx: SimulationContext) {
           ip++;
         } else {
           // Condition false, skip to end_loop
+          if (loopStack[loopStack.length - 1] === ip) {
+            loopStack.pop();
+          }
           let depth = 1;
           ip++;
           while (ip < blocks.length && depth > 0) {
             const t = blocks[ip].type;
-            if (t === 'while_loop') depth++;
+            if (t === 'while_loop' || t === 'for_loop') depth++;
             else if (t === 'end_loop') depth--;
             if (depth > 0) ip++;
-          }
-          // Remove from stack if it was there
-          if (loopStack[loopStack.length - 1] === ip) {
-            loopStack.pop();
           }
         }
         break;
       }
+
+      case 'for_loop': {
+        const times = Number(block.values.times ?? 5);
+        if (loopCounters[ip] === undefined) {
+          loopCounters[ip] = times;
+        }
+
+        if (loopCounters[ip] > 0) {
+          loopCounters[ip]--;
+          if (loopStack[loopStack.length - 1] !== ip) {
+            loopStack.push(ip);
+          }
+          ip++;
+        } else {
+          // Finished iterating
+          delete loopCounters[ip];
+          if (loopStack[loopStack.length - 1] === ip) {
+            loopStack.pop();
+          }
+          let depth = 1;
+          ip++;
+          while (ip < blocks.length && depth > 0) {
+            const t = blocks[ip].type;
+            if (t === 'while_loop' || t === 'for_loop') depth++;
+            else if (t === 'end_loop') depth--;
+            if (depth > 0) ip++;
+          }
+        }
+        break;
+      }
+
       case 'end_loop': {
         if (loopStack.length > 0) {
-          // Jump back to the start of the while loop to re-evaluate the condition
+          // Jump back to the start of the loop to re-evaluate the condition or counter
           ip = loopStack[loopStack.length - 1];
+          // Critical: Yield the thread so infinite while loops don't freeze the browser
+          await sleep(10);
         } else {
           ip++;
         }
@@ -221,22 +270,23 @@ async function execute(blocks: Block[], ctx: SimulationContext) {
 
 export async function runLoop(blocks: Block[]) {
   const store = useSimulatorStore.getState();
-  if (store.isRunning) return; 
-  
+  if (store.isRunning) return;
+
   store.setRunning(true);
-  store.resetSimulation(); 
+  store.resetSimulation();
   useSimulatorStore.getState().setRunning(true);
-  
+
   const ctx: SimulationContext = {
     setPin: useSimulatorStore.getState().setPin,
     appendSerial: useSimulatorStore.getState().appendSerial,
-    variables: {}, // Reset variables on each run
+    // Pre-inject common ESP32 constants so things like "btnState == HIGH" evaluate correctly
+    variables: { HIGH: 1, LOW: 0, high: 1, low: 0 },
   };
 
   // Run the sequence continuously
   while (useSimulatorStore.getState().isRunning) {
     await execute(blocks, ctx);
-    
+
     // Critical: Yield the thread to avoid completely locking the browser
     // when executing synchronous block loops without physical delay_ms blocks.
     await sleep(10);

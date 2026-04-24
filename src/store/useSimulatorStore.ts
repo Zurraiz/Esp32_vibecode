@@ -1,9 +1,14 @@
 import { create } from 'zustand';
 
+/**
+ * Global State for the ESP32 Simulator.
+ * Decouples the executing logic from the React UI so that asynchronous 
+ * block loops do not trigger destructive React re-renders.
+ */
 export interface SimulationState {
-  pins: Record<number, number>;
-  serial: string[];
-  isRunning: boolean;
+  pins: Record<number, number>; // Maps physical ESP32 pins to numerical values (0/1, 0-255 PWM, angles, frequency)
+  serial: string[];             // Backlog of messages printed to the Serial Monitor
+  isRunning: boolean;           // Kill switch for the simulatorEngine's infinite execution loop
 }
 
 interface SimulatorStore extends SimulationState {
