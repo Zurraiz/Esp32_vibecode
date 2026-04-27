@@ -22,7 +22,7 @@ export default function LiveSimulator() {
   const peripherals = useMemo(() => deriveHardwareLayout(blocks), [blocks]);
 
   return (
-    <div className="flex flex-col h-full bg-[#EDEDED] overflow-hidden">
+    <div className="flex flex-col h-full bg-white overflow-hidden">
       {/* Control Bar */}
       <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-200">
         <div className="text-sm font-semibold text-[#2E4862]">Live Simulator</div>
@@ -57,19 +57,23 @@ export default function LiveSimulator() {
         </div>
 
         {/* Serial Monitor MVP */}
-        <div className="bg-[#0d1117] rounded-xl shadow-sm border border-gray-800 flex flex-col h-[180px] shrink-0">
-          <div className="bg-gray-800 text-gray-300 text-xs px-3 py-2 rounded-t-xl border-b border-gray-700 font-semibold flex justify-between items-center">
-            <span>Serial Monitor</span>
+        <div className="bg-white rounded-xl border border-gray-200 flex flex-col h-[180px] shrink-0">
+          <div className="bg-gray-50 text-gray-600 text-xs px-3 py-2 rounded-t-xl border-b border-gray-200 font-semibold flex justify-between items-center">
+            <span>🖥️ Serial Monitor</span>
             {serial.length > 0 && (
-              <span className="text-[10px] font-mono opacity-60">{serial.length} lines</span>
+              <span className="text-[10px] font-mono text-gray-400">
+                {serial.length} lines
+              </span>
             )}
           </div>
-          <div className="p-3 font-mono text-[11px] text-[#c9d1d9] overflow-y-auto flex-1 flex flex-col gap-1 leading-relaxed">
+          <div className="p-3 font-mono text-[11px] text-gray-700 overflow-y-auto flex-1 flex flex-col gap-1 leading-relaxed bg-gray-50 rounded-b-xl">
             {serial.length === 0 ? (
-              <span className="text-gray-500 italic">Waiting for data...</span>
+              <span className="text-gray-400 italic">
+                Waiting for data...
+              </span>
             ) : (
               serial.map((line, i) => (
-                <div key={i}>{line}</div>
+                <div key={i} className="text-gray-700">{line}</div>
               ))
             )}
           </div>

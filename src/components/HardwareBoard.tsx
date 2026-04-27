@@ -56,14 +56,14 @@ export default function HardwareBoard({ peripherals }: HardwareBoardProps) {
   const setPin = useSimulatorStore((state) => state.setPin);
 
   return (
-    <div className="w-full h-full relative bg-[#1e1e1e] rounded-xl overflow-hidden shadow-2xl flex items-center justify-center p-6 border border-gray-700/50">
+    <div className="w-full h-full relative bg-white rounded-xl overflow-hidden flex items-center justify-center p-4 border border-gray-200">
       <svg className="w-full h-full" viewBox="-80 0 380 340" preserveAspectRatio="xMidYMid meet">
         {/* Subtle background glow */}
         <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
           <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.1" />
-          <stop offset="100%" stopColor="#1e1e1e" stopOpacity="0" />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
         </radialGradient>
-        <rect x="-80" y="0" width="380" height="340" fill="url(#bgGlow)" />
+        <rect x="-80" y="0" width="380" height="340" fill="white" />
 
         {/* Breadboard */}
         <g transform="translate(0, 10)">
@@ -154,7 +154,7 @@ export default function HardwareBoard({ peripherals }: HardwareBoardProps) {
           <rect x="25" y="20" width="66" height="70" rx="3" fill="#1e293b" stroke="#475569" strokeWidth="1" />
           <path d="M 25 35 L 91 35 M 25 50 L 91 50 M 25 65 L 91 65" stroke="#334155" strokeWidth="0.5" />
 
-          <text x="58" y="55" fill="#94a3b8" fontSize="10" textAnchor="middle" fontFamily="monospace" fontWeight="bold">ESP32</text>
+          <text x="58" y="55" fill="#6b7280" fontSize="10" textAnchor="middle" fontFamily="monospace" fontWeight="bold">ESP32</text>
           <text x="58" y="68" fill="#64748b" fontSize="6" textAnchor="middle" fontFamily="monospace">WROOM-32D</text>
 
           {/* Gold Antenna */}
@@ -200,11 +200,11 @@ export default function HardwareBoard({ peripherals }: HardwareBoardProps) {
                 <g>
                   {/* LED Component */}
                   <path d="M -8 10 L -8 -5 A 8 8 0 0 1 8 -5 L 8 10 Z" fill={pinState > 0 ? '#ef4444' : '#4b5563'} opacity={pinState > 0 ? Math.max(0.4, pinState / 255) : 0.8} />
-                  <rect x="-10" y="10" width="20" height="3" fill="#94a3b8" />
+                  <rect x="-10" y="10" width="20" height="3" fill="#6b7280" />
                   {pinState > 0 && (
                     <circle cx="0" cy="0" r="15" fill="url(#ledGlow)" className="animate-pulse" />
                   )}
-                  <text y="25" fill="#94a3b8" fontSize="8" textAnchor="middle" fontWeight="bold">LED</text>
+                  <text y="25" fill="#6b7280" fontSize="8" textAnchor="middle" fontWeight="bold">LED</text>
 
                   <defs>
                     <radialGradient id="ledGlow">
@@ -223,7 +223,7 @@ export default function HardwareBoard({ peripherals }: HardwareBoardProps) {
                     <rect x="-2" y="-15" width="4" height="30" rx="2" fill="white" />
                     <circle cx="0" cy="0" r="4" fill="#1e40af" />
                   </g>
-                  <text y="35" fill="#94a3b8" fontSize="10" textAnchor="middle">Servo</text>
+                  <text y="35" fill="#6b7280" fontSize="10" textAnchor="middle">Servo</text>
                 </g>
               )}
 
@@ -236,7 +236,7 @@ export default function HardwareBoard({ peripherals }: HardwareBoardProps) {
                       <circle r="20" fill="none" stroke="#ef4444" strokeWidth="1" opacity="0.5" />
                     </g>
                   )}
-                  <text y="28" fill="#94a3b8" fontSize="8" textAnchor="middle">Buzzer</text>
+                  <text y="28" fill="#6b7280" fontSize="8" textAnchor="middle">Buzzer</text>
                 </g>
               )}
 
@@ -247,7 +247,7 @@ export default function HardwareBoard({ peripherals }: HardwareBoardProps) {
                 >
                   <rect x="-15" y="-15" width="30" height="30" rx="6" fill="#334155" stroke="#475569" strokeWidth="2" className="group-hover:stroke-blue-400 transition-colors" />
                   <circle r="10" fill={pinState === 1 ? '#ef4444' : '#1e293b'} className="transition-colors duration-100" />
-                  <text y="28" fill="#94a3b8" fontSize="8" textAnchor="middle">Button</text>
+                  <text y="28" fill="#6b7280" fontSize="8" textAnchor="middle">Button</text>
                 </g>
               )}
 
@@ -255,7 +255,7 @@ export default function HardwareBoard({ peripherals }: HardwareBoardProps) {
               {!['LED', 'SERVO', 'BUZZER', 'BUTTON'].includes(p.type) && (
                 <g>
                   <rect x="-15" y="-15" width="30" height="30" rx="4" fill="#334155" stroke="#475569" strokeWidth="2" />
-                  <text y="5" fill="#94a3b8" fontSize="6" textAnchor="middle">{p.type}</text>
+                  <text y="5" fill="#6b7280" fontSize="6" textAnchor="middle">{p.type}</text>
                 </g>
               )}
             </g>
