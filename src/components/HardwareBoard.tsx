@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSimulatorStore } from '@/store/useSimulatorStore';
 import { HardwarePeripheral } from '@/lib/hardwareParser';
-import Breadboard from './Breadboard';
 
 interface HardwareBoardProps {
   peripherals: HardwarePeripheral[];
@@ -67,7 +66,43 @@ export default function HardwareBoard({ peripherals }: HardwareBoardProps) {
         <rect x="-80" y="0" width="380" height="340" fill="url(#bgGlow)" />
 
         {/* Breadboard */}
-        <Breadboard x={0} y={10} rows={30} />
+        <g transform="translate(0, 10)">
+          {/* Breadboard base */}
+          <rect width="220" height="300" rx="4" fill="#e5e7eb" stroke="#d1d5db" strokeWidth="1" />
+
+          {/* Center divider */}
+          <rect x="98" y="10" width="24" height="280" fill="#d1d5db" />
+
+          {/* Left hole columns (A-E) */}
+          {Array.from({ length: 30 }, (_, row) =>
+            Array.from({ length: 5 }, (_, col) => (
+              <circle
+                key={`l-${row}-${col}`}
+                cx={15 + col * 10}
+                cy={20 + row * 10}
+                r="2"
+                fill="#9ca3af"
+              />
+            ))
+          )}
+
+          {/* Right hole columns (F-J) */}
+          {Array.from({ length: 30 }, (_, row) =>
+            Array.from({ length: 5 }, (_, col) => (
+              <circle
+                key={`r-${row}-${col}`}
+                cx={125 + col * 10}
+                cy={20 + row * 10}
+                r="2"
+                fill="#9ca3af"
+              />
+            ))
+          )}
+
+          {/* Power rail lines */}
+          <line x1="5" y1="5" x2="5" y2="295" stroke="#ef4444" strokeWidth="1.5" strokeDasharray="3,2" />
+          <line x1="215" y1="5" x2="215" y2="295" stroke="#3b82f6" strokeWidth="1.5" strokeDasharray="3,2" />
+        </g>
 
         {/* Wires */}
         {peripherals.map((p, i) => {
