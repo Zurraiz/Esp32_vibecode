@@ -73,14 +73,27 @@ export default function HardwareBoard({ peripherals }: HardwareBoardProps) {
           
           const wirePath = `M ${px} ${py} C ${isLeft ? px + 25 : px - 25} ${py}, ${isLeft ? loc.x - 25 : loc.x + 25} ${loc.y}, ${loc.x} ${loc.y}`;
           
+          const pinData = pins[p.pin];
+          const pinVal = pinData?.value || 0;
+          let strokeColor = '#6b7280';
+          let strokeOpacity = 1;
+          
+          if (pinVal > 0) {
+            strokeColor = '#ef4444';
+            if (pinData?.mode === 'pwm' && pinVal <= 255) {
+               strokeOpacity = Math.max(0.3, pinVal / 255);
+            }
+          }
+          
           return (
             <path
               key={`wire-${i}`}
               d={wirePath}
               fill="none"
-              stroke={pins[p.pin] ? '#ef4444' : '#6b7280'}
+              stroke={strokeColor}
               strokeWidth="3"
-              className="transition-colors duration-200"
+              strokeOpacity={strokeOpacity}
+              className="transition-all duration-200"
             />
           );
         })}
@@ -122,7 +135,7 @@ export default function HardwareBoard({ peripherals }: HardwareBoardProps) {
           const isLeft = loc.side === 'left';
           const px = isLeft ? -50 : 170; // Peripheral X much closer to board
           const py = loc.y;
-          const pinState = pins[p.pin] || 0;
+          const pinState = pins[p.pin]?.value || 0;
 
           if (p.type === 'LED') {
             let ledOpacity = 0;

@@ -6,7 +6,7 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 // Context passed to handlers
 interface SimulationContext {
-  setPin: (pin: number, value: number) => void;
+  setPin: (pin: number, value: number, mode?: string) => void;
   appendSerial: (text: string) => void;
   variables: Record<string, any>;
 }
@@ -17,30 +17,30 @@ type BlockHandler = (block: Block, ctx: SimulationContext) => Promise<void> | vo
 const handlers: Record<string, BlockHandler> = {
   dw_high: (block, ctx) => {
     const pin = Number(block.values.pin ?? 2);
-    ctx.setPin(pin, 1);
+    ctx.setPin(pin, 1, 'digital');
   },
   dw_low: (block, ctx) => {
     const pin = Number(block.values.pin ?? 2);
-    ctx.setPin(pin, 0);
+    ctx.setPin(pin, 0, 'digital');
   },
   pwm_write: (block, ctx) => {
     const pin = Number(block.values.pin ?? 2);
     const val = Number(block.values.val ?? 128);
-    ctx.setPin(pin, val);
+    ctx.setPin(pin, val, 'pwm');
   },
   servo_write: (block, ctx) => {
     const pin = Number(block.values.pin ?? 2);
     const deg = Number(block.values.deg ?? 90);
-    ctx.setPin(pin, deg);
+    ctx.setPin(pin, deg, 'servo');
   },
   tone_on: (block, ctx) => {
     const pin = Number(block.values.pin ?? 13);
     const freq = Number(block.values.freq ?? 1000);
-    ctx.setPin(pin, freq);
+    ctx.setPin(pin, freq, 'tone');
   },
   tone_off: (block, ctx) => {
     const pin = Number(block.values.pin ?? 13);
-    ctx.setPin(pin, 0);
+    ctx.setPin(pin, 0, 'tone');
   },
   delay_ms: async (block) => {
     const ms = Number(block.values.ms ?? 1000);
@@ -66,9 +66,9 @@ const handlers: Record<string, BlockHandler> = {
   blink: async (block, ctx) => {
     const pin = Number(block.values.pin ?? 2);
     const ms = Number(block.values.ms ?? 500);
-    ctx.setPin(pin, 1);
+    ctx.setPin(pin, 1, 'digital');
     await sleep(ms);
-    ctx.setPin(pin, 0);
+    ctx.setPin(pin, 0, 'digital');
     await sleep(ms);
   },
   var_int: (block, ctx) => {
@@ -87,7 +87,7 @@ const handlers: Record<string, BlockHandler> = {
 
 /**
  * Safely evaluates a logic condition (e.g., "btnState == 1") dynamically against the 
- * current simulation variables. Uses a restricted Function scope to prevent errors.
+ * current simulation variables. Uses a safe Regex parser to prevent execution of arbitrary code.
  * 
  * @param cond - The condition string from the if_block or while_loop
  * @param variables - The dictionary of current variable values in the simulation
@@ -95,12 +95,33 @@ const handlers: Record<string, BlockHandler> = {
  */
 function evaluateCondition(cond: string, variables: Record<string, any>): boolean {
   try {
-    const keys = Object.keys(variables);
-    const values = Object.values(variables);
-    // Extremely basic fallback for condition if it uses a single = instead of ==
-    const safeCond = cond.replace(/([^=!<>])=([^=])/g, '$1==$2');
-    const func = new Function(...keys, `return ${safeCond}`);
-    return Boolean(func(...values));
+    const match = cond.match(/^\s*(.+?)\s*(==|!=|>=|<=|>|<)\s*(.+?)\s*$/);
+    if (!match) {
+      // If it's a direct boolean variable evaluation like "isOn"
+      return Boolean(variables[cond.trim()]);
+    }
+
+    const [, leftRaw, op, rightRaw] = match;
+    const leftVar = leftRaw.trim();
+    const rightVar = rightRaw.trim();
+    
+    // Resolve left side
+    const left = variables[leftVar] !== undefined ? variables[leftVar] : 
+                 (isNaN(Number(leftVar)) ? leftVar : Number(leftVar));
+                 
+    // Resolve right side
+    const right = variables[rightVar] !== undefined ? variables[rightVar] : 
+                  (isNaN(Number(rightVar)) ? rightVar : Number(rightVar));
+
+    switch (op) {
+      case '==': return left == right;
+      case '!=': return left != right;
+      case '>': return left > right;
+      case '<': return left < right;
+      case '>=': return left >= right;
+      case '<=': return left <= right;
+      default: return false;
+    }
   } catch (e) {
     console.warn(`[Simulator] Failed to evaluate condition: ${cond}`, e);
     return false;
@@ -119,8 +140,13 @@ async function execute(blocks: Block[], ctx: SimulationContext) {
   let ip = 0; // Instruction Pointer
   const loopStack: number[] = []; // Tracks return points for loops
   const loopCounters: Record<number, number> = {}; // Tracks iteration limits for for_loops
+  let iterations = 0;
 
   while (ip < blocks.length && useSimulatorStore.getState().isRunning) {
+    if (++iterations % 50 === 0) {
+      await sleep(0);
+    }
+
     const block = blocks[ip];
     const handler = handlers[block.type];
 
@@ -135,7 +161,7 @@ async function execute(blocks: Block[], ctx: SimulationContext) {
       case 'btn_read': {
         const pin = Number(block.values.pin ?? 12);
         const varName = String(block.values.var ?? 'btnState');
-        ctx.variables[varName] = useSimulatorStore.getState().pins[pin] || 0;
+        ctx.variables[varName] = useSimulatorStore.getState().pins[pin]?.value || 0;
         ip++;
         break;
       }
@@ -147,7 +173,7 @@ async function execute(blocks: Block[], ctx: SimulationContext) {
         // Generic sensor reads for now just inject a mock value or 0
         const varName = String(block.values.var ?? 'sensorVal');
         const pin = Number(block.values.pin ?? 14);
-        ctx.variables[varName] = useSimulatorStore.getState().pins[pin] || 0;
+        ctx.variables[varName] = useSimulatorStore.getState().pins[pin]?.value || 0;
         ip++;
         break;
       }
@@ -252,8 +278,6 @@ async function execute(blocks: Block[], ctx: SimulationContext) {
         if (loopStack.length > 0) {
           // Jump back to the start of the loop to re-evaluate the condition or counter
           ip = loopStack[loopStack.length - 1];
-          // Critical: Yield the thread so infinite while loops don't freeze the browser
-          await sleep(10);
         } else {
           ip++;
         }
