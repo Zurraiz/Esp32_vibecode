@@ -67,7 +67,8 @@ export default function InfiniteLoopSimulator() {
       } else if (action === 'Delay (1s)') {
         await sleep(1000);
       } else {
-        await sleep(80);
+        // Empty slots execute instantly — no delay at all
+        await sleep(0);
       }
 
       if (!isRunningRef.current) break;
