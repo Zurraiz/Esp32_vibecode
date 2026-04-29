@@ -372,10 +372,36 @@ export default function LessonPage() {
                   {/* Left — blocks list (read only, no sidebar) */}
                   <div className="w-[360px] flex-shrink-0 overflow-hidden rounded-xl bg-white shadow-sm">
                     <div className="bg-[#2E4862] px-4 py-2.5 rounded-t-xl">
-                      <p className="text-xs font-semibold text-white">Your Blocks</p>
+                      <p className="text-xs font-semibold text-white">
+                        {lesson?.steps.find(s => s.type === 'challenge')?.challengeSimulationId
+                          ? 'Example Program'
+                          : 'Your Blocks'}
+                      </p>
                     </div>
                     <div className="overflow-y-auto h-[calc(100%-40px)] pointer-events-none">
-                      <Canvas showAIButton={false} />
+                      {lesson?.steps.find(s => s.type === 'challenge')?.challengeSimulationId ? (
+                        <div className="p-4 flex flex-col gap-2">
+                          <p className="text-[10px] text-gray-400 mb-2 leading-relaxed">
+                            This lesson used an interactive simulator instead of the block
+                            canvas. Below is a representative program showing the concept.
+                          </p>
+                          {[
+                            { icon: '📌', label: 'Set Pin 2 as OUTPUT', colour: 'bg-orange-500' },
+                            { icon: '💡', label: 'Turn ON LED on Pin 2', colour: 'bg-orange-500' },
+                            { icon: '⏱️', label: 'Wait 1000 ms', colour: 'bg-yellow-500' },
+                            { icon: '🌑', label: 'Turn OFF LED on Pin 2', colour: 'bg-orange-500' },
+                            { icon: '⏱️', label: 'Wait 1000 ms', colour: 'bg-yellow-500' },
+                          ].map((block, i) => (
+                            <div key={i} className={`${block.colour} text-white px-3 py-2.5
+                              rounded-xl text-xs font-semibold flex items-center gap-2`}>
+                              <span>{block.icon}</span>
+                              <span>{block.label}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <Canvas showAIButton={false} />
+                      )}
                     </div>
                   </div>
 

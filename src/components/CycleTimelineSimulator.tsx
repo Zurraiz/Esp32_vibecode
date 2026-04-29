@@ -40,7 +40,7 @@ export default function CycleTimelineSimulator() {
   useEffect(() => {
     const interval = setInterval(() => {
       setStep((prev) => (prev + 1) % CYCLE.length);
-    }, 1200);
+    }, 2500);
     return () => clearInterval(interval);
   }, []);
 

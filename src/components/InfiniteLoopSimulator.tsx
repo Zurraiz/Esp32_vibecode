@@ -101,10 +101,28 @@ export default function InfiniteLoopSimulator() {
           void loop() — Build Your Own Sequence
         </h3>
         <p className="text-xs text-gray-500 leading-relaxed">
-          Choose what each instruction slot does, then run the loop.
-          Watch how the order and contents of your slots change the LED behavior.
-          Try removing delays, swapping ON and OFF, or leaving slots empty.
+          Each coloured block below is a slot in your program.
+          <span className="font-semibold text-[#2E4862]"> Click any slot
+          to open a dropdown</span> and change what that instruction does.
+          Build your sequence, then press <span className="font-semibold
+          text-[#2E4862]">Run Loop</span> to see your program execute.
         </p>
+        <div className="mt-3 flex items-center gap-2 flex-wrap">
+          <span className="text-[10px] font-semibold text-gray-400 uppercase
+            tracking-wider">Try:</span>
+          <span className="text-[10px] bg-amber-100 text-amber-700 border
+            border-amber-200 rounded-md px-2 py-1 font-medium">
+            Swap ON ↔ OFF
+          </span>
+          <span className="text-[10px] bg-red-50 text-red-600 border
+            border-red-200 rounded-md px-2 py-1 font-medium">
+            Remove a Delay
+          </span>
+          <span className="text-[10px] bg-gray-100 text-gray-600 border
+            border-gray-200 rounded-md px-2 py-1 font-medium">
+            Set a slot to Empty
+          </span>
+        </div>
       </div>
 
       {/* Loop builder + LED side by side */}
