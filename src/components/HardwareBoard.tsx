@@ -199,17 +199,17 @@ export default function HardwareBoard({ peripherals }: HardwareBoardProps) {
               {p.type === 'LED' && (
                 <g>
                   {/* LED Component */}
-                  <path d="M -8 10 L -8 -5 A 8 8 0 0 1 8 -5 L 8 10 Z" fill={pinState > 0 ? '#ef4444' : '#4b5563'} opacity={pinState > 0 ? Math.max(0.4, pinState / 255) : 0.8} />
+                  <path d="M -8 10 L -8 -5 A 8 8 0 0 1 8 -5 L 8 10 Z" fill={pinState > 0 ? '#f59e0b' : '#4b5563'} opacity={pinState > 0 ? Math.max(0.4, pinState / 255) : 0.8} />
                   <rect x="-10" y="10" width="20" height="3" fill="#6b7280" />
                   {pinState > 0 && (
-                    <circle cx="0" cy="0" r="15" fill="url(#ledGlow)" className="animate-pulse" />
+                    <circle cx="0" cy="0" r="20" fill="url(#ledGlow)" className="animate-pulse" />
                   )}
                   <text y="25" fill="#6b7280" fontSize="8" textAnchor="middle" fontWeight="bold">LED</text>
 
                   <defs>
                     <radialGradient id="ledGlow">
-                      <stop offset="0%" stopColor="#ef4444" stopOpacity="0.4" />
-                      <stop offset="100%" stopColor="#ef4444" stopOpacity="0" />
+                      <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.5" />
+                      <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
                     </radialGradient>
                   </defs>
                 </g>
