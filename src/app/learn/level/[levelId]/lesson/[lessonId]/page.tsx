@@ -9,6 +9,7 @@ import Header from '@/components/Header';
 import PDFViewer from '@/components/PDFViewer';
 import Sidebar from '@/components/Sidebar';
 import SimulationOverlay from '@/components/SimulationOverlay';
+import StaticCodePanel from '@/components/StaticCodePanel';
 import { BLOCK_CATALOGUE } from '@/lib/blockCatalogue';
 import { LEVELS } from '@/lib/lessonConfig';
 import { SIMULATION_REGISTRY } from '@/lib/simulationRegistry';
@@ -416,62 +417,10 @@ export default function LessonPage() {
 
                   {/* Right — generated code */}
                   <div className="flex-1 overflow-hidden rounded-xl bg-white shadow-sm">
-                    {lesson?.steps.find(s => s.type === 'challenge')?.challengeSimulationId ? (
-                      <div className="h-full flex flex-col">
-                        <div className="h-10 bg-[#2E4862] text-white px-4 flex items-center
-                          justify-between flex-shrink-0 rounded-t-xl">
-                          <div className="text-xs font-medium">Arduino Code</div>
-                        </div>
-                        <div className="flex-1 overflow-y-auto bg-[#0d1117] p-4 font-mono
-                          text-xs leading-relaxed text-[#c9d1d9]">
-                          <style>{`
-            .kw { color: #ff7b72; }
-            .fn { color: #79c0ff; }
-            .num { color: #f0883e; }
-            .cmt { color: #8b949e; font-style: italic; }
-          `}</style>
-                          <pre className="whitespace-pre-wrap break-words"
-                            dangerouslySetInnerHTML={{ __html: `<span class="cmt">// void setup() runs once when the ESP32 powers on</span>
-<span class="kw">void</span> <span class="fn">setup</span>() {
-  <span class="fn">pinMode</span>(<span class="num">2</span>, OUTPUT);   <span class="cmt">// Set pin 2 as an output</span>
-}
-
-<span class="cmt">// void loop() runs forever — it never stops</span>
-<span class="kw">void</span> <span class="fn">loop</span>() {
-  <span class="fn">digitalWrite</span>(<span class="num">2</span>, HIGH);  <span class="cmt">// Turn LED ON</span>
-  <span class="fn">delay</span>(<span class="num">1000</span>);             <span class="cmt">// Wait 1 second</span>
-  <span class="fn">digitalWrite</span>(<span class="num">2</span>, LOW);   <span class="cmt">// Turn LED OFF</span>
-  <span class="fn">delay</span>(<span class="num">1000</span>);             <span class="cmt">// Wait 1 second</span>
-  <span class="cmt">// ↩ jumps back to the top of loop() automatically</span>
-}` }} />
-                          </pre>
-                        </div>
-                        <div className="border-t border-gray-200 bg-white px-4 py-3
-                          max-h-[180px] overflow-y-auto flex-shrink-0">
-                          <div className="text-xs font-semibold text-gray-400 uppercase
-                            tracking-wide mb-2">📖 What this code does</div>
-                          <div className="flex flex-col gap-1.5">
-                            {[
-                              { n: 1, text: 'pinMode sets pin 2 as an output — runs once.' },
-                              { n: 2, text: 'digitalWrite HIGH turns the LED ON.' },
-                              { n: 3, text: 'delay(1000) pauses execution for 1 second.' },
-                              { n: 4, text: 'digitalWrite LOW turns the LED OFF.' },
-                              { n: 5, text: 'delay(1000) pauses again — then loop() repeats.' },
-                            ].map(({ n, text }) => (
-                              <div key={n} className="flex gap-2 items-start">
-                                <span className="bg-[#2E4862] text-white text-[10px] w-4 h-4
-                                  rounded-full flex items-center justify-center flex-shrink-0 mt-[1px]">
-                                  {n}
-                                </span>
-                                <p className="text-xs text-gray-600">{text}</p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <CodePanel showLiveOutput={false} />
-                    )}
+                    {lesson?.steps.find(s => s.type === 'challenge')?.challengeSimulationId
+                      ? <StaticCodePanel />
+                      : <CodePanel showLiveOutput={false} />
+                    }
                   </div>
                 </div>
               </div>
