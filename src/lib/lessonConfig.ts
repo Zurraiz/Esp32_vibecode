@@ -9,6 +9,8 @@ export type LessonStep = {
   allowedBlocks?: string[];
   challengeBlocks?: string[];
   simulationId?: string;
+  explorationSimulationId?: string;
+  challengeSimulationId?: string;
   challengeStrict?: boolean;
   challengePinValues?: Record<string, number>;
   hint?: string;
@@ -129,6 +131,53 @@ export const LEVELS: Level[] = [
             simulationId: 'led-delay',
             challengeStrict: false,
             hint: 'Set the pin mode, turn the LED on, wait, turn it off, then wait again',
+          },
+          {
+            id: 'mapping',
+            type: 'mapping',
+            title: 'Arduino Mapping',
+            description: 'See how your blocks become real C++ code',
+          },
+        ],
+      },
+      {
+        id: '1-3',
+        title: 'What Just Happened?',
+        description: 'Understanding sequential execution and state',
+        icon: '🔁',
+        estimatedMinutes: 20,
+        steps: [
+          {
+            id: 'intro',
+            type: 'content',
+            title: 'Introduction',
+            description: 'How the ESP32 follows your instructions',
+            pdfUrl: '/pdfs/level-1/lesson-1-3/introduction.pdf',
+          },
+          {
+            id: 'explore',
+            type: 'explore',
+            title: 'Exploration',
+            description: 'Watch the execution cycle in action',
+            explorationSimulationId: 'cycle-timeline',
+          },
+          {
+            id: 'concept',
+            type: 'concept',
+            title: 'Concept Building',
+            description: 'Sequential execution, state, and order',
+            pdfUrl: '/pdfs/level-1/lesson-1-3/concept-building.pdf',
+          },
+          {
+            id: 'challenge',
+            type: 'challenge',
+            title: 'Student Task',
+            description: 'Build your own loop and observe the behavior',
+            challengeSimulationId: 'infinite-loop',
+            allowedBlocks: ['pinMode', 'dw_high', 'dw_low', 'delay_ms'],
+            challengeBlocks: ['pinMode', 'dw_high', 'dw_low'],
+            challengeStrict: false,
+            hint: 'Try different block orders and observe how the LED behavior changes',
           },
           {
             id: 'mapping',

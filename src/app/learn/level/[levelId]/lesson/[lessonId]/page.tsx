@@ -181,6 +181,10 @@ export default function LessonPage() {
 
   const handleNext = () => {
     if (currentStep.type === 'challenge') {
+      if (currentStep.challengeSimulationId) {
+        handleAdvance();
+        return;
+      }
       if (!challengePassed) {
         const isValid = validateChallenge();
         if (!isValid) return;
@@ -316,16 +320,37 @@ export default function LessonPage() {
                   )}
                 </div>
 
-                <div className="flex h-[calc(100%-0px)] overflow-hidden rounded-xl">
-                  <div className="w-[240px] overflow-hidden rounded-xl bg-white shadow-sm flex-shrink-0">
-                    <Sidebar allowedBlocks={allowedBlocks} />
+                {currentStep.type === 'explore' && currentStep.explorationSimulationId ? (
+                  <div className="h-full overflow-y-auto px-2 py-1">
+                    {(() => {
+                      const ExploreComponent = SIMULATION_REGISTRY[
+                        currentStep.explorationSimulationId
+                      ] ?? null;
+                      return ExploreComponent ? <ExploreComponent /> : null;
+                    })()}
                   </div>
-                  <div className="ml-3 flex-1 overflow-hidden">
-                    <Canvas showAIButton={false} />
+                ) : currentStep.type === 'challenge' && currentStep.challengeSimulationId ? (
+                  <div className="h-full overflow-y-auto px-2 py-1">
+                    {(() => {
+                      const ChallengeSimComponent = SIMULATION_REGISTRY[
+                        currentStep.challengeSimulationId
+                      ] ?? null;
+                      return ChallengeSimComponent ? <ChallengeSimComponent /> : null;
+                    })()}
                   </div>
-                </div>
+                ) : (
+                  <div className="flex h-[calc(100%-0px)] overflow-hidden rounded-xl">
+                    <div className="w-[240px] overflow-hidden rounded-xl bg-white shadow-sm flex-shrink-0">
+                      <Sidebar allowedBlocks={allowedBlocks} />
+                    </div>
+                    <div className="ml-3 flex-1 overflow-hidden">
+                      <Canvas showAIButton={false} />
+                    </div>
+                  </div>
+                )}
 
-                {currentStep.type === 'challenge' && SimulationComponent && (
+                {currentStep.type === 'challenge' && SimulationComponent &&
+                  !currentStep.challengeSimulationId && (
                   <SimulationOverlay
                     isOpen={challengePassed}
                     onContinue={handleAdvance}
