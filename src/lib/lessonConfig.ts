@@ -11,6 +11,7 @@ export type LessonStep = {
   simulationId?: string;
   explorationSimulationId?: string;
   challengeSimulationId?: string;
+  showSerialOutput?: boolean;
   challengeStrict?: boolean;
   challengePinValues?: Record<string, number>;
   hint?: string;
@@ -238,24 +239,57 @@ export const LEVELS: Level[] = [
   },
   {
     id: 2,
-    title: 'Sensors & Input',
-    description: 'Read buttons and environmental sensors to make your projects reactive.',
-    icon: '🔒',
-    isLocked: true,
+    title: 'Output & Communication',
+    description: 'Learn how to send data, read sensors, and communicate between your ESP32 and the world.',
+    icon: '📡',
+    isLocked: false,
     lessons: [
       {
         id: '2-1',
-        title: 'Reading a Button',
-        description: 'Capture digital input from a button and react in code.',
-        icon: '🔘',
+        title: 'Seeing Output',
+        description: 'Make the ESP32 send messages using Serial communication',
+        icon: '📟',
         estimatedMinutes: 20,
         steps: [
           {
             id: 'intro',
             type: 'content',
             title: 'Introduction',
-            description: 'Understand digital input with pull-up and pull-down logic',
-            content: '<p>Buttons are your first step into interactive systems...</p>',
+            description: 'How the ESP32 communicates with your computer',
+            pdfUrl: '/pdfs/level-2/lesson-2-1/introduction.pdf',
+          },
+          {
+            id: 'explore',
+            type: 'explore',
+            title: 'Exploration',
+            description: 'Watch data flow from blocks to Serial Monitor',
+            explorationSimulationId: 'serial-explorer',
+          },
+          {
+            id: 'concept',
+            type: 'concept',
+            title: 'Concept Building',
+            description: 'Serial communication, output, and debugging',
+            pdfUrl: '/pdfs/level-2/lesson-2-1/concept-building.pdf',
+          },
+          {
+            id: 'challenge',
+            type: 'challenge',
+            title: 'Student Task',
+            description: 'Create your first Serial output program',
+            allowedBlocks: ['serial_begin', 'serial_print', 'delay_ms', 'delay_sec'],
+            challengeBlocks: ['serial_begin', 'serial_print', 'delay_ms'],
+            challengeStrict: false,
+            simulationId: 'serial-monitor',
+            showSerialOutput: true,
+            hint: 'Start Serial first, then print your message, then add a delay',
+          },
+          {
+            id: 'mapping',
+            type: 'mapping',
+            title: 'Arduino Mapping',
+            description: 'See how your blocks become Serial communication code',
+            showSerialOutput: true,
           },
         ],
       },

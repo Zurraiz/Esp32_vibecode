@@ -419,7 +419,7 @@ export default function LessonPage() {
                   <div className="flex-1 overflow-hidden rounded-xl bg-white shadow-sm">
                     {lesson?.steps.find(s => s.type === 'challenge')?.challengeSimulationId
                       ? <StaticCodePanel />
-                      : <CodePanel showLiveOutput={false} />
+                      : <CodePanel showLiveOutput={currentStep?.showSerialOutput === true} />
                     }
                   </div>
                 </div>

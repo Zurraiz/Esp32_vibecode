@@ -6,6 +6,8 @@ import CycleTimelineSimulator from '@/components/CycleTimelineSimulator';
 import InfiniteLoopSimulator from '@/components/InfiniteLoopSimulator';
 import SetupVsLoopExplorer from '@/components/SetupVsLoopExplorer';
 import ProgramFlowSimulator from '@/components/ProgramFlowSimulator';
+import SerialExplorer from '@/components/SerialExplorer';
+import SerialMonitorSimulator from '@/components/SerialMonitorSimulator';
 
 export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'missing-delay': MissingDelaySimulator,
@@ -15,4 +17,6 @@ export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'infinite-loop': InfiniteLoopSimulator,
   'setup-vs-loop': SetupVsLoopExplorer,
   'program-flow': ProgramFlowSimulator,
+  'serial-explorer': SerialExplorer,
+  'serial-monitor': SerialMonitorSimulator,
 };
