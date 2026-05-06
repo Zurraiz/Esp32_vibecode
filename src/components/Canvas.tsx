@@ -34,14 +34,23 @@ const renderParamControl = (
   if (param.type === 'number') {
     return (
       <input
-        type="number"
+        type="text"
         className={`w-14 ${commonClassName}`}
         value={block.values[param.name] ?? ''}
         onMouseDown={stopEvent}
         onClick={stopEvent}
         onChange={(event) => {
-          const nextValue = event.target.value;
-          updateBlockValue(block.id, param.name, nextValue === '' ? '' : Number(nextValue));
+          const nextValue = event.target.value.trim();
+          // If it's a valid number, store as number
+          // If it looks like a variable name, store as string
+          // Otherwise store raw so user can keep typing
+          if (nextValue === '') {
+            updateBlockValue(block.id, param.name, '');
+          } else if (!isNaN(Number(nextValue)) && nextValue !== '') {
+            updateBlockValue(block.id, param.name, Number(nextValue));
+          } else {
+            updateBlockValue(block.id, param.name, nextValue);
+          }
         }}
       />
     );

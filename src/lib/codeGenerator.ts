@@ -89,7 +89,18 @@ export function generateCode(blocks: Block[]): { code: string; english: string[]
     if (isMissing(val)) {
       return safePin(val, label);
     }
-    return num(String(Number(val)));
+    const str = String(val).trim();
+    // If the value is a valid number, output as numeric literal
+    if (str !== '' && !isNaN(Number(str))) {
+      return num(str);
+    }
+    // If it looks like a valid variable name (letters, digits, underscore,
+    // not starting with a digit), output as-is for use as a variable reference
+    if (/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(str)) {
+      return str;
+    }
+    // Fallback to safe placeholder
+    return safePin(val, label);
   };
 
   const textExpr = (val: unknown, label: string, fallback: string): string => {
