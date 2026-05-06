@@ -27,6 +27,7 @@ const CATEGORIES: Category[] = [
   { title: '📶 WiFi', types: ['wifi_connect', 'wifi_wait', 'wifi_ip'] },
   { title: '☁️ MQTT', types: ['mqtt_setup', 'mqtt_publish', 'mqtt_subscribe', 'mqtt_loop'] },
   { title: '💬 Serial', types: ['serial_begin', 'serial_print', 'serial_printvar', 'serial_println'] },
+  { title: '📺 Display', types: ['oled_setup', 'oled_clear', 'oled_set_cursor', 'oled_print', 'oled_display'] },
   { title: '🔢 Variables', types: ['var_int', 'var_float', 'var_str', 'var_bool'] },
 ];
 

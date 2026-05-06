@@ -418,6 +418,45 @@ export function generateCode(blocks: Block[]): { code: string; english: string[]
         english.push(`Create boolean variable ${name}.`);
         break;
       }
+      case "oled_setup": {
+        includes.add("Wire.h");
+        includes.add("Adafruit_GFX.h");
+        includes.add("Adafruit_SSD1306.h");
+        addGlobal("oled:display", `Adafruit_SSD1306 display(128, 64, &Wire, -1);`);
+        si(`${kw("if")}(!display.${fn("begin")}(SSD1306_SWITCHCAPVCC, 0x3C)) {`);
+        si(`${ind(0)}  Serial.${fn("println")}(F("SSD1306 allocation failed"));`);
+        si(`${ind(0)}  ${kw("for")}(;;);`);
+        si(`}`);
+        si(`display.${fn("clearDisplay")}();`);
+        si(`display.${fn("setTextSize")}(1);`);
+        si(`display.${fn("setTextColor")}(WHITE);`);
+        english.push("Setup OLED Display 128x64 on I2C.");
+        break;
+      }
+      case "oled_clear": {
+        li(`display.${fn("clearDisplay")}();`);
+        english.push("Clear OLED Display buffer.");
+        break;
+      }
+      case "oled_set_cursor": {
+        const x = numberToken(block.values.x, "X", 0);
+        const y = numberToken(block.values.y, "Y", 0);
+        li(`display.${fn("setCursor")}(${x}, ${y});`);
+        english.push(`Set OLED Cursor to X: ${String(block.values.x ?? "?")} Y: ${String(block.values.y ?? "?")}.`);
+        break;
+      }
+      case "oled_print": {
+        // text can be a variable or string, just wrap in String() or rely on the generator's textExpr
+        const text = isMissing(block.values.text) ? safe(block.values.text, "TEXT") : str(String(block.values.text));
+        li(`display.${fn("print")}(${text});`);
+        english.push(`Print text to OLED buffer.`);
+        break;
+      }
+      case "oled_display": {
+        li(`display.${fn("display")}();`);
+        english.push("Update OLED Screen with buffer contents.");
+        break;
+      }
       default:
         english.push(`Skip unsupported block type: ${block.type}.`);
         break;

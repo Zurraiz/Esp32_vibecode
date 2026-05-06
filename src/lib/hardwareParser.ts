@@ -3,7 +3,7 @@ import type { Block } from '@/types';
 /**
  * Defines the possible physical components that can be visually simulated.
  */
-export type PeripheralType = 'LED' | 'SERVO' | 'DHT' | 'BUTTON' | 'PIR' | 'ANALOG_SENSOR' | 'ULTRASONIC' | 'BUZZER';
+export type PeripheralType = 'LED' | 'SERVO' | 'DHT' | 'BUTTON' | 'PIR' | 'ANALOG_SENSOR' | 'ULTRASONIC' | 'BUZZER' | 'OLED';
 
 export interface HardwarePeripheral {
   type: PeripheralType;
@@ -77,6 +77,15 @@ export function deriveHardwareLayout(blocks: Block[]): HardwarePeripheral[] {
         register(trig, 'ULTRASONIC', echo);
         break;
       }
+      
+      case 'oled_setup':
+      case 'oled_clear':
+      case 'oled_set_cursor':
+      case 'oled_print':
+      case 'oled_display':
+        // Map OLED to I2C SDA pin (typically 21 on ESP32, SCL is 22)
+        register(21, 'OLED', 22);
+        break;
     }
   }
 

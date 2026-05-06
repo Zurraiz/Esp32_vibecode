@@ -280,20 +280,34 @@ export default function LessonPage() {
                 {currentStep.pdfUrl ? (
                   <PDFViewer url={currentStep.pdfUrl} title={currentStep.pdfLabel} />
                 ) : (
-                  <div className="max-w-3xl rounded-xl bg-white p-8 shadow-sm">
-                    {currentStep.pdfLabel && (
-                      <div className="mb-4 flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-4 py-2">
-                        <span>📄</span>
-                        <span className="text-sm text-gray-600">{currentStep.pdfLabel}</span>
+                  <div className="max-w-3xl space-y-8 pb-12">
+                    <div className="rounded-xl bg-white p-8 shadow-sm">
+                      {currentStep.pdfLabel && (
+                        <div className="mb-4 flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-4 py-2">
+                          <span>📄</span>
+                          <span className="text-sm text-gray-600">{currentStep.pdfLabel}</span>
+                        </div>
+                      )}
+                      <div
+                        className="text-sm leading-relaxed text-gray-700"
+                        dangerouslySetInnerHTML={{ __html: currentStep.content ?? '<p>No content available.</p>' }}
+                      />
+                    </div>
+
+                    {SimulationComponent && (
+                      <div className="rounded-xl bg-white p-8 shadow-sm">
+                        <div className="mb-4 flex items-center gap-2">
+                          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
+                            <span className="text-lg font-bold">⚡</span>
+                          </span>
+                          <h3 className="text-lg font-bold text-[#2E4862]">Live Simulation</h3>
+                        </div>
+                        <SimulationComponent />
                       </div>
                     )}
-                    <div
-                      className="text-sm leading-relaxed text-gray-700"
-                      dangerouslySetInnerHTML={{ __html: currentStep.content ?? '<p>No content available.</p>' }}
-                    />
-                    </div>
+                  </div>
                 )}
-                </div>
+              </div>
             )}
 
             {(currentStep.type === 'explore' || currentStep.type === 'challenge') && (

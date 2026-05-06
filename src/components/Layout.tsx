@@ -19,10 +19,10 @@ export default function Layout({ aiBar, liveBar, sidebar, canvas, codePanel }: L
         <div className="flex flex-col w-[260px] bg-white rounded-xl shadow-sm overflow-y-auto m-3">
           {sidebar}
         </div>
-        <div className="flex-1 overflow-hidden my-3">
+        <div className="flex flex-col w-[550px] shrink-0 overflow-hidden my-3">
           {canvas}
         </div>
-        <div className="flex flex-col w-[340px] bg-white rounded-xl shadow-sm overflow-hidden m-3">
+        <div className="flex flex-col flex-1 bg-white rounded-xl shadow-sm overflow-hidden m-3 ml-0">
           {codePanel}
         </div>
       </div>

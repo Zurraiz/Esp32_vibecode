@@ -7,7 +7,11 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 // Context passed to handlers
 interface SimulationContext {
   setPin: (pin: number, value: number, mode?: string) => void;
-  appendSerial: (text: string) => void;
+  appendSerial: (text: string, newline?: boolean) => void;
+  clearOledBuffer: () => void;
+  setOledCursor: (x: number, y: number) => void;
+  printToOledBuffer: (text: string) => void;
+  updateOledScreen: () => void;
   variables: Record<string, any>;
 }
 
@@ -52,16 +56,35 @@ const handlers: Record<string, BlockHandler> = {
   },
   serial_print: (block, ctx) => {
     const msg = String(block.values.msg ?? '');
-    ctx.appendSerial(msg);
+    ctx.appendSerial(msg, false);
   },
   serial_printvar: (block, ctx) => {
     const varName = String(block.values.var ?? '');
-    ctx.appendSerial(String(ctx.variables[varName] ?? ''));
+    ctx.appendSerial(String(ctx.variables[varName] ?? ''), false);
   },
   serial_println: (block, ctx) => {
     const label = String(block.values.label ?? '');
     const varName = String(block.values.var ?? '');
-    ctx.appendSerial(`${label}${ctx.variables[varName] ?? ''}`);
+    ctx.appendSerial(`${label}${ctx.variables[varName] ?? ''}`, true);
+  },
+  oled_setup: (block, ctx) => {
+    ctx.clearOledBuffer();
+    ctx.updateOledScreen();
+  },
+  oled_clear: (block, ctx) => {
+    ctx.clearOledBuffer();
+  },
+  oled_set_cursor: (block, ctx) => {
+    const x = Number(block.values.x ?? 0);
+    const y = Number(block.values.y ?? 0);
+    ctx.setOledCursor(x, y);
+  },
+  oled_print: (block, ctx) => {
+    const text = String(block.values.text ?? '');
+    ctx.printToOledBuffer(text);
+  },
+  oled_display: (block, ctx) => {
+    ctx.updateOledScreen();
   },
   blink: async (block, ctx) => {
     const pin = Number(block.values.pin ?? 2);
@@ -303,6 +326,10 @@ export async function runLoop(blocks: Block[]) {
   const ctx: SimulationContext = {
     setPin: useSimulatorStore.getState().setPin,
     appendSerial: useSimulatorStore.getState().appendSerial,
+    clearOledBuffer: useSimulatorStore.getState().clearOledBuffer,
+    setOledCursor: useSimulatorStore.getState().setOledCursor,
+    printToOledBuffer: useSimulatorStore.getState().printToOledBuffer,
+    updateOledScreen: useSimulatorStore.getState().updateOledScreen,
     // Pre-inject common ESP32 constants so things like "btnState == HIGH" evaluate correctly
     variables: { HIGH: 1, LOW: 0, high: 1, low: 0 },
   };

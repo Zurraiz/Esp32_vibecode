@@ -21,6 +21,14 @@ export default function LiveSimulator() {
   // Derive connected hardware peripherals based on the blocks the user has added
   const peripherals = useMemo(() => deriveHardwareLayout(blocks), [blocks]);
 
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [serial]);
+
   return (
     <div className="flex flex-col h-full bg-[#EDEDED] overflow-hidden">
       {/* Control Bar */}
@@ -47,7 +55,7 @@ export default function LiveSimulator() {
       <div className="flex-1 overflow-hidden flex flex-col p-4 gap-4">
         
         {/* Hardware Board SVG View */}
-        <div className="flex-1 min-h-[300px] bg-white rounded-xl shadow-sm border border-gray-200 p-2 overflow-hidden flex flex-col">
+        <div className="flex-1 min-h-[500px] bg-white rounded-xl shadow-sm border border-gray-200 p-2 overflow-hidden flex flex-col">
           <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 px-2 pt-2">
             Interactive Hardware
           </div>
@@ -64,12 +72,17 @@ export default function LiveSimulator() {
               <span className="text-[10px] font-mono opacity-60">{serial.length} lines</span>
             )}
           </div>
-          <div className="p-3 font-mono text-[11px] text-[#c9d1d9] overflow-y-auto flex-1 flex flex-col gap-1 leading-relaxed">
+          <div 
+            ref={scrollRef}
+            className="p-3 font-mono text-[11px] text-[#c9d1d9] overflow-y-auto flex-1 flex flex-col gap-0 leading-relaxed"
+          >
             {serial.length === 0 ? (
               <span className="text-gray-500 italic">Waiting for data...</span>
             ) : (
               serial.map((line, i) => (
-                <div key={i}>{line}</div>
+                <div key={i} className="min-h-[1.2em] whitespace-pre-wrap">
+                  {line || '\u00A0'}
+                </div>
               ))
             )}
           </div>

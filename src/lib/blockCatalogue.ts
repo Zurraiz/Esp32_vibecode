@@ -54,6 +54,12 @@ export const BLOCK_COLOURS: Record<string, string> = {
   var_float: 'bg-sky-500',
   var_str: 'bg-sky-500',
   var_bool: 'bg-sky-500',
+
+  oled_setup: 'bg-green-500',
+  oled_clear: 'bg-green-500',
+  oled_set_cursor: 'bg-green-500',
+  oled_print: 'bg-green-500',
+  oled_display: 'bg-green-500',
 };
 
 export const BLOCK_CATALOGUE: BlockTemplate[] = [
@@ -364,5 +370,40 @@ export const BLOCK_CATALOGUE: BlockTemplate[] = [
         options: ["true", "false"],
       },
     ],
+  },
+
+  // Display blocks
+  {
+    type: "oled_setup",
+    icon: "📺",
+    label: "Setup OLED Display 128x64",
+    params: [],
+  },
+  {
+    type: "oled_clear",
+    icon: "🧽",
+    label: "Clear OLED Buffer",
+    params: [],
+  },
+  {
+    type: "oled_set_cursor",
+    icon: "📍",
+    label: "Set OLED Cursor X: <x> Y: <y>",
+    params: [
+      { name: "x", type: "number", default: 0 },
+      { name: "y", type: "number", default: 0 },
+    ],
+  },
+  {
+    type: "oled_print",
+    icon: "📝",
+    label: 'Print "<text>" to OLED Buffer',
+    params: [{ name: "text", type: "text", default: "Hello!" }],
+  },
+  {
+    type: "oled_display",
+    icon: "🖥️",
+    label: "Update OLED Screen (Display)",
+    params: [],
   },
 ];

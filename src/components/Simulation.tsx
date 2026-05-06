@@ -1,121 +1,146 @@
 'use client';
 
-import React, { useState } from 'react';
-import { MousePointerClick, Cpu, Lightbulb, GitBranch } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
 
-export default function IfDecisionSimulator() {
-  const [pressed, setPressed] = useState(false);
+const loopSteps = [
+  "loop() triggered",
+  "Reading sensor value...",
+  "Processing input...",
+  "Serial output generated",
+];
 
-  const condition = pressed; // button HIGH = true
+export default function SerialGearDialFinal() {
+  const [sensor, setSensor] = useState(50);
+  const [stepIndex, setStepIndex] = useState(0);
+  const [logs, setLogs] = useState<string[]>([]);
+  const setupDone = useRef(false);
+
+  // ✅ RUN SETUP ONLY ONCE
+  useEffect(() => {
+    if (!setupDone.current) {
+      const time = new Date().toLocaleTimeString();
+
+      setLogs([
+        `[${time}] setup() started`,
+        `[${time}] Serial.begin(115200) initialized`,
+      ]);
+
+      setupDone.current = true;
+    }
+  }, []);
+
+  // LOOP simulation (NO setup here anymore)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setStepIndex((prev) => (prev + 1) % loopSteps.length);
+
+      const time = new Date().toLocaleTimeString();
+
+      setLogs((prev) => {
+        const newLog = `[${time}] SENSOR:${sensor} → loop cycle OK`;
+        return [newLog, ...prev].slice(0, 12);
+      });
+    }, 900);
+
+    return () => clearInterval(interval);
+  }, [sensor]);
+
+  const rotation = (sensor / 100) * 360;
 
   return (
-    <div className="grid grid-cols-3 gap-4 w-full">
+    <div className="bg-white border rounded-xl p-6 space-y-6">
 
-      {/* 🧠 INPUT */}
-      <div className="bg-white border rounded-xl p-5 flex flex-col items-center justify-center gap-4">
-        <h3 className="text-xs font-bold flex items-center gap-2 text-gray-700">
-          <MousePointerClick size={14} />
-          Input
+      {/* HEADER */}
+      <div>
+        <h3 className="text-sm font-bold text-gray-800">
+          Serial Communication — Correct ESP32 Execution Model
         </h3>
-
-        <button
-          onMouseDown={() => setPressed(true)}
-          onMouseUp={() => setPressed(false)}
-          onMouseLeave={() => setPressed(false)}
-          className="
-w-28 h-28 rounded-full
-bg-gradient-to-b from-gray-100 to-gray-200
-border border-gray-300
-shadow-[0_6px_0_#b0b0b0]
-active:shadow-[0_2px_0_#b0b0b0]
-active:translate-y-[4px]
-transition-all duration-75
-flex items-center justify-center
-text-xs font-bold text-gray-700
-relative overflow-hidden
-          "
-        >
-          {pressed ? 'HIGH (1)' : 'LOW (0)'}
-        </button>
-
-        <p className="text-[10px] text-gray-500 text-center">
-          Physical signal from button
+        <p className="text-xs text-gray-500">
+          setup() runs once, loop() runs continuously
         </p>
       </div>
 
-      {/* ⚙️ DECISION ENGINE */}
-      <div className="bg-gray-900 text-green-400 font-mono text-xs rounded-xl p-5">
-        <h3 className="text-white mb-3 flex items-center gap-2">
-          <Cpu size={14} />
-          IF Condition Engine
-        </h3>
+      {/* GEAR SENSOR */}
+      <div className="bg-gray-50 border rounded-xl p-6 flex flex-col items-center space-y-4">
 
-        <pre>
-{`if (buttonState == HIGH) {
-    LED = ON;
-} else {
-    LED = OFF;
-}`}
-        </pre>
-
-        <div className="mt-4 space-y-2 text-[11px]">
-          <div>
-            Condition:{" "}
-            <span className="text-white">
-              buttonState == HIGH
-            </span>
-          </div>
-
-          <div>
-            Evaluation:{" "}
-            <span className="text-white">
-              {condition ? 'TRUE' : 'FALSE'}
-            </span>
-          </div>
-
-          <div>
-            Active Path:{" "}
-            <span className="text-white">
-              {condition ? 'IF BLOCK' : 'ELSE BLOCK'}
-            </span>
-          </div>
+        <div className="text-xs text-gray-600">
+          Sensor Gear (0–100)
         </div>
+
+        <div className="relative w-32 h-32 flex items-center justify-center">
+
+          <div
+            className="text-7xl transition-transform duration-200"
+            style={{
+              transform: `rotate(${rotation}deg)`,
+            }}
+          >
+            ⚙️
+          </div>
+
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={sensor}
+            onChange={(e) => setSensor(Number(e.target.value))}
+            className="absolute inset-0 opacity-0 cursor-pointer"
+          />
+        </div>
+
+        <div className="text-lg font-bold text-[#2E4862]">
+          {sensor}
+        </div>
+
       </div>
 
-      {/* 🔀 OUTPUT BRANCH VISUAL */}
-      <div className="bg-white border rounded-xl p-5 flex flex-col items-center justify-center gap-4">
-        <h3 className="text-xs font-bold flex items-center gap-2 text-gray-700">
-          <GitBranch size={14} />
-          Decision Output
-        </h3>
+      {/* SYSTEM PANELS */}
+      <div className="grid grid-cols-2 gap-4">
 
-        {/* Branch indicator */}
-        <div className="flex flex-col items-center gap-2 text-xs">
-          <div className={`px-3 py-1 rounded border ${
-            condition ? 'bg-green-50 border-green-300' : 'bg-gray-50 border-gray-300'
-          }`}>
-            IF → LED ON
-          </div>
+        {/* LOOP TRACE (NO SETUP HERE) */}
+        <div className="bg-gray-900 text-green-400 font-mono text-xs rounded-xl p-4 h-72 overflow-hidden">
 
-          <div className={`px-3 py-1 rounded border ${
-            !condition ? 'bg-red-50 border-red-300' : 'bg-gray-50 border-gray-300'
-          }`}>
-            ELSE → LED OFF
-          </div>
+          <div className="text-gray-500 mb-2">// LOOP EXECUTION TRACE</div>
+
+          {loopSteps.map((step, i) => (
+            <div
+              key={i}
+              className={`py-1 transition-all ${
+                i === stepIndex ? "text-yellow-300 font-bold" : "opacity-40"
+              }`}
+            >
+              {i === stepIndex ? ">> " : "   "}
+              {step}
+            </div>
+          ))}
         </div>
 
-        {/* LED */}
-        <div
-          className={`w-20 h-20 rounded-full border-4 transition-all duration-200 ${
-            condition
-              ? 'bg-yellow-400 border-yellow-300 shadow-[0_0_25px_rgba(250,204,21,0.7)]'
-              : 'bg-gray-200 border-gray-300'
-          }`}
-        />
+        {/* SERIAL MONITOR */}
+        <div className="bg-black text-green-400 font-mono text-xs rounded-xl p-4 h-72 overflow-y-auto">
 
-        <p className="text-[10px] text-gray-500 text-center">
-          Only one branch executes at a time
-        </p>
+          <div className="text-gray-500 mb-2">
+            --- SERIAL MONITOR (115200 baud) ---
+          </div>
+
+          {logs.map((log, i) => (
+            <div key={i} className="py-1 border-b border-gray-800">
+              {">"} {log}
+            </div>
+          ))}
+
+        </div>
+
+      </div>
+
+      {/* STATE */}
+      <div className="bg-gray-50 border rounded-lg p-3 text-xs font-mono flex justify-between">
+        <span>SENSOR: {sensor}</span>
+        <span className="text-emerald-600">LOOP RUNNING</span>
+      </div>
+
+      {/* FINAL INSIGHT */}
+      <div className="bg-blue-50 border border-blue-100 rounded p-3 text-xs text-blue-700">
+        In real ESP32 systems, setup() runs once to initialize hardware, while loop() runs continuously. Serial output reflects only runtime behavior, not initialization repeats.
       </div>
 
     </div>
