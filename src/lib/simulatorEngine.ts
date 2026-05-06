@@ -73,7 +73,7 @@ const handlers: Record<string, BlockHandler> = {
   },
   var_int: (block, ctx) => {
     const name = String(block.values.name ?? 'myNum');
-    ctx.variables[name] = Number(block.values.val ?? 0);
+    ctx.variables[name] = Math.trunc(Number(block.values.val ?? 0));
   },
   var_str: (block, ctx) => {
     const name = String(block.values.name ?? 'myText');
