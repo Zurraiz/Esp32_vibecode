@@ -8,6 +8,8 @@ import SetupVsLoopExplorer from '@/components/SetupVsLoopExplorer';
 import ProgramFlowSimulator from '@/components/ProgramFlowSimulator';
 import SerialExplorer from '@/components/SerialExplorer';
 import SerialMonitorSimulator from '@/components/SerialMonitorSimulator';
+import VariableBoxExplorer from '@/components/VariableBoxExplorer';
+import CounterSimulator from '@/components/CounterSimulator';
 
 export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'missing-delay': MissingDelaySimulator,
@@ -19,4 +21,6 @@ export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'program-flow': ProgramFlowSimulator,
   'serial-explorer': SerialExplorer,
   'serial-monitor': SerialMonitorSimulator,
+  'variable-box': VariableBoxExplorer,
+  'counter': CounterSimulator,
 };
