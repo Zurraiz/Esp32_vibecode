@@ -82,6 +82,12 @@ const handlers: Record<string, BlockHandler> = {
   var_bool: (block, ctx) => {
     const name = String(block.values.name ?? 'isOn');
     ctx.variables[name] = block.values.val === 'true';
+  },
+  var_add: (block, ctx) => {
+    const name = String(block.values.name ?? 'myNum');
+    const step = Number(block.values.step ?? 1);
+    const current = Number(ctx.variables[name] ?? 0);
+    ctx.variables[name] = current + step;
   }
 };
 
@@ -307,12 +313,21 @@ export async function runLoop(blocks: Block[]) {
     variables: { HIGH: 1, LOW: 0, high: 1, low: 0 },
   };
 
-  // Run the sequence continuously
-  while (useSimulatorStore.getState().isRunning) {
-    await execute(blocks, ctx);
+  // Setup phase — run variable declarations and serial_begin once only
+  const SETUP_TYPES = new Set([
+    'var_int', 'var_float', 'var_str', 'var_bool', 'serial_begin',
+  ]);
+  const setupBlocks = blocks.filter(b => SETUP_TYPES.has(b.type));
+  const loopBlocks = blocks.filter(b => !SETUP_TYPES.has(b.type));
 
-    // Critical: Yield the thread to avoid completely locking the browser
-    // when executing synchronous block loops without physical delay_ms blocks.
+  // Execute setup blocks once
+  await execute(setupBlocks, ctx);
+
+  // Execute loop blocks continuously
+  while (useSimulatorStore.getState().isRunning) {
+    await execute(loopBlocks, ctx);
+
+    // Yield thread to avoid locking the browser
     await sleep(10);
   }
 }
