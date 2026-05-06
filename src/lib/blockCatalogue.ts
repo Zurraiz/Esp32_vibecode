@@ -54,6 +54,7 @@ export const BLOCK_COLOURS: Record<string, string> = {
   var_float: 'bg-sky-500',
   var_str: 'bg-sky-500',
   var_bool: 'bg-sky-500',
+  var_add: 'bg-sky-500',
 };
 
 export const BLOCK_CATALOGUE: BlockTemplate[] = [
@@ -363,6 +364,15 @@ export const BLOCK_CATALOGUE: BlockTemplate[] = [
         default: "false",
         options: ["true", "false"],
       },
+    ],
+  },
+  {
+    type: "var_add",
+    icon: "➕",
+    label: 'Add <step> to "<name>"',
+    params: [
+      { name: "name", type: "text", default: "myNum" },
+      { name: "step", type: "number", default: 1 },
     ],
   },
 ];

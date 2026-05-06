@@ -418,6 +418,13 @@ export function generateCode(blocks: Block[]): { code: string; english: string[]
         english.push(`Create boolean variable ${name}.`);
         break;
       }
+      case "var_add": {
+        const name = safeVar(block.values.name, "myNum");
+        const step = numberToken(block.values.step, "STEP", 1);
+        li(`${name} = ${name} + ${step};`);
+        english.push(`Add ${step} to variable ${name}.`);
+        break;
+      }
       default:
         english.push(`Skip unsupported block type: ${block.type}.`);
         break;

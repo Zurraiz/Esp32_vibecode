@@ -27,7 +27,7 @@ const CATEGORIES: Category[] = [
   { title: '📶 WiFi', types: ['wifi_connect', 'wifi_wait', 'wifi_ip'] },
   { title: '☁️ MQTT', types: ['mqtt_setup', 'mqtt_publish', 'mqtt_subscribe', 'mqtt_loop'] },
   { title: '💬 Serial', types: ['serial_begin', 'serial_print', 'serial_printvar', 'serial_println'] },
-  { title: '🔢 Variables', types: ['var_int', 'var_float', 'var_str', 'var_bool'] },
+  { title: '🔢 Variables', types: ['var_int', 'var_float', 'var_str', 'var_bool', 'var_add'] },
 ];
 
 const makeShortName = (label: string): string => {
