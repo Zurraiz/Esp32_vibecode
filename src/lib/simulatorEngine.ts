@@ -83,6 +83,10 @@ const handlers: Record<string, BlockHandler> = {
     const name = String(block.values.name ?? 'isOn');
     ctx.variables[name] = block.values.val === 'true';
   },
+  var_float: (block, ctx) => {
+    const name = String(block.values.name ?? 'myFloat');
+    ctx.variables[name] = Number(block.values.val ?? 0);
+  },
   var_add: (block, ctx) => {
     const name = String(block.values.name ?? 'myNum');
     const step = Number(block.values.step ?? 1);
