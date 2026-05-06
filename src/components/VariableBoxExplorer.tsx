@@ -198,13 +198,21 @@ export default function VariableBoxExplorer() {
               </div>
 
               {/* Current value */}
-              <div className="px-4 py-4 flex flex-col items-center gap-1">
-                <p className="text-[10px] text-gray-400 uppercase
-                  tracking-wider">Current Value</p>
-                <div className="text-3xl font-bold font-mono text-[#2E4862]
-                  transition-all duration-200">
-                  {String(box.value)}
+              <div className="px-4 py-4 flex flex-col items-center gap-2">
+                <p className="text-[10px] text-gray-400 uppercase tracking-wider">
+                  Current Value
+                </p>
+                <div className={`w-full rounded-xl border-2 py-3 px-4
+                  flex items-center justify-center transition-all duration-200
+                  ${TYPE_COLOURS[box.type].replace('bg-', 'border-').replace('-500', '-200')}
+                  bg-gray-50`}>
+                  <span className="text-3xl font-bold font-mono text-[#2E4862]">
+                    {String(box.value)}
+                  </span>
                 </div>
+                <p className="text-[10px] text-gray-400 italic">
+                  memory address: <span className="font-mono">{box.name}</span>
+                </p>
               </div>
 
               {/* History */}

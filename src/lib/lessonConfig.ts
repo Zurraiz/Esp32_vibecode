@@ -331,7 +331,7 @@ export const LEVELS: Level[] = [
             challengeStrict: false,
             simulationId: 'counter',
             showSerialOutput: true,
-            hint: 'Create a variable first, start Serial, print the variable, then add to it, then delay',
+            hint: 'Important: the variable name in var_int, var_add, and serial_printvar must all match exactly. Create a variable first, start Serial, print the variable, then add to it, then delay',
           },
           {
             id: 'mapping',
