@@ -10,6 +10,8 @@ import SerialExplorer from '@/components/SerialExplorer';
 import SerialMonitorSimulator from '@/components/SerialMonitorSimulator';
 import VariableBoxExplorer from '@/components/VariableBoxExplorer';
 import CounterSimulator from '@/components/CounterSimulator';
+import ButtonSignalExplorer from '@/components/ButtonSignalExplorer';
+import ButtonMonitorSimulator from '@/components/ButtonMonitorSimulator';
 
 export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'missing-delay': MissingDelaySimulator,
@@ -23,4 +25,6 @@ export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'serial-monitor': SerialMonitorSimulator,
   'variable-box': VariableBoxExplorer,
   'counter': CounterSimulator,
+  'button-signal': ButtonSignalExplorer,
+  'button-monitor': ButtonMonitorSimulator,
 };
