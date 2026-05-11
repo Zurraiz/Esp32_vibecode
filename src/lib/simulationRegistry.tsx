@@ -14,6 +14,7 @@ import ButtonSignalExplorer from '@/components/ButtonSignalExplorer';
 import ButtonMonitorSimulator from '@/components/ButtonMonitorSimulator';
 import SignalAnalyzerSimulator from '@/components/SignalAnalyzerSimulator';
 import DecisionFlowExplorer from '@/components/DecisionFlowExplorer';
+import DualSensorSimulator from '@/components/DualSensorSimulator';
 
 export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'missing-delay': MissingDelaySimulator,
@@ -31,4 +32,5 @@ export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'button-monitor': ButtonMonitorSimulator,
   'signal-analyzer': SignalAnalyzerSimulator,
   'decision-flow': DecisionFlowExplorer,
+  'dual-sensor': DualSensorSimulator,
 };

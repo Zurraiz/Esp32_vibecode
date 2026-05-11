@@ -18,7 +18,7 @@ const CATEGORIES: Category[] = [
   { title: '🔆 PWM', types: ['pwm_setup', 'pwm_write', 'servo_write'] },
   {
     title: '📡 Sensors',
-    types: ['dht_setup', 'dht_temp', 'dht_hum', 'btn_read', 'pir_read', 'analog_read', 'ultrasonic'],
+    types: ['dht_setup', 'dht_temp', 'dht_hum', 'btn_read', 'pir_read', 'analog_read', 'ultrasonic', 'map_val'],
   },
   {
     title: '🔁 Control',

@@ -12,6 +12,7 @@ import SimulationOverlay from '@/components/SimulationOverlay';
 import StaticCodePanel from '@/components/StaticCodePanel';
 import ButtonMappingPanel from '@/components/ButtonMappingPanel';
 import IfMappingPanel from '@/components/IfMappingPanel';
+import AnalogMappingPanel from '@/components/AnalogMappingPanel';
 import { BLOCK_CATALOGUE } from '@/lib/blockCatalogue';
 import { LEVELS } from '@/lib/lessonConfig';
 import { SIMULATION_REGISTRY } from '@/lib/simulationRegistry';
@@ -440,6 +441,8 @@ export default function LessonPage() {
                       <ButtonMappingPanel />
                     ) : currentStep.mappingCodeComponent === 'if' ? (
                       <IfMappingPanel />
+                    ) : currentStep.mappingCodeComponent === 'analog' ? (
+                      <AnalogMappingPanel />
                     ) : lesson?.steps.find(s => s.type === 'challenge')?.challengeSimulationId ? (
                       <StaticCodePanel />
                     ) : (

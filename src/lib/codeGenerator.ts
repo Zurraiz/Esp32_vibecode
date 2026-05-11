@@ -228,6 +228,16 @@ export function generateCode(blocks: Block[]): { code: string; english: string[]
         english.push(`Read analog pin ${String(block.values.pin ?? "?")} into ${varName}.`);
         break;
       }
+      case "map_val": {
+        const varName = safeVar(block.values.var, "sensorVal");
+        const fromLow = numberToken(block.values.fromLow, "FROM_LOW", 0);
+        const fromHigh = numberToken(block.values.fromHigh, "FROM_HIGH", 4095);
+        const toLow = numberToken(block.values.toLow, "TO_LOW", 0);
+        const toHigh = numberToken(block.values.toHigh, "TO_HIGH", 255);
+        li(`${varName} = ${fn("map")}(${varName}, ${fromLow}, ${fromHigh}, ${toLow}, ${toHigh});`);
+        english.push(`Map ${varName} from range ${String(block.values.fromLow ?? 0)}-${String(block.values.fromHigh ?? 4095)} to ${String(block.values.toLow ?? 0)}-${String(block.values.toHigh ?? 255)}.`);
+        break;
+      }
       case "ultrasonic": {
         const trig = numberToken(block.values.trig, "TRIG", 12);
         const echo = numberToken(block.values.echo, "ECHO", 13);

@@ -92,7 +92,22 @@ const handlers: Record<string, BlockHandler> = {
     const step = Number(block.values.step ?? 1);
     const current = Number(ctx.variables[name] ?? 0);
     ctx.variables[name] = current + step;
-  }
+  },
+  map_val: (block, ctx) => {
+    const varName = String(block.values.var ?? 'sensorVal');
+    const fromLow = Number(block.values.fromLow ?? 0);
+    const fromHigh = Number(block.values.fromHigh ?? 4095);
+    const toLow = Number(block.values.toLow ?? 0);
+    const toHigh = Number(block.values.toHigh ?? 255);
+    const current = Number(ctx.variables[varName] ?? 0);
+    if (fromHigh === fromLow) {
+      ctx.variables[varName] = toLow;
+    } else {
+      ctx.variables[varName] = Math.round(
+        ((current - fromLow) / (fromHigh - fromLow)) * (toHigh - toLow) + toLow
+      );
+    }
+  },
 };
 
 /**
