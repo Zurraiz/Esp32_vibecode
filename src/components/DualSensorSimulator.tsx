@@ -71,10 +71,11 @@ export default function DualSensorSimulator() {
 
     const tick = () => {
       if (!isRunningRef.current) return;
-      const light = CLOUD_VALUES[cloudLevel];
+      const light = CLOUD_VALUES[cloudRef.current];
+      const pot = potRef.current;
       setLogs(prev => [
         ...prev.slice(-24),
-        `Light: ${light} | Potentiometer: ${potValue}`,
+        `Light: ${light} | Potentiometer: ${pot}`,
       ]);
       setTimeout(tick, Math.max(delayMs, 300));
     };

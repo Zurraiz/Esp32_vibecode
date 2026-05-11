@@ -467,6 +467,13 @@ export const LEVELS: Level[] = [
             pdfUrl: '/pdfs/level-3/lesson-3-1/introduction.pdf',
           },
           {
+            id: 'explore',
+            type: 'explore',
+            title: 'Exploration',
+            description: 'See the difference between digital and analog values',
+            explorationSimulationId: 'analog-vs-digital',
+          },
+          {
             id: 'concept',
             type: 'concept',
             title: 'Concept Building',
