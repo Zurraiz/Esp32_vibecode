@@ -11,6 +11,8 @@ export type LessonStep = {
   simulationId?: string;
   explorationSimulationId?: string;
   challengeSimulationId?: string;
+  mappingSimulationId?: string;
+  mappingCodeComponent?: string;
   showSerialOutput?: boolean;
   challengeStrict?: boolean;
   challengePinValues?: Record<string, number>;
@@ -347,7 +349,7 @@ export const LEVELS: Level[] = [
         title: 'Introducing Inputs',
         description: 'Use a button to send signals to your ESP32',
         icon: '🔘',
-        estimatedMinutes: 20,
+        estimatedMinutes: 25,
         steps: [
           {
             id: 'intro',
@@ -380,14 +382,15 @@ export const LEVELS: Level[] = [
             challengeStrict: false,
             simulationId: 'button-monitor',
             showSerialOutput: true,
-            hint: 'Read the button into a variable first, start Serial, then print that variable, then add a delay',
+            hint: 'Read the button into a variable first, start Serial, then print that variable — make sure the variable name matches in both blocks',
           },
           {
             id: 'mapping',
             type: 'mapping',
             title: 'Arduino Mapping',
             description: 'See how button reading becomes real C++ code',
-            showSerialOutput: true,
+            mappingSimulationId: 'signal-analyzer',
+            mappingCodeComponent: 'button',
           },
         ],
       },

@@ -12,6 +12,7 @@ import VariableBoxExplorer from '@/components/VariableBoxExplorer';
 import CounterSimulator from '@/components/CounterSimulator';
 import ButtonSignalExplorer from '@/components/ButtonSignalExplorer';
 import ButtonMonitorSimulator from '@/components/ButtonMonitorSimulator';
+import SignalAnalyzerSimulator from '@/components/SignalAnalyzerSimulator';
 
 export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'missing-delay': MissingDelaySimulator,
@@ -27,4 +28,5 @@ export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'counter': CounterSimulator,
   'button-signal': ButtonSignalExplorer,
   'button-monitor': ButtonMonitorSimulator,
+  'signal-analyzer': SignalAnalyzerSimulator,
 };

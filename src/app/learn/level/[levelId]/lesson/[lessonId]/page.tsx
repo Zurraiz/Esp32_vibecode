@@ -10,6 +10,7 @@ import PDFViewer from '@/components/PDFViewer';
 import Sidebar from '@/components/Sidebar';
 import SimulationOverlay from '@/components/SimulationOverlay';
 import StaticCodePanel from '@/components/StaticCodePanel';
+import ButtonMappingPanel from '@/components/ButtonMappingPanel';
 import { BLOCK_CATALOGUE } from '@/lib/blockCatalogue';
 import { LEVELS } from '@/lib/lessonConfig';
 import { SIMULATION_REGISTRY } from '@/lib/simulationRegistry';
@@ -370,40 +371,55 @@ export default function LessonPage() {
                   🔍 See how each block maps to real Arduino C++ code
                 </p>
                 <div className="flex flex-1 gap-3 overflow-hidden">
-                  {/* Left — blocks list (read only, no sidebar) */}
-                  <div className="w-[360px] flex-shrink-0 overflow-hidden rounded-xl bg-white shadow-sm">
-                    <div className="bg-[#2E4862] px-4 py-2.5 rounded-t-xl">
-                      <p className="text-xs font-semibold text-white">
-                        {lesson?.steps.find(s => s.type === 'challenge')?.challengeSimulationId
-                          ? 'Example Program'
-                          : 'Your Blocks'}
-                      </p>
-                    </div>
-                    <div className="overflow-y-auto h-[calc(100%-40px)] pointer-events-none">
-                      {lesson?.steps.find(s => s.type === 'challenge')?.challengeSimulationId ? (
-                        <div className="p-4 flex flex-col gap-2">
-                          <p className="text-[10px] text-gray-400 mb-2 leading-relaxed">
-                            This lesson used an interactive simulator instead of the block
-                            canvas. Below is a representative program showing the concept.
+                  {/* Left — simulation, example program, or student blocks */}
+                  <div className={`flex-shrink-0 overflow-hidden rounded-xl bg-white shadow-sm ${
+                    currentStep.mappingSimulationId ? 'w-[420px]' : 'w-[360px]'
+                  }`}>
+                    {currentStep.mappingSimulationId ? (
+                      <div className="h-full overflow-y-auto p-3">
+                        {(() => {
+                          const MapSim = SIMULATION_REGISTRY[
+                            currentStep.mappingSimulationId
+                          ] ?? null;
+                          return MapSim ? <MapSim /> : null;
+                        })()}
+                      </div>
+                    ) : (
+                      <>
+                        <div className="bg-[#2E4862] px-4 py-2.5 rounded-t-xl">
+                          <p className="text-xs font-semibold text-white">
+                            {lesson?.steps.find(s => s.type === 'challenge')?.challengeSimulationId
+                              ? 'Example Program'
+                              : 'Your Blocks'}
                           </p>
-                          {[
-                            { icon: '📌', label: 'Set Pin 2 as OUTPUT', colour: 'bg-orange-500' },
-                            { icon: '💡', label: 'Turn ON LED on Pin 2', colour: 'bg-orange-500' },
-                            { icon: '⏱️', label: 'Wait 1000 ms', colour: 'bg-yellow-500' },
-                            { icon: '🌑', label: 'Turn OFF LED on Pin 2', colour: 'bg-orange-500' },
-                            { icon: '⏱️', label: 'Wait 1000 ms', colour: 'bg-yellow-500' },
-                          ].map((block, i) => (
-                            <div key={i} className={`${block.colour} text-white px-3 py-2.5
-                              rounded-xl text-xs font-semibold flex items-center gap-2`}>
-                              <span>{block.icon}</span>
-                              <span>{block.label}</span>
-                            </div>
-                          ))}
                         </div>
-                      ) : (
-                        <Canvas showAIButton={false} />
-                      )}
-                    </div>
+                        <div className="overflow-y-auto h-[calc(100%-40px)] pointer-events-none">
+                          {lesson?.steps.find(s => s.type === 'challenge')?.challengeSimulationId ? (
+                            <div className="p-4 flex flex-col gap-2">
+                              <p className="text-[10px] text-gray-400 mb-2 leading-relaxed">
+                                This lesson used an interactive simulator instead of the block
+                                canvas. Below is a representative program showing the concept.
+                              </p>
+                              {[
+                                { icon: '📌', label: 'Set Pin 2 as OUTPUT', colour: 'bg-orange-500' },
+                                { icon: '💡', label: 'Turn ON LED on Pin 2', colour: 'bg-orange-500' },
+                                { icon: '⏱️', label: 'Wait 1000 ms', colour: 'bg-yellow-500' },
+                                { icon: '🌑', label: 'Turn OFF LED on Pin 2', colour: 'bg-orange-500' },
+                                { icon: '⏱️', label: 'Wait 1000 ms', colour: 'bg-yellow-500' },
+                              ].map((block, i) => (
+                                <div key={i} className={`${block.colour} text-white px-3 py-2.5
+                                  rounded-xl text-xs font-semibold flex items-center gap-2`}>
+                                  <span>{block.icon}</span>
+                                  <span>{block.label}</span>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <Canvas showAIButton={false} />
+                          )}
+                        </div>
+                      </>
+                    )}
                   </div>
 
                   {/* Arrow indicator */}
@@ -415,12 +431,15 @@ export default function LessonPage() {
                     </div>
                   </div>
 
-                  {/* Right — generated code */}
+                  {/* Right — generated or hardcoded code */}
                   <div className="flex-1 overflow-hidden rounded-xl bg-white shadow-sm">
-                    {lesson?.steps.find(s => s.type === 'challenge')?.challengeSimulationId
-                      ? <StaticCodePanel />
-                      : <CodePanel showLiveOutput={currentStep?.showSerialOutput === true} />
-                    }
+                    {currentStep.mappingCodeComponent === 'button' ? (
+                      <ButtonMappingPanel />
+                    ) : lesson?.steps.find(s => s.type === 'challenge')?.challengeSimulationId ? (
+                      <StaticCodePanel />
+                    ) : (
+                      <CodePanel showLiveOutput={currentStep?.showSerialOutput === true} />
+                    )}
                   </div>
                 </div>
               </div>
