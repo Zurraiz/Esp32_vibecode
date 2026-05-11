@@ -373,7 +373,7 @@ export default function LessonPage() {
                 <div className="flex flex-1 gap-3 overflow-hidden">
                   {/* Left — simulation, example program, or student blocks */}
                   <div className={`flex-shrink-0 overflow-hidden rounded-xl bg-white shadow-sm ${
-                    currentStep.mappingSimulationId ? 'w-[420px]' : 'w-[360px]'
+                    currentStep.mappingSimulationId ? 'flex-1' : 'w-[360px]'
                   }`}>
                     {currentStep.mappingSimulationId ? (
                       <div className="h-full overflow-y-auto p-3">
@@ -432,7 +432,9 @@ export default function LessonPage() {
                   </div>
 
                   {/* Right — generated or hardcoded code */}
-                  <div className="flex-1 overflow-hidden rounded-xl bg-white shadow-sm">
+                  <div className={`overflow-hidden rounded-xl bg-white shadow-sm ${
+                    currentStep.mappingSimulationId ? 'w-[380px] flex-shrink-0' : 'flex-1'
+                  }`}>
                     {currentStep.mappingCodeComponent === 'button' ? (
                       <ButtonMappingPanel />
                     ) : lesson?.steps.find(s => s.type === 'challenge')?.challengeSimulationId ? (
