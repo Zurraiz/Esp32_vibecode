@@ -53,6 +53,14 @@ export const LEVELS: Level[] = [
         estimatedMinutes: 20,
         steps: [
           {
+          
+            id: 'explore',
+            type: 'explore',
+            title: 'Exploration',
+            description: 'See the difference between digital and analog values',
+            explorationSimulationId: 'analog-vs-digital',
+          },
+          {
             id: 'intro',
             type: 'content',
             title: 'Introduction',
@@ -505,9 +513,9 @@ export const LEVELS: Level[] = [
       {
         id: '3-2',
         title: 'Controlling Output Intensity',
-        description: 'Use PWM to control LED brightness and motor speed',
+        description: 'Use PWM to control LED brightness from a sensor',
         icon: '🔆',
-        isLocked: true,
+        isLocked: false,
         estimatedMinutes: 20,
         steps: [
           {
@@ -516,6 +524,39 @@ export const LEVELS: Level[] = [
             title: 'Introduction',
             description: 'Beyond ON and OFF — controlling intensity',
             pdfUrl: '/pdfs/level-3/lesson-3-2/introduction.pdf',
+          },
+          {
+            id: 'explore',
+            type: 'explore',
+            title: 'Exploration',
+            description: 'See how PWM values control LED brightness',
+            explorationSimulationId: 'pwm-brightness',
+          },
+          {
+            id: 'concept',
+            type: 'concept',
+            title: 'Concept Building',
+            description: 'PWM, duty cycle, and proportional control',
+            pdfUrl: '/pdfs/level-3/lesson-3-2/concept-building.pdf',
+          },
+          {
+            id: 'challenge',
+            type: 'challenge',
+            title: 'Student Task',
+            description: 'Connect a sensor directly to LED brightness',
+            allowedBlocks: ['pwm_setup', 'analog_read', 'pwm_write', 'delay_ms'],
+            challengeBlocks: ['pwm_setup', 'analog_read', 'pwm_write'],
+            challengeStrict: false,
+            simulationId: 'sensor-brightness',
+            hint: 'Set up the PWM pin first, then read the sensor into a variable, then write that variable to PWM — make sure variable names match',
+          },
+          {
+            id: 'mapping',
+            type: 'mapping',
+            title: 'Arduino Mapping',
+            description: 'See how sensor-controlled brightness becomes real code',
+            mappingSimulationId: 'sensor-brightness',
+            mappingCodeComponent: 'pwm',
           },
         ],
       },

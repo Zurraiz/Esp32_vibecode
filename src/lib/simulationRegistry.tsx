@@ -16,6 +16,8 @@ import SignalAnalyzerSimulator from '@/components/SignalAnalyzerSimulator';
 import DecisionFlowExplorer from '@/components/DecisionFlowExplorer';
 import DualSensorSimulator from '@/components/DualSensorSimulator';
 import AnalogVsDigitalExplorer from '@/components/AnalogVsDigitalExplorer';
+import PWMBrightnessExplorer from '@/components/PWMBrightnessExplorer';
+import SensorBrightnessSimulator from '@/components/SensorBrightnessSimulator';
 
 export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'missing-delay': MissingDelaySimulator,
@@ -35,4 +37,6 @@ export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'decision-flow': DecisionFlowExplorer,
   'dual-sensor': DualSensorSimulator,
   'analog-vs-digital': AnalogVsDigitalExplorer,
+  'pwm-brightness': PWMBrightnessExplorer,
+  'sensor-brightness': SensorBrightnessSimulator,
 };

@@ -13,6 +13,7 @@ import StaticCodePanel from '@/components/StaticCodePanel';
 import ButtonMappingPanel from '@/components/ButtonMappingPanel';
 import IfMappingPanel from '@/components/IfMappingPanel';
 import AnalogMappingPanel from '@/components/AnalogMappingPanel';
+import PWMMappingPanel from '@/components/PWMMappingPanel';
 import { BLOCK_CATALOGUE } from '@/lib/blockCatalogue';
 import { LEVELS } from '@/lib/lessonConfig';
 import { SIMULATION_REGISTRY } from '@/lib/simulationRegistry';
@@ -443,6 +444,8 @@ export default function LessonPage() {
                       <IfMappingPanel />
                     ) : currentStep.mappingCodeComponent === 'analog' ? (
                       <AnalogMappingPanel />
+                    ) : currentStep.mappingCodeComponent === 'pwm' ? (
+                      <PWMMappingPanel />
                     ) : lesson?.steps.find(s => s.type === 'challenge')?.challengeSimulationId ? (
                       <StaticCodePanel />
                     ) : (

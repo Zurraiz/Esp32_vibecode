@@ -157,7 +157,6 @@ export function generateCode(blocks: Block[]): { code: string; english: string[]
       }
       case "pwm_setup": {
         const pin = numberToken(block.values.pin, "PIN", 0);
-        si(`${fn("analogWriteResolution")}(8);`);
         si(`${fn("pinMode")}(${pin}, OUTPUT);`);
         english.push(`Setup PWM on pin ${String(block.values.pin ?? "?")}.`);
         break;
