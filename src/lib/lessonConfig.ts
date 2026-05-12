@@ -479,7 +479,7 @@ export const LEVELS: Level[] = [
             type: 'explore',
             title: 'Exploration',
             description: 'See the difference between digital and analog values',
-            explorationSimulationId: 'analog-vs-digital',
+            explorationSimulationId: 'analog-oscilloscope',
           },
           {
             id: 'concept',
@@ -515,7 +515,6 @@ export const LEVELS: Level[] = [
         title: 'Controlling Output Intensity',
         description: 'Use PWM to control LED brightness from a sensor',
         icon: '🔆',
-        isLocked: false,
         estimatedMinutes: 20,
         steps: [
           {
@@ -530,7 +529,7 @@ export const LEVELS: Level[] = [
             type: 'explore',
             title: 'Exploration',
             description: 'See how PWM values control LED brightness',
-            explorationSimulationId: 'pwm-brightness',
+            explorationSimulationId: 'pwm-wave',
           },
           {
             id: 'concept',
@@ -565,7 +564,6 @@ export const LEVELS: Level[] = [
         title: 'Translating Values',
         description: 'Use map() to translate sensor ranges into output ranges',
         icon: '🗺️',
-        isLocked: true,
         estimatedMinutes: 20,
         steps: [
           {
@@ -582,7 +580,6 @@ export const LEVELS: Level[] = [
         title: 'Real-Time Control System',
         description: 'Connect sensor input directly to output intensity',
         icon: '⚡',
-        isLocked: true,
         estimatedMinutes: 25,
         steps: [
           {
