@@ -15,11 +15,11 @@ import ButtonMonitorSimulator from '@/components/ButtonMonitorSimulator';
 import SignalAnalyzerSimulator from '@/components/SignalAnalyzerSimulator';
 import DecisionFlowExplorer from '@/components/DecisionFlowExplorer';
 import DualSensorSimulator from '@/components/DualSensorSimulator';
-import AnalogVsDigitalExplorer from '@/components/AnalogVsDigitalExplorer';
-import PWMBrightnessExplorer from '@/components/PWMBrightnessExplorer';
 import SensorBrightnessSimulator from '@/components/SensorBrightnessSimulator';
 import PWMWaveSimulator from '@/components/PWMWaveSimulator';
 import AnalogOscilloscope from '@/components/AnalogOscilloscope';
+import MappingSimulator from '@/components/MappingSimulator';
+import MappedSensorSimulator from '@/components/MappedSensorSimulator';
 
 export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'missing-delay': MissingDelaySimulator,
@@ -38,9 +38,9 @@ export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'signal-analyzer': SignalAnalyzerSimulator,
   'decision-flow': DecisionFlowExplorer,
   'dual-sensor': DualSensorSimulator,
-  'analog-vs-digital': AnalogVsDigitalExplorer,
-  'pwm-brightness': PWMBrightnessExplorer,
   'sensor-brightness': SensorBrightnessSimulator,
   'pwm-wave': PWMWaveSimulator,
   'analog-oscilloscope': AnalogOscilloscope,
+  'mapping': MappingSimulator,
+  'mapped-sensor': MappedSensorSimulator,
 };

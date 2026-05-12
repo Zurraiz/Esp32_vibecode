@@ -53,14 +53,6 @@ export const LEVELS: Level[] = [
         estimatedMinutes: 20,
         steps: [
           {
-          
-            id: 'explore',
-            type: 'explore',
-            title: 'Exploration',
-            description: 'See the difference between digital and analog values',
-            explorationSimulationId: 'analog-vs-digital',
-          },
-          {
             id: 'intro',
             type: 'content',
             title: 'Introduction',
@@ -562,7 +554,7 @@ export const LEVELS: Level[] = [
       {
         id: '3-3',
         title: 'Translating Values',
-        description: 'Use map() to translate sensor ranges into output ranges',
+        description: 'Use map() to translate sensor ranges to output ranges',
         icon: '🗺️',
         estimatedMinutes: 20,
         steps: [
@@ -570,8 +562,41 @@ export const LEVELS: Level[] = [
             id: 'intro',
             type: 'content',
             title: 'Introduction',
-            description: 'Scaling sensor values to useful output ranges',
+            description: 'Why sensor values need translation before use',
             pdfUrl: '/pdfs/level-3/lesson-3-3/introduction.pdf',
+          },
+          {
+            id: 'explore',
+            type: 'explore',
+            title: 'Exploration',
+            description: 'See what happens with and without mapping',
+            explorationSimulationId: 'mapping',
+          },
+          {
+            id: 'concept',
+            type: 'concept',
+            title: 'Concept Building',
+            description: 'Proportional scaling and the map() function',
+            pdfUrl: '/pdfs/level-3/lesson-3-3/concept-building.pdf',
+          },
+          {
+            id: 'challenge',
+            type: 'challenge',
+            title: 'Student Task',
+            description: 'Build a sensor-controlled brightness system with proper mapping',
+            allowedBlocks: ['pwm_setup', 'analog_read', 'map_val', 'pwm_write'],
+            challengeBlocks: ['pwm_setup', 'analog_read', 'map_val', 'pwm_write'],
+            challengeStrict: false,
+            simulationId: 'mapped-sensor',
+            hint: 'Read sensor into a variable, map it from 0-4095 to 0-255 using the same variable name, then write the mapped value to PWM',
+          },
+          {
+            id: 'mapping',
+            type: 'mapping',
+            title: 'Arduino Mapping',
+            description: 'See how map() creates a proper sensor-to-output pipeline',
+            mappingSimulationId: 'mapped-sensor',
+            mappingCodeComponent: 'mapping',
           },
         ],
       },
