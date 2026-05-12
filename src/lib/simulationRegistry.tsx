@@ -20,6 +20,8 @@ import PWMWaveSimulator from '@/components/PWMWaveSimulator';
 import AnalogOscilloscope from '@/components/AnalogOscilloscope';
 import MappingSimulator from '@/components/MappingSimulator';
 import MappedSensorSimulator from '@/components/MappedSensorSimulator';
+import RealTimeControlSimulator from '@/components/RealTimeControlSimulator';
+import DualModeSimulator from '@/components/DualModeSimulator';
 
 export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'missing-delay': MissingDelaySimulator,
@@ -43,4 +45,6 @@ export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'analog-oscilloscope': AnalogOscilloscope,
   'mapping': MappingSimulator,
   'mapped-sensor': MappedSensorSimulator,
+  'realtime-control': RealTimeControlSimulator,
+  'dual-mode': DualModeSimulator,
 };
