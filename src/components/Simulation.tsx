@@ -1,148 +1,254 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const loopSteps = [
-  "loop() triggered",
-  "Reading sensor value...",
-  "Processing input...",
-  "Serial output generated",
-];
+export default function ChristmasTreeSystem() {
 
-export default function SerialGearDialFinal() {
-  const [sensor, setSensor] = useState(50);
-  const [stepIndex, setStepIndex] = useState(0);
-  const [logs, setLogs] = useState<string[]>([]);
-  const setupDone = useRef(false);
+  const [step, setStep] = useState(0);
 
-  // ✅ RUN SETUP ONLY ONCE
+  // 0 = top glow, 1 = mid glow, 2 = bottom glow, 3 = sparkle reset
+  const pattern = [0, 1, 2, 3];
+
   useEffect(() => {
-    if (!setupDone.current) {
-      const time = new Date().toLocaleTimeString();
 
-      setLogs([
-        `[${time}] setup() started`,
-        `[${time}] Serial.begin(115200) initialized`,
-      ]);
-
-      setupDone.current = true;
-    }
-  }, []);
-
-  // LOOP simulation (NO setup here anymore)
-  useEffect(() => {
     const interval = setInterval(() => {
-      setStepIndex((prev) => (prev + 1) % loopSteps.length);
-
-      const time = new Date().toLocaleTimeString();
-
-      setLogs((prev) => {
-        const newLog = `[${time}] SENSOR:${sensor} → loop cycle OK`;
-        return [newLog, ...prev].slice(0, 12);
-      });
-    }, 900);
+      setStep((prev) => (prev + 1) % pattern.length);
+    }, 600);
 
     return () => clearInterval(interval);
-  }, [sensor]);
 
-  const rotation = (sensor / 100) * 360;
+  }, []);
+
+  const current = pattern[step];
 
   return (
-    <div className="bg-white border rounded-xl p-6 space-y-6">
+    <div className="bg-slate-100 p-8 rounded-3xl space-y-10">
 
       {/* HEADER */}
       <div>
-        <h3 className="text-sm font-bold text-gray-800">
-          Serial Communication — Correct ESP32 Execution Model
-        </h3>
-        <p className="text-xs text-gray-500">
-          setup() runs once, loop() runs continuously
+        <h2 className="text-2xl font-bold text-slate-800">
+          Christmas Tree LED Pattern System
+        </h2>
+        <p className="text-sm text-slate-500">
+          Small LEDs → sequence → loop → festive animation
         </p>
       </div>
 
-      {/* GEAR SENSOR */}
-      <div className="bg-gray-50 border rounded-xl p-6 flex flex-col items-center space-y-4">
+      <div className="grid lg:grid-cols-2 gap-8">
 
-        <div className="text-xs text-gray-600">
-          Sensor Gear (0–100)
-        </div>
+        {/* LEFT: FULL LOOP EXECUTION MODEL */}
 
-        <div className="relative w-32 h-32 flex items-center justify-center">
+        <div className="bg-white border rounded-3xl p-8 space-y-6 font-mono text-sm">
 
-          <div
-            className="text-7xl transition-transform duration-200"
-            style={{
-              transform: `rotate(${rotation}deg)`,
-            }}
-          >
-            ⚙️
+          <div className="font-bold text-slate-800 text-lg">
+            ESP32 Full Execution Cycle
           </div>
 
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={sensor}
-            onChange={(e) => setSensor(Number(e.target.value))}
-            className="absolute inset-0 opacity-0 cursor-pointer"
-          />
-        </div>
+          {/* LOOP WRAPPER */}
+          <div className="border-2 border-blue-100 rounded-2xl p-4 bg-blue-50 space-y-4">
 
-        <div className="text-lg font-bold text-[#2E4862]">
-          {sensor}
-        </div>
-
-      </div>
-
-      {/* SYSTEM PANELS */}
-      <div className="grid grid-cols-2 gap-4">
-
-        {/* LOOP TRACE (NO SETUP HERE) */}
-        <div className="bg-gray-900 text-green-400 font-mono text-xs rounded-xl p-4 h-72 overflow-hidden">
-
-          <div className="text-gray-500 mb-2">// LOOP EXECUTION TRACE</div>
-
-          {loopSteps.map((step, i) => (
-            <div
-              key={i}
-              className={`py-1 transition-all ${
-                i === stepIndex ? "text-yellow-300 font-bold" : "opacity-40"
-              }`}
-            >
-              {i === stepIndex ? ">> " : "   "}
-              {step}
+            <div className="text-blue-700 font-bold">
+              while(true) {`{`}
             </div>
-          ))}
-        </div>
 
-        {/* SERIAL MONITOR */}
-        <div className="bg-black text-green-400 font-mono text-xs rounded-xl p-4 h-72 overflow-y-auto">
+            <div className="ml-4 space-y-4 border-l-2 border-blue-200 pl-4">
 
-          <div className="text-gray-500 mb-2">
-            --- SERIAL MONITOR (115200 baud) ---
+              <FlowStep active>
+                loop() iteration starts
+              </FlowStep>
+
+              <Arrow />
+
+              <FlowStep active>
+                delay(600) → timing control
+              </FlowStep>
+
+              <Arrow />
+
+              <FlowStep active>
+                index = (index + 1) % 4
+              </FlowStep>
+
+              <Arrow />
+
+              {/* INSIDE LOOP: FULL IF/ELSE CHAIN */}
+              <div className="bg-white border rounded-xl p-3 space-y-3">
+
+                <div className="text-slate-500 text-xs">
+                  decision logic (runs every loop cycle)
+                </div>
+
+                <FlowStep active={current === 0} color="pink">
+                  if (index == 0) → topLEDs()
+                </FlowStep>
+
+                <FlowStep active={current === 1} color="yellow">
+                  else if (index == 1) → middleLEDs()
+                </FlowStep>
+
+                <FlowStep active={current === 2} color="green">
+                  else if (index == 2) → bottomLEDs()
+                </FlowStep>
+
+                <FlowStep active={current === 3} color="purple">
+                  else → sparkleEffect()
+                </FlowStep>
+
+              </div>
+
+              <Arrow />
+
+              <div className="p-3 rounded-xl border bg-emerald-50 text-emerald-700 font-bold text-center">
+                digitalWrite(LED_STRIP, currentPattern)
+              </div>
+
+            </div>
+
+            <div className="text-blue-700 font-bold">
+              {`}`}
+            </div>
+
           </div>
 
-          {logs.map((log, i) => (
-            <div key={i} className="py-1 border-b border-gray-800">
-              {">"} {log}
+        </div>
+        {/* RIGHT: CHRISTMAS TREE */}
+        <div className="bg-white border rounded-3xl p-10 flex flex-col items-center space-y-4">
+
+          <h3 className="font-bold text-lg text-slate-800">
+            LED Christmas Tree
+          </h3>
+
+          {/* TREE SHAPE */}
+          <div className="relative flex flex-col items-center">
+
+            {/* STAR */}
+            <div className={`
+              text-3xl mb-2 transition-all
+              ${current === 3 ? 'scale-125 drop-shadow-xl' : 'opacity-60'}
+            `}>
+              ⭐
             </div>
-          ))}
+
+            {/* TREE BODY (triangle style) */}
+            <div className="flex flex-col items-center space-y-2">
+
+              {/* TOP ROW */}
+              <div className="flex gap-2">
+                <Led active={current === 0} color="pink" />
+              </div>
+
+              {/* MIDDLE ROW */}
+              <div className="flex gap-2">
+                <Led active={current === 1} color="yellow" />
+                <Led active={current === 1} color="yellow" />
+              </div>
+
+              {/* LOWER ROW */}
+              <div className="flex gap-2">
+                <Led active={current === 2} color="green" />
+                <Led active={current === 2} color="green" />
+                <Led active={current === 2} color="green" />
+              </div>
+
+              {/* BASE ROW */}
+              <div className="flex gap-2">
+                <Led active={current === 2} color="green" />
+                <Led active={current === 2} color="green" />
+                <Led active={current === 2} color="green" />
+                <Led active={current === 2} color="green" />
+              </div>
+
+            </div>
+
+            {/* TRUNK */}
+            <div className="w-6 h-10 bg-amber-800 mt-2 rounded-md" />
+
+          </div>
 
         </div>
 
       </div>
 
-      {/* STATE */}
-      <div className="bg-gray-50 border rounded-lg p-3 text-xs font-mono flex justify-between">
-        <span>SENSOR: {sensor}</span>
-        <span className="text-emerald-600">LOOP RUNNING</span>
-      </div>
+    </div>
+  );
+}
 
-      {/* FINAL INSIGHT */}
-      <div className="bg-blue-50 border border-blue-100 rounded p-3 text-xs text-blue-700">
-        In real ESP32 systems, setup() runs once to initialize hardware, while loop() runs continuously. Serial output reflects only runtime behavior, not initialization repeats.
-      </div>
+/* SMALL LED COMPONENT */
+function Led({ active, color }: any) {
 
+  const colors: any = {
+    pink: 'bg-pink-400 shadow-pink-300',
+    yellow: 'bg-yellow-300 shadow-yellow-200',
+    green: 'bg-green-400 shadow-green-300'
+  };
+
+  return (
+    <div
+      className={`
+        w-4 h-4 rounded-full transition-all duration-300
+        ${active
+          ? `${colors[color]} shadow-[0_0_10px_rgba(0,0,0,0.3)] scale-125`
+          : 'bg-slate-300'
+        }
+      `}
+    />
+  );
+}
+
+const base =
+  "p-3 rounded-xl border bg-slate-50 text-slate-600 text-center";
+
+const active =
+  "p-3 rounded-xl border bg-yellow-100 border-yellow-400 text-yellow-700 font-bold text-center scale-[1.03]";
+function Step({ label, active, color }: any) {
+
+  const colors: any = {
+    blue: "border-blue-200 bg-blue-50 text-blue-700",
+    red: "border-red-200 bg-red-50 text-red-700",
+    yellow: "border-yellow-200 bg-yellow-50 text-yellow-700",
+    green: "border-green-200 bg-green-50 text-green-700",
+    purple: "border-purple-200 bg-purple-50 text-purple-700"
+  };
+
+  return (
+    <pre
+      className={`
+        p-3 rounded-xl border whitespace-pre-wrap transition-all
+        ${active
+          ? colors[color] + " font-bold scale-[1.02] shadow-md"
+          : "bg-slate-50 text-slate-500 border-slate-200"
+        }
+      `}
+    >
+      {label}
+    </pre>
+  );
+}
+
+function Arrow() {
+  return <div className="text-slate-400 text-center">↓</div>;
+}
+function FlowStep({ children, active, color }: any) {
+
+  const colors: any = {
+    pink: "border-pink-200 bg-pink-50 text-pink-700",
+    yellow: "border-yellow-200 bg-yellow-50 text-yellow-700",
+    green: "border-green-200 bg-green-50 text-green-700",
+    purple: "border-purple-200 bg-purple-50 text-purple-700",
+    default: "border-slate-200 bg-slate-50 text-slate-600"
+  };
+
+  return (
+    <div
+      className={`
+        p-3 rounded-xl border transition-all
+        ${active
+          ? (colors[color] || colors.default) + " font-bold scale-[1.02] shadow-md"
+          : "bg-white text-slate-400 border-slate-100"
+        }
+      `}
+    >
+      {children}
     </div>
   );
 }
