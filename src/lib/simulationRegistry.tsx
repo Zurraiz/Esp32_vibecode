@@ -1,8 +1,50 @@
 import React from 'react';
 import MissingDelaySimulator from '@/components/MissingDelaySimulator';
 import LedDelaySimulator from '@/components/LedDelaySimulator';
+import IfDecisionSimulator from '@/components/IfDecisionSimulator';
+import CycleTimelineSimulator from '@/components/CycleTimelineSimulator';
+import InfiniteLoopSimulator from '@/components/InfiniteLoopSimulator';
+import SetupVsLoopExplorer from '@/components/SetupVsLoopExplorer';
+import ProgramFlowSimulator from '@/components/ProgramFlowSimulator';
+import SerialExplorer from '@/components/SerialExplorer';
+import SerialMonitorSimulator from '@/components/SerialMonitorSimulator';
+import VariableBoxExplorer from '@/components/VariableBoxExplorer';
+import CounterSimulator from '@/components/CounterSimulator';
+import ButtonSignalExplorer from '@/components/ButtonSignalExplorer';
+import ButtonMonitorSimulator from '@/components/ButtonMonitorSimulator';
+import SignalAnalyzerSimulator from '@/components/SignalAnalyzerSimulator';
+import DecisionFlowExplorer from '@/components/DecisionFlowExplorer';
+import DualSensorSimulator from '@/components/DualSensorSimulator';
+import SensorBrightnessSimulator from '@/components/SensorBrightnessSimulator';
+import PWMWaveSimulator from '@/components/PWMWaveSimulator';
+import AnalogOscilloscope from '@/components/AnalogOscilloscope';
+import MappingSimulator from '@/components/MappingSimulator';
+import MappedSensorSimulator from '@/components/MappedSensorSimulator';
+import RealTimeControlSimulator from '@/components/RealTimeControlSimulator';
+import DualModeSimulator from '@/components/DualModeSimulator';
 
 export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'missing-delay': MissingDelaySimulator,
   'led-delay': LedDelaySimulator,
+  'if-decision': IfDecisionSimulator,
+  'cycle-timeline': CycleTimelineSimulator,
+  'infinite-loop': InfiniteLoopSimulator,
+  'setup-vs-loop': SetupVsLoopExplorer,
+  'program-flow': ProgramFlowSimulator,
+  'serial-explorer': SerialExplorer,
+  'serial-monitor': SerialMonitorSimulator,
+  'variable-box': VariableBoxExplorer,
+  'counter': CounterSimulator,
+  'button-signal': ButtonSignalExplorer,
+  'button-monitor': ButtonMonitorSimulator,
+  'signal-analyzer': SignalAnalyzerSimulator,
+  'decision-flow': DecisionFlowExplorer,
+  'dual-sensor': DualSensorSimulator,
+  'sensor-brightness': SensorBrightnessSimulator,
+  'pwm-wave': PWMWaveSimulator,
+  'analog-oscilloscope': AnalogOscilloscope,
+  'mapping': MappingSimulator,
+  'mapped-sensor': MappedSensorSimulator,
+  'realtime-control': RealTimeControlSimulator,
+  'dual-mode': DualModeSimulator,
 };

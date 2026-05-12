@@ -148,18 +148,18 @@ export default function HardwareBoard({ peripherals }: HardwareBoardProps) {
               <feComposite in="SourceGraphic" in2="blur" operator="over" />
             </filter>
           </defs>
-          
+
           {/* Left Rails */}
           <line x1="15" y1="15" x2="15" y2="310" stroke="#1e40af" strokeWidth="4" opacity="0.3" />
           <line x1="15" y1="15" x2="15" y2="310" stroke="#3b82f6" strokeWidth="2" filter="url(#railGlow)" opacity={peripherals.length > 0 ? 0.8 : 0.3} className="transition-opacity duration-500" />
-          
+
           <line x1="25" y1="15" x2="25" y2="310" stroke="#991b1b" strokeWidth="4" opacity="0.3" />
           <line x1="25" y1="15" x2="25" y2="310" stroke="#ef4444" strokeWidth="2" filter="url(#railGlow)" opacity={peripherals.length > 0 ? 0.8 : 0.3} className="transition-opacity duration-500" />
-          
+
           {/* Right Rails */}
           <line x1="193" y1="15" x2="193" y2="310" stroke="#991b1b" strokeWidth="4" opacity="0.3" />
           <line x1="193" y1="15" x2="193" y2="310" stroke="#ef4444" strokeWidth="2" filter="url(#railGlow)" opacity={peripherals.length > 0 ? 0.8 : 0.3} className="transition-opacity duration-500" />
-          
+
           <line x1="203" y1="15" x2="203" y2="310" stroke="#1e40af" strokeWidth="4" opacity="0.3" />
           <line x1="203" y1="15" x2="203" y2="310" stroke="#3b82f6" strokeWidth="2" filter="url(#railGlow)" opacity={peripherals.length > 0 ? 0.8 : 0.3} className="transition-opacity duration-500" />
         </g>
@@ -210,7 +210,7 @@ export default function HardwareBoard({ peripherals }: HardwareBoardProps) {
 
             const sigHoleX = isLeft ? loc.x - 12 : loc.x + 12;
             const sigHoleY = loc.y;
-            
+
             // Power Rail Coordinates
             const railGndX = isLeft ? 15 : 203;
             const railVccX = isLeft ? 25 : 193;

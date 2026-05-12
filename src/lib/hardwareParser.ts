@@ -77,7 +77,7 @@ export function deriveHardwareLayout(blocks: Block[]): HardwarePeripheral[] {
         register(trig, 'ULTRASONIC', echo);
         break;
       }
-      
+
       case 'oled_setup':
       case 'oled_clear':
       case 'oled_set_cursor':

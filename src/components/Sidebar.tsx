@@ -18,7 +18,7 @@ const CATEGORIES: Category[] = [
   { title: '🔆 PWM', types: ['pwm_setup', 'pwm_write', 'servo_write'] },
   {
     title: '📡 Sensors',
-    types: ['dht_setup', 'dht_temp', 'dht_hum', 'btn_read', 'pir_read', 'analog_read', 'ultrasonic'],
+    types: ['dht_setup', 'dht_temp', 'dht_hum', 'btn_read', 'pir_read', 'analog_read', 'ultrasonic', 'map_val'],
   },
   {
     title: '🔁 Control',
@@ -28,7 +28,7 @@ const CATEGORIES: Category[] = [
   { title: '☁️ MQTT', types: ['mqtt_setup', 'mqtt_publish', 'mqtt_subscribe', 'mqtt_loop'] },
   { title: '💬 Serial', types: ['serial_begin', 'serial_print', 'serial_printvar', 'serial_println'] },
   { title: '📺 Display', types: ['oled_setup', 'oled_clear', 'oled_set_cursor', 'oled_print', 'oled_display'] },
-  { title: '🔢 Variables', types: ['var_int', 'var_float', 'var_str', 'var_bool'] },
+  { title: '🔢 Variables', types: ['var_int', 'var_float', 'var_str', 'var_bool', 'var_add'] },
 ];
 
 const makeShortName = (label: string): string => {

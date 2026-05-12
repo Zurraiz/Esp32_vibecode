@@ -25,6 +25,7 @@ export const BLOCK_COLOURS: Record<string, string> = {
   btn_read: 'bg-purple-500',
   pir_read: 'bg-purple-500',
   analog_read: 'bg-purple-500',
+  map_val: 'bg-purple-500',
   ultrasonic: 'bg-purple-500',
 
   delay_ms: 'bg-yellow-500',
@@ -54,6 +55,7 @@ export const BLOCK_COLOURS: Record<string, string> = {
   var_float: 'bg-sky-500',
   var_str: 'bg-sky-500',
   var_bool: 'bg-sky-500',
+  var_add: 'bg-sky-500',
 
   oled_setup: 'bg-green-500',
   oled_clear: 'bg-green-500',
@@ -186,6 +188,18 @@ export const BLOCK_CATALOGUE: BlockTemplate[] = [
     params: [
       { name: "pin", type: "number", default: 34 },
       { name: "var", type: "text", default: "sensorVal" },
+    ],
+  },
+  {
+    type: "map_val",
+    icon: "🗺️",
+    label: "Map <var> from <fromLow>-<fromHigh> to <toLow>-<toHigh>",
+    params: [
+      { name: "var", type: "text", default: "sensorVal" },
+      { name: "fromLow", type: "number", default: 0 },
+      { name: "fromHigh", type: "number", default: 4095 },
+      { name: "toLow", type: "number", default: 0 },
+      { name: "toHigh", type: "number", default: 255 },
     ],
   },
   {
@@ -370,6 +384,15 @@ export const BLOCK_CATALOGUE: BlockTemplate[] = [
         default: "false",
         options: ["true", "false"],
       },
+    ],
+  },
+  {
+    type: "var_add",
+    icon: "➕",
+    label: 'Add <step> to "<name>"',
+    params: [
+      { name: "name", type: "text", default: "myNum" },
+      { name: "step", type: "number", default: 1 },
     ],
   },
 

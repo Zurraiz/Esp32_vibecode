@@ -55,29 +55,34 @@ export default function CodePanel({ showLiveOutput = true }: CodePanelProps) {
         .tp { color: #ffa657; }
       `}</style>
 
-      {/* Tabs Header */}
-      <div className="flex items-center bg-gray-100 border-b border-gray-200 rounded-t-xl px-2 pt-2 gap-2">
+      {/* Tab switcher */}
+      <div className="flex items-center bg-gray-100 border-b border-gray-200 rounded-t-xl px-2 pt-2 gap-1 flex-shrink-0">
         <button
+          type="button"
           onClick={() => setActiveTab('code')}
-          className={`px-4 py-2 text-sm font-semibold rounded-t-lg transition-colors ${
-            activeTab === 'code' ? 'bg-[#2E4862] text-white' : 'bg-transparent text-gray-500 hover:text-gray-700'
-          }`}
+          className={`px-4 py-2 text-sm font-semibold rounded-t-lg transition-colors ${activeTab === 'code'
+              ? 'bg-[#2E4862] text-white'
+              : 'bg-transparent text-gray-500 hover:text-gray-700'
+            }`}
         >
           📟 Code
         </button>
         <button
+          type="button"
           onClick={() => setActiveTab('simulator')}
-          className={`px-4 py-2 text-sm font-semibold rounded-t-lg transition-colors ${
-            activeTab === 'simulator' ? 'bg-[#2E4862] text-white' : 'bg-transparent text-gray-500 hover:text-gray-700'
-          }`}
+          className={`px-4 py-2 text-sm font-semibold rounded-t-lg transition-colors ${activeTab === 'simulator'
+              ? 'bg-[#2E4862] text-white'
+              : 'bg-transparent text-gray-500 hover:text-gray-700'
+            }`}
         >
           🎮 Simulator
         </button>
       </div>
 
       {activeTab === 'code' ? (
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <div className="h-10 bg-[#2E4862] text-white px-4 flex items-center justify-between">
+        <div className="flex-1 flex flex-col overflow-hidden min-h-0">
+          {/* Code header */}
+          <div className="h-10 bg-[#2E4862] text-white px-4 flex items-center justify-between flex-shrink-0">
             <div className="text-xs font-medium">Arduino Code</div>
             <div className="flex items-center gap-2">
               <button
@@ -97,20 +102,21 @@ export default function CodePanel({ showLiveOutput = true }: CodePanelProps) {
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto bg-[#0d1117] p-4 font-mono text-xs leading-relaxed text-[#c9d1d9]">
+          {/* Code view */}
+          <div className="flex-1 overflow-y-auto bg-[#0d1117] p-4 font-mono text-xs leading-relaxed text-[#c9d1d9] min-h-0">
             <pre
               className="whitespace-pre-wrap break-words"
               dangerouslySetInnerHTML={{ __html: codeHtml }}
             />
           </div>
 
-          <div className="border-t border-gray-200" />
+          <div className="border-t border-gray-200 flex-shrink-0" />
 
-          <div className="max-h-[180px] overflow-y-auto bg-white px-4 py-3">
+          {/* What your program does */}
+          <div className="max-h-[180px] overflow-y-auto bg-white px-4 py-3 flex-shrink-0">
             <div className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">
               📖 What your program does
             </div>
-
             {english.length === 0 ? (
               <p className="text-xs text-gray-400">Add blocks to get started!</p>
             ) : (
@@ -126,10 +132,11 @@ export default function CodePanel({ showLiveOutput = true }: CodePanelProps) {
               </div>
             )}
           </div>
+
           {showLiveOutput && <LiveOutput />}
         </div>
       ) : (
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 overflow-hidden min-h-0">
           <LiveSimulator />
         </div>
       )}

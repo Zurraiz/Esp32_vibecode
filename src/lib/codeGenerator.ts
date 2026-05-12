@@ -89,7 +89,18 @@ export function generateCode(blocks: Block[]): { code: string; english: string[]
     if (isMissing(val)) {
       return safePin(val, label);
     }
-    return num(String(Number(val)));
+    const str = String(val).trim();
+    // If the value is a valid number, output as numeric literal
+    if (str !== '' && !isNaN(Number(str))) {
+      return num(str);
+    }
+    // If it looks like a valid variable name (letters, digits, underscore,
+    // not starting with a digit), output as-is for use as a variable reference
+    if (/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(str)) {
+      return str;
+    }
+    // Fallback to safe placeholder
+    return safePin(val, label);
   };
 
   const textExpr = (val: unknown, label: string, fallback: string): string => {
@@ -146,7 +157,6 @@ export function generateCode(blocks: Block[]): { code: string; english: string[]
       }
       case "pwm_setup": {
         const pin = numberToken(block.values.pin, "PIN", 0);
-        si(`${fn("analogWriteResolution")}(8);`);
         si(`${fn("pinMode")}(${pin}, OUTPUT);`);
         english.push(`Setup PWM on pin ${String(block.values.pin ?? "?")}.`);
         break;
@@ -215,6 +225,16 @@ export function generateCode(blocks: Block[]): { code: string; english: string[]
         addGlobal(`var_int:${varName}`, `${tp("int")} ${varName} = ${num("0")};`);
         li(`${varName} = ${fn("analogRead")}(${pin});`);
         english.push(`Read analog pin ${String(block.values.pin ?? "?")} into ${varName}.`);
+        break;
+      }
+      case "map_val": {
+        const varName = safeVar(block.values.var, "sensorVal");
+        const fromLow = numberToken(block.values.fromLow, "FROM_LOW", 0);
+        const fromHigh = numberToken(block.values.fromHigh, "FROM_HIGH", 4095);
+        const toLow = numberToken(block.values.toLow, "TO_LOW", 0);
+        const toHigh = numberToken(block.values.toHigh, "TO_HIGH", 255);
+        li(`${varName} = ${fn("map")}(${varName}, ${fromLow}, ${fromHigh}, ${toLow}, ${toHigh});`);
+        english.push(`Map ${varName} from range ${String(block.values.fromLow ?? 0)}-${String(block.values.fromHigh ?? 4095)} to ${String(block.values.toLow ?? 0)}-${String(block.values.toHigh ?? 255)}.`);
         break;
       }
       case "ultrasonic": {
@@ -416,6 +436,13 @@ export function generateCode(blocks: Block[]): { code: string; english: string[]
         const val = isMissing(block.values.val) ? safe(block.values.val, "VAL") : String(block.values.val).toLowerCase();
         addGlobal(`var_bool:${name}`, `${tp("bool")} ${name} = ${esc(val)};`);
         english.push(`Create boolean variable ${name}.`);
+        break;
+      }
+      case "var_add": {
+        const name = safeVar(block.values.name, "myNum");
+        const step = numberToken(block.values.step, "STEP", 1);
+        li(`${name} = ${name} + ${step};`);
+        english.push(`Add ${step} to variable ${name}.`);
         break;
       }
       case "oled_setup": {

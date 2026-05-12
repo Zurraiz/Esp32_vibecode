@@ -36,9 +36,8 @@ export default function LiveSimulator() {
         <div className="text-sm font-semibold text-[#2E4862]">Live Simulator</div>
         <button
           onClick={handleRunToggle}
-          className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-semibold text-white transition-colors ${
-            isRunning ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'
-          }`}
+          className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-semibold text-white transition-colors ${isRunning ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'
+            }`}
         >
           {isRunning ? (
             <>
@@ -53,7 +52,7 @@ export default function LiveSimulator() {
       </div>
 
       <div className="flex-1 overflow-hidden flex flex-col p-4 gap-4">
-        
+
         {/* Hardware Board SVG View */}
         <div className="flex-1 min-h-[500px] bg-white rounded-xl shadow-sm border border-gray-200 p-2 overflow-hidden flex flex-col">
           <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 px-2 pt-2">
@@ -72,7 +71,7 @@ export default function LiveSimulator() {
               <span className="text-[10px] font-mono opacity-60">{serial.length} lines</span>
             )}
           </div>
-          <div 
+          <div
             ref={scrollRef}
             className="p-3 font-mono text-[11px] text-[#c9d1d9] overflow-y-auto flex-1 flex flex-col gap-0 leading-relaxed"
           >

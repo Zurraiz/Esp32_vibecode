@@ -15,6 +15,22 @@ interface SimulationContext {
   variables: Record<string, any>;
 }
 
+/**
+ * Resolves a value that could be a literal number or a variable name.
+ */
+function resolveValue(val: any, ctx: SimulationContext): number {
+  if (typeof val === 'string') {
+    const trimmed = val.trim();
+    // If it exists in variables, use that
+    if (ctx.variables[trimmed] !== undefined) {
+      return Number(ctx.variables[trimmed]);
+    }
+    // Otherwise try to parse as number
+    return Number(trimmed);
+  }
+  return Number(val ?? 0);
+}
+
 // Block handlers
 type BlockHandler = (block: Block, ctx: SimulationContext) => Promise<void> | void;
 
@@ -28,30 +44,30 @@ const handlers: Record<string, BlockHandler> = {
     ctx.setPin(pin, 0, 'digital');
   },
   pwm_write: (block, ctx) => {
-    const pin = Number(block.values.pin ?? 2);
-    const val = Number(block.values.val ?? 128);
+    const pin = resolveValue(block.values.pin, ctx);
+    const val = resolveValue(block.values.val, ctx);
     ctx.setPin(pin, val, 'pwm');
   },
   servo_write: (block, ctx) => {
-    const pin = Number(block.values.pin ?? 2);
-    const deg = Number(block.values.deg ?? 90);
+    const pin = resolveValue(block.values.pin, ctx);
+    const deg = resolveValue(block.values.deg, ctx);
     ctx.setPin(pin, deg, 'servo');
   },
   tone_on: (block, ctx) => {
-    const pin = Number(block.values.pin ?? 13);
-    const freq = Number(block.values.freq ?? 1000);
+    const pin = resolveValue(block.values.pin, ctx);
+    const freq = resolveValue(block.values.freq, ctx);
     ctx.setPin(pin, freq, 'tone');
   },
   tone_off: (block, ctx) => {
-    const pin = Number(block.values.pin ?? 13);
+    const pin = resolveValue(block.values.pin, ctx);
     ctx.setPin(pin, 0, 'tone');
   },
-  delay_ms: async (block) => {
-    const ms = Number(block.values.ms ?? 1000);
+  delay_ms: async (block, ctx) => {
+    const ms = resolveValue(block.values.ms, ctx);
     await sleep(ms);
   },
-  delay_sec: async (block) => {
-    const sec = Number(block.values.sec ?? 1);
+  delay_sec: async (block, ctx) => {
+    const sec = resolveValue(block.values.sec, ctx);
     await sleep(sec * 1000);
   },
   serial_print: (block, ctx) => {
@@ -110,6 +126,14 @@ const handlers: Record<string, BlockHandler> = {
   var_bool: (block, ctx) => {
     const name = String(block.values.name ?? 'isOn');
     ctx.variables[name] = block.values.val === 'true';
+  },
+  var_add: (block, ctx) => {
+    const name = String(block.values.name ?? 'myNum');
+    const step = Number(block.values.step ?? 1);
+    if (ctx.variables[name] === undefined) {
+      ctx.variables[name] = 0;
+    }
+    ctx.variables[name] += step;
   }
 };
 
@@ -132,14 +156,14 @@ function evaluateCondition(cond: string, variables: Record<string, any>): boolea
     const [, leftRaw, op, rightRaw] = match;
     const leftVar = leftRaw.trim();
     const rightVar = rightRaw.trim();
-    
+
     // Resolve left side
-    const left = variables[leftVar] !== undefined ? variables[leftVar] : 
-                 (isNaN(Number(leftVar)) ? leftVar : Number(leftVar));
-                 
+    const left = variables[leftVar] !== undefined ? variables[leftVar] :
+      (isNaN(Number(leftVar)) ? leftVar : Number(leftVar));
+
     // Resolve right side
-    const right = variables[rightVar] !== undefined ? variables[rightVar] : 
-                  (isNaN(Number(rightVar)) ? rightVar : Number(rightVar));
+    const right = variables[rightVar] !== undefined ? variables[rightVar] :
+      (isNaN(Number(rightVar)) ? rightVar : Number(rightVar));
 
     switch (op) {
       case '==': return left == right;

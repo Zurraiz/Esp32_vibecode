@@ -15,7 +15,7 @@ export interface SimulationState {
   pins: Record<number, { value: number; mode: string }>; // Maps physical ESP32 pins to structured values and modes
   serial: string[];             // Backlog of messages printed to the Serial Monitor
   isRunning: boolean;           // Kill switch for the simulatorEngine's infinite execution loop
-  
+
   // OLED State
   oledBuffer: OledText[];
   oledScreen: OledText[];
@@ -28,7 +28,7 @@ interface SimulatorStore extends SimulationState {
   appendSerial: (text: string, newline?: boolean) => void;
   setRunning: (isRunning: boolean) => void;
   resetSimulation: () => void;
-  
+
   // OLED Actions
   clearOledBuffer: () => void;
   setOledCursor: (x: number, y: number) => void;
@@ -48,46 +48,46 @@ const initialState: SimulationState = {
 
 export const useSimulatorStore = create<SimulatorStore>((set) => ({
   ...initialState,
-  
-  setPin: (pin, value, mode = 'digital') => 
+
+  setPin: (pin, value, mode = 'digital') =>
     set((state) => ({
-      pins: { 
-        ...state.pins, 
-        [pin]: { value, mode: mode || state.pins[pin]?.mode || 'digital' } 
+      pins: {
+        ...state.pins,
+        [pin]: { value, mode: mode || state.pins[pin]?.mode || 'digital' }
       }
     })),
-    
-  appendSerial: (text, newline = false) => 
+
+  appendSerial: (text, newline = false) =>
     set((state) => {
       const newSerial = [...state.serial];
-      
+
       if (newSerial.length === 0) {
         if (newline) {
           return { serial: [text, ''] };
         }
         return { serial: [text] };
       }
-      
+
       // Append text to the very last line
       const lastIndex = newSerial.length - 1;
       newSerial[lastIndex] = newSerial[lastIndex] + text;
-      
+
       // If newline is requested, add an empty string as the next line placeholder
       if (newline) {
         newSerial.push('');
       }
-      
+
       return { serial: newSerial };
     }),
-    
+
   setRunning: (isRunning) => set({ isRunning }),
-  
+
   resetSimulation: () => set(initialState),
 
   clearOledBuffer: () => set({ oledBuffer: [], oledCursorX: 0, oledCursorY: 0 }),
-  
+
   setOledCursor: (x, y) => set({ oledCursorX: x, oledCursorY: y }),
-  
+
   printToOledBuffer: (text) => set((state) => {
     // SSD1306 128x64 simulation with word wrapping
     const CHAR_WIDTH = 6;
@@ -98,7 +98,7 @@ export const useSimulatorStore = create<SimulatorStore>((set) => ({
     let cursorX = state.oledCursorX;
     let cursorY = state.oledCursorY;
     const newEntries: OledText[] = [];
-    
+
     // Split text into characters to handle wrapping precisely
     const chars = String(text).split('');
     let currentChunk = '';
@@ -119,7 +119,7 @@ export const useSimulatorStore = create<SimulatorStore>((set) => ({
         currentChunk += char;
         cursorX += CHAR_WIDTH;
       }
-      
+
       // Stop if we exceed screen height (typical behavior is to stop or scroll, we'll stop for now)
       if (cursorY + LINE_HEIGHT > MAX_HEIGHT) break;
     }
@@ -134,6 +134,6 @@ export const useSimulatorStore = create<SimulatorStore>((set) => ({
       oledCursorY: cursorY
     };
   }),
-  
+
   updateOledScreen: () => set((state) => ({ oledScreen: [...state.oledBuffer] })),
 }));
