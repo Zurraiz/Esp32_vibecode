@@ -89,14 +89,49 @@ export const useSimulatorStore = create<SimulatorStore>((set) => ({
   setOledCursor: (x, y) => set({ oledCursorX: x, oledCursorY: y }),
   
   printToOledBuffer: (text) => set((state) => {
-    // In a real SSD1306, text wraps or advances the cursor. 
-    // For MVP, we just append to the current cursor position and advance X.
-    // Approximate: size 1 character is ~6 pixels wide.
-    const newEntry = { x: state.oledCursorX, y: state.oledCursorY, text };
-    const newX = state.oledCursorX + (text.length * 6);
+    // SSD1306 128x64 simulation with word wrapping
+    const CHAR_WIDTH = 6;
+    const LINE_HEIGHT = 10;
+    const MAX_WIDTH = 128;
+    const MAX_HEIGHT = 64;
+
+    let cursorX = state.oledCursorX;
+    let cursorY = state.oledCursorY;
+    const newEntries: OledText[] = [];
+    
+    // Split text into characters to handle wrapping precisely
+    const chars = String(text).split('');
+    let currentChunk = '';
+    let chunkStartX = cursorX;
+
+    for (const char of chars) {
+      // If adding this char exceeds width, push current chunk and wrap
+      if (cursorX + CHAR_WIDTH > MAX_WIDTH) {
+        if (currentChunk) {
+          newEntries.push({ x: chunkStartX, y: cursorY, text: currentChunk });
+        }
+        cursorX = 0;
+        cursorY += LINE_HEIGHT;
+        currentChunk = char;
+        chunkStartX = cursorX;
+        cursorX += CHAR_WIDTH;
+      } else {
+        currentChunk += char;
+        cursorX += CHAR_WIDTH;
+      }
+      
+      // Stop if we exceed screen height (typical behavior is to stop or scroll, we'll stop for now)
+      if (cursorY + LINE_HEIGHT > MAX_HEIGHT) break;
+    }
+
+    if (currentChunk && cursorY + LINE_HEIGHT <= MAX_HEIGHT) {
+      newEntries.push({ x: chunkStartX, y: cursorY, text: currentChunk });
+    }
+
     return {
-      oledBuffer: [...state.oledBuffer, newEntry],
-      oledCursorX: newX
+      oledBuffer: [...state.oledBuffer, ...newEntries],
+      oledCursorX: cursorX,
+      oledCursorY: cursorY
     };
   }),
   

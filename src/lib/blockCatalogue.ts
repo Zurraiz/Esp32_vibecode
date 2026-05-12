@@ -59,6 +59,7 @@ export const BLOCK_COLOURS: Record<string, string> = {
   oled_clear: 'bg-green-500',
   oled_set_cursor: 'bg-green-500',
   oled_print: 'bg-green-500',
+  oled_printvar: 'bg-green-500',
   oled_display: 'bg-green-500',
 };
 
@@ -399,6 +400,12 @@ export const BLOCK_CATALOGUE: BlockTemplate[] = [
     icon: "📝",
     label: 'Print "<text>" to OLED Buffer',
     params: [{ name: "text", type: "text", default: "Hello!" }],
+  },
+  {
+    type: "oled_printvar",
+    icon: "📊",
+    label: "Print variable <var> to OLED Buffer",
+    params: [{ name: "var", type: "text", default: "sensorVal" }],
   },
   {
     type: "oled_display",

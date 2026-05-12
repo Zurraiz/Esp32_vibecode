@@ -83,6 +83,11 @@ const handlers: Record<string, BlockHandler> = {
     const text = String(block.values.text ?? '');
     ctx.printToOledBuffer(text);
   },
+  oled_printvar: (block, ctx) => {
+    const varName = String(block.values.var ?? '');
+    const val = ctx.variables[varName];
+    ctx.printToOledBuffer(String(val ?? ''));
+  },
   oled_display: (block, ctx) => {
     ctx.updateOledScreen();
   },

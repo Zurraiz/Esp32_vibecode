@@ -452,6 +452,12 @@ export function generateCode(blocks: Block[]): { code: string; english: string[]
         english.push(`Print text to OLED buffer.`);
         break;
       }
+      case "oled_printvar": {
+        const varName = safeVar(block.values.var, "val");
+        li(`display.${fn("print")}(${varName});`);
+        english.push(`Print variable ${varName} to OLED buffer.`);
+        break;
+      }
       case "oled_display": {
         li(`display.${fn("display")}();`);
         english.push("Update OLED Screen with buffer contents.");
