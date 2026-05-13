@@ -10,12 +10,7 @@ import PDFViewer from '@/components/PDFViewer';
 import Sidebar from '@/components/Sidebar';
 import SimulationOverlay from '@/components/SimulationOverlay';
 import StaticCodePanel from '@/components/StaticCodePanel';
-import ButtonMappingPanel from '@/components/ButtonMappingPanel';
-import IfMappingPanel from '@/components/IfMappingPanel';
-import AnalogMappingPanel from '@/components/AnalogMappingPanel';
-import PWMMappingPanel from '@/components/PWMMappingPanel';
-import MappingMappingPanel from '@/components/MappingMappingPanel';
-import DualModeMappingPanel from '@/components/DualModeMappingPanel';
+import { MAPPING_PANEL_REGISTRY } from '@/lib/mappingPanelRegistry';
 import { BLOCK_CATALOGUE } from '@/lib/blockCatalogue';
 import { LEVELS } from '@/lib/lessonConfig';
 import { SIMULATION_REGISTRY } from '@/lib/simulationRegistry';
@@ -440,23 +435,21 @@ export default function LessonPage() {
                   <div className={`overflow-hidden rounded-xl bg-white shadow-sm ${
                     currentStep.mappingSimulationId ? 'w-[380px] flex-shrink-0' : 'flex-1'
                   }`}>
-                    {currentStep.mappingCodeComponent === 'button' ? (
-                      <ButtonMappingPanel />
-                    ) : currentStep.mappingCodeComponent === 'if' ? (
-                      <IfMappingPanel />
-                    ) : currentStep.mappingCodeComponent === 'analog' ? (
-                      <AnalogMappingPanel />
-                    ) : currentStep.mappingCodeComponent === 'pwm' ? (
-                      <PWMMappingPanel />
-                    ) : currentStep.mappingCodeComponent === 'mapping' ? (
-                      <MappingMappingPanel />
-                    ) : currentStep.mappingCodeComponent === 'dual-mode' ? (
-                      <DualModeMappingPanel />
-                    ) : lesson?.steps.find(s => s.type === 'challenge')?.challengeSimulationId ? (
-                      <StaticCodePanel />
-                    ) : (
-                      <CodePanel showLiveOutput={currentStep?.showSerialOutput === true} />
-                    )}
+                    {(() => {
+                      if (currentStep.mappingCodeComponent) {
+                        const MappingPanel = MAPPING_PANEL_REGISTRY[
+                          currentStep.mappingCodeComponent
+                        ] ?? null;
+                        if (MappingPanel) return <MappingPanel />;
+                      }
+                      if (lesson?.steps.find(s => s.type === 'challenge')
+                        ?.challengeSimulationId) {
+                        return <StaticCodePanel />;
+                      }
+                      return <CodePanel showLiveOutput={
+                        currentStep?.showSerialOutput === true
+                      } />;
+                    })()}
                   </div>
                 </div>
               </div>
