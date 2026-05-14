@@ -26,6 +26,7 @@ import ForLoopConceptExplorer from '@/components/ForLoopConceptExplorer';
 import ForLoopLEDChaser from '@/components/ForLoopLEDChaser';
 import WhileVsForExplorer from '@/components/WhileVsForExplorer';
 import CountdownSimulator from '@/components/CountdownSimulator';
+import LoopConditionExplorer from '@/components/LoopConditionExplorer';
 
 export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'missing-delay': MissingDelaySimulator,
@@ -55,4 +56,5 @@ export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'for-loop-chaser': ForLoopLEDChaser,
   'while-vs-for': WhileVsForExplorer,
   'countdown': CountdownSimulator,
+  'loop-condition': LoopConditionExplorer,
 };
