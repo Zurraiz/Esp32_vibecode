@@ -5,6 +5,7 @@ import AnalogMappingPanel from '@/components/AnalogMappingPanel';
 import PWMMappingPanel from '@/components/PWMMappingPanel';
 import MappingMappingPanel from '@/components/MappingMappingPanel';
 import DualModeMappingPanel from '@/components/DualModeMappingPanel';
+import ForLoopMappingPanel from '@/components/ForLoopMappingPanel';
 
 export const MAPPING_PANEL_REGISTRY: Record<string, React.ComponentType> = {
   'button': ButtonMappingPanel,
@@ -13,4 +14,5 @@ export const MAPPING_PANEL_REGISTRY: Record<string, React.ComponentType> = {
   'pwm': PWMMappingPanel,
   'mapping': MappingMappingPanel,
   'dual-mode': DualModeMappingPanel,
+  'for-loop': ForLoopMappingPanel,
 };

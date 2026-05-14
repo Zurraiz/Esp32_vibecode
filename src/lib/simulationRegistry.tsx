@@ -22,6 +22,8 @@ import MappingSimulator from '@/components/MappingSimulator';
 import MappedSensorSimulator from '@/components/MappedSensorSimulator';
 import RealTimeControlSimulator from '@/components/RealTimeControlSimulator';
 import DualModeSimulator from '@/components/DualModeSimulator';
+import ForLoopConceptExplorer from '@/components/ForLoopConceptExplorer';
+import ForLoopLEDChaser from '@/components/ForLoopLEDChaser';
 
 export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'missing-delay': MissingDelaySimulator,
@@ -47,4 +49,6 @@ export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'mapped-sensor': MappedSensorSimulator,
   'realtime-control': RealTimeControlSimulator,
   'dual-mode': DualModeSimulator,
+  'for-loop-concept': ForLoopConceptExplorer,
+  'for-loop-chaser': ForLoopLEDChaser,
 };
