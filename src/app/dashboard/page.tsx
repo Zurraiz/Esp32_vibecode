@@ -1,8 +1,6 @@
 'use client';
 
-// src/app/dashboard/page.tsx
-// REPLACE YOUR EXISTING dashboard/page.tsx WITH THIS FILE ENTIRELY
-
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
 import { PROJECT_TEMPLATES } from '@/lib/projectTemplates';
@@ -15,11 +13,23 @@ export default function DashboardPage() {
   const activeDeviceId = useAppStore((state) => state.activeDeviceId);
   const addBlock = useAppStore((state) => state.addBlock);
   const clearBlocks = useAppStore((state) => state.clearBlocks);
-
-  // ← Real data from useActivityStore
   const { completed, streak, isCompleted } = useActivityStore();
-  const completedCount = completed.length;
   const totalActivities = ACTIVITIES.length;
+
+  // ── Hydration fix ──
+  // All localStorage-dependent values start as safe defaults on server.
+  // useEffect only runs on client — safe to read real values there.
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Use safe defaults until client is ready
+  const completedCount = mounted ? completed.length : 0;
+  const clientStreak   = mounted ? streak : 0;
+  const deviceId       = mounted ? (activeDeviceId || 'Not linked') : 'Not linked';
+  const completedList  = mounted ? ACTIVITIES.filter((a) => isCompleted(a.id)) : [];
 
   const handleLoadTemplate = (templateId: string) => {
     const template = PROJECT_TEMPLATES.find((t) => t.id === templateId);
@@ -73,7 +83,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Activities — dynamic count */}
+          {/* Activities */}
           <div
             onClick={() => router.push('/activities')}
             className="cursor-pointer rounded-2xl bg-white p-6 shadow-sm transition-all hover:scale-[1.02] hover:shadow-md"
@@ -84,7 +94,6 @@ export default function DashboardPage() {
               Guided projects with wiring diagrams, simulations, and step-by-step code.
             </p>
             <div className="mt-6 flex items-center gap-2">
-              {/* ← Now dynamic, not hardcoded */}
               <span className="rounded-full bg-[#2E4862]/10 px-3 py-1 text-xs font-semibold text-[#2E4862]">
                 {totalActivities} Projects
               </span>
@@ -101,10 +110,7 @@ export default function DashboardPage() {
         <section className="mt-10">
           <div className="mb-4 flex items-center justify-between">
             <h3 className="text-lg font-bold text-[#2E4862]">🚀 Quick Start</h3>
-            <button
-              onClick={() => router.push('/')}
-              className="text-xs text-gray-500 hover:text-[#2E4862]"
-            >
+            <button onClick={() => router.push('/')} className="text-xs text-gray-500 hover:text-[#2E4862]">
               Open Playground →
             </button>
           </div>
@@ -124,20 +130,14 @@ export default function DashboardPage() {
                 <p className="mt-1 text-xs leading-relaxed text-gray-500">{template.description}</p>
                 <div className="mt-2 flex flex-wrap gap-1">
                   {template.teaches.map((t) => (
-                    <span
-                      key={t}
-                      className="rounded-full border border-green-100 bg-green-50 px-2 py-0.5 text-[10px] text-green-700"
-                    >
+                    <span key={t} className="rounded-full border border-green-100 bg-green-50 px-2 py-0.5 text-[10px] text-green-700">
                       {t}
                     </span>
                   ))}
                 </div>
                 <div className="mt-2 flex flex-wrap gap-1">
                   {template.components.slice(0, 2).map((c) => (
-                    <span
-                      key={c}
-                      className="rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[10px] text-blue-600"
-                    >
+                    <span key={c} className="rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[10px] text-blue-600">
                       {c}
                     </span>
                   ))}
@@ -147,7 +147,7 @@ export default function DashboardPage() {
           </div>
         </section>
 
-        {/* Stats — now real data */}
+        {/* Stats */}
         <section className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
           <div className="rounded-xl bg-white p-4 shadow-sm">
             <p className="text-xs text-gray-500">🎯 Current Level</p>
@@ -155,31 +155,27 @@ export default function DashboardPage() {
           </div>
           <div className="rounded-xl bg-white p-4 shadow-sm">
             <p className="text-xs text-gray-500">⚡ Activities Done</p>
-            {/* ← Real count from store */}
             <p className="mt-1 text-sm font-semibold text-[#2E4862]">
               {completedCount} / {totalActivities}
             </p>
           </div>
           <div className="rounded-xl bg-white p-4 shadow-sm">
             <p className="text-xs text-gray-500">🔥 Day Streak</p>
-            {/* ← Real streak from store */}
             <p className="mt-1 text-sm font-semibold text-[#2E4862]">
-              {streak} {streak === 1 ? 'day' : 'days'}
+              {clientStreak} {clientStreak === 1 ? 'day' : 'days'}
             </p>
           </div>
           <div className="rounded-xl bg-white p-4 shadow-sm">
             <p className="text-xs text-gray-500">📡 Device</p>
-            <p className="mt-1 text-sm font-semibold text-[#2E4862]">
-              {activeDeviceId || 'Not linked'}
-            </p>
+            <p className="mt-1 text-sm font-semibold text-[#2E4862]">{deviceId}</p>
           </div>
         </section>
 
-        {/* Recent Activity — shows completed activities or empty state */}
+        {/* Recent Activity */}
         <section className="mt-10">
           <h3 className="mb-4 text-lg font-bold text-[#2E4862]">Recent Activity</h3>
           <div className="rounded-xl bg-white p-6 shadow-sm">
-            {completedCount === 0 ? (
+            {completedList.length === 0 ? (
               <div className="flex flex-col items-center justify-center text-center">
                 <div className="text-2xl">📭</div>
                 <p className="mt-2 text-sm text-gray-400">
@@ -188,11 +184,8 @@ export default function DashboardPage() {
               </div>
             ) : (
               <div className="space-y-2">
-                {ACTIVITIES.filter((a) => isCompleted(a.id)).map((a) => (
-                  <div
-                    key={a.id}
-                    className="flex items-center justify-between rounded-xl bg-[#EDEDED] px-4 py-3"
-                  >
+                {completedList.map((a) => (
+                  <div key={a.id} className="flex items-center justify-between rounded-xl bg-[#EDEDED] px-4 py-3">
                     <div className="flex items-center gap-3">
                       <span className="text-xl">{a.icon}</span>
                       <div>
