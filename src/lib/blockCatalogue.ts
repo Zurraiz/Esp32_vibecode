@@ -228,8 +228,17 @@ export const BLOCK_CATALOGUE: BlockTemplate[] = [
   {
     type: "while_loop",
     icon: "🔄",
-    label: "While <cond> is true ▼",
-    params: [{ name: "cond", type: "text", default: "btnState == HIGH" }],
+    label: "While <var> <op> <val> is true ▼",
+    params: [
+      { name: "var", type: "text", default: "counter" },
+      {
+        name: "op",
+        type: "select",
+        default: ">",
+        options: ["==", "!=", ">", "<", ">=", "<="],
+      },
+      { name: "val", type: "text", default: "0" },
+    ],
   },
   {
     type: "end_loop",
