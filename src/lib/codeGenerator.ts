@@ -157,7 +157,6 @@ export function generateCode(blocks: Block[]): { code: string; english: string[]
       }
       case "pwm_setup": {
         const pin = numberToken(block.values.pin, "PIN", 0);
-        si(`${fn("analogWriteResolution")}(8);`);
         si(`${fn("pinMode")}(${pin}, OUTPUT);`);
         english.push(`Setup PWM on pin ${String(block.values.pin ?? "?")}.`);
         break;
@@ -226,6 +225,16 @@ export function generateCode(blocks: Block[]): { code: string; english: string[]
         addGlobal(`var_int:${varName}`, `${tp("int")} ${varName} = ${num("0")};`);
         li(`${varName} = ${fn("analogRead")}(${pin});`);
         english.push(`Read analog pin ${String(block.values.pin ?? "?")} into ${varName}.`);
+        break;
+      }
+      case "map_val": {
+        const varName = safeVar(block.values.var, "sensorVal");
+        const fromLow = numberToken(block.values.fromLow, "FROM_LOW", 0);
+        const fromHigh = numberToken(block.values.fromHigh, "FROM_HIGH", 4095);
+        const toLow = numberToken(block.values.toLow, "TO_LOW", 0);
+        const toHigh = numberToken(block.values.toHigh, "TO_HIGH", 255);
+        li(`${varName} = ${fn("map")}(${varName}, ${fromLow}, ${fromHigh}, ${toLow}, ${toHigh});`);
+        english.push(`Map ${varName} from range ${String(block.values.fromLow ?? 0)}-${String(block.values.fromHigh ?? 4095)} to ${String(block.values.toLow ?? 0)}-${String(block.values.toHigh ?? 255)}.`);
         break;
       }
       case "ultrasonic": {
@@ -434,6 +443,51 @@ export function generateCode(blocks: Block[]): { code: string; english: string[]
         const step = numberToken(block.values.step, "STEP", 1);
         li(`${name} = ${name} + ${step};`);
         english.push(`Add ${step} to variable ${name}.`);
+        break;
+      }
+      case "oled_setup": {
+        includes.add("Wire.h");
+        includes.add("Adafruit_GFX.h");
+        includes.add("Adafruit_SSD1306.h");
+        addGlobal("oled:display", `Adafruit_SSD1306 display(128, 64, &Wire, -1);`);
+        si(`${kw("if")}(!display.${fn("begin")}(SSD1306_SWITCHCAPVCC, 0x3C)) {`);
+        si(`${ind(0)}  Serial.${fn("println")}(F("SSD1306 allocation failed"));`);
+        si(`${ind(0)}  ${kw("for")}(;;);`);
+        si(`}`);
+        si(`display.${fn("clearDisplay")}();`);
+        si(`display.${fn("setTextSize")}(1);`);
+        si(`display.${fn("setTextColor")}(WHITE);`);
+        english.push("Setup OLED Display 128x64 on I2C.");
+        break;
+      }
+      case "oled_clear": {
+        li(`display.${fn("clearDisplay")}();`);
+        english.push("Clear OLED Display buffer.");
+        break;
+      }
+      case "oled_set_cursor": {
+        const x = numberToken(block.values.x, "X", 0);
+        const y = numberToken(block.values.y, "Y", 0);
+        li(`display.${fn("setCursor")}(${x}, ${y});`);
+        english.push(`Set OLED Cursor to X: ${String(block.values.x ?? "?")} Y: ${String(block.values.y ?? "?")}.`);
+        break;
+      }
+      case "oled_print": {
+        // text can be a variable or string, just wrap in String() or rely on the generator's textExpr
+        const text = isMissing(block.values.text) ? safe(block.values.text, "TEXT") : str(String(block.values.text));
+        li(`display.${fn("print")}(${text});`);
+        english.push(`Print text to OLED buffer.`);
+        break;
+      }
+      case "oled_printvar": {
+        const varName = safeVar(block.values.var, "val");
+        li(`display.${fn("print")}(${varName});`);
+        english.push(`Print variable ${varName} to OLED buffer.`);
+        break;
+      }
+      case "oled_display": {
+        li(`display.${fn("display")}();`);
+        english.push("Update OLED Screen with buffer contents.");
         break;
       }
       default:

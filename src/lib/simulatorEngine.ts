@@ -7,8 +7,28 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 // Context passed to handlers
 interface SimulationContext {
   setPin: (pin: number, value: number, mode?: string) => void;
-  appendSerial: (text: string) => void;
+  appendSerial: (text: string, newline?: boolean) => void;
+  clearOledBuffer: () => void;
+  setOledCursor: (x: number, y: number) => void;
+  printToOledBuffer: (text: string) => void;
+  updateOledScreen: () => void;
   variables: Record<string, any>;
+}
+
+/**
+ * Resolves a value that could be a literal number or a variable name.
+ */
+function resolveValue(val: any, ctx: SimulationContext): number {
+  if (typeof val === 'string') {
+    const trimmed = val.trim();
+    // If it exists in variables, use that
+    if (ctx.variables[trimmed] !== undefined) {
+      return Number(ctx.variables[trimmed]);
+    }
+    // Otherwise try to parse as number
+    return Number(trimmed);
+  }
+  return Number(val ?? 0);
 }
 
 // Block handlers
@@ -24,44 +44,68 @@ const handlers: Record<string, BlockHandler> = {
     ctx.setPin(pin, 0, 'digital');
   },
   pwm_write: (block, ctx) => {
-    const pin = Number(block.values.pin ?? 2);
-    const val = Number(block.values.val ?? 128);
+    const pin = resolveValue(block.values.pin, ctx);
+    const val = resolveValue(block.values.val, ctx);
     ctx.setPin(pin, val, 'pwm');
   },
   servo_write: (block, ctx) => {
-    const pin = Number(block.values.pin ?? 2);
-    const deg = Number(block.values.deg ?? 90);
+    const pin = resolveValue(block.values.pin, ctx);
+    const deg = resolveValue(block.values.deg, ctx);
     ctx.setPin(pin, deg, 'servo');
   },
   tone_on: (block, ctx) => {
-    const pin = Number(block.values.pin ?? 13);
-    const freq = Number(block.values.freq ?? 1000);
+    const pin = resolveValue(block.values.pin, ctx);
+    const freq = resolveValue(block.values.freq, ctx);
     ctx.setPin(pin, freq, 'tone');
   },
   tone_off: (block, ctx) => {
-    const pin = Number(block.values.pin ?? 13);
+    const pin = resolveValue(block.values.pin, ctx);
     ctx.setPin(pin, 0, 'tone');
   },
-  delay_ms: async (block) => {
-    const ms = Number(block.values.ms ?? 1000);
+  delay_ms: async (block, ctx) => {
+    const ms = resolveValue(block.values.ms, ctx);
     await sleep(ms);
   },
-  delay_sec: async (block) => {
-    const sec = Number(block.values.sec ?? 1);
+  delay_sec: async (block, ctx) => {
+    const sec = resolveValue(block.values.sec, ctx);
     await sleep(sec * 1000);
   },
   serial_print: (block, ctx) => {
     const msg = String(block.values.msg ?? '');
-    ctx.appendSerial(msg);
+    ctx.appendSerial(msg, false);
   },
   serial_printvar: (block, ctx) => {
     const varName = String(block.values.var ?? '');
-    ctx.appendSerial(String(ctx.variables[varName] ?? ''));
+    ctx.appendSerial(String(ctx.variables[varName] ?? ''), false);
   },
   serial_println: (block, ctx) => {
     const label = String(block.values.label ?? '');
     const varName = String(block.values.var ?? '');
-    ctx.appendSerial(`${label}${ctx.variables[varName] ?? ''}`);
+    ctx.appendSerial(`${label}${ctx.variables[varName] ?? ''}`, true);
+  },
+  oled_setup: (block, ctx) => {
+    ctx.clearOledBuffer();
+    ctx.updateOledScreen();
+  },
+  oled_clear: (block, ctx) => {
+    ctx.clearOledBuffer();
+  },
+  oled_set_cursor: (block, ctx) => {
+    const x = Number(block.values.x ?? 0);
+    const y = Number(block.values.y ?? 0);
+    ctx.setOledCursor(x, y);
+  },
+  oled_print: (block, ctx) => {
+    const text = String(block.values.text ?? '');
+    ctx.printToOledBuffer(text);
+  },
+  oled_printvar: (block, ctx) => {
+    const varName = String(block.values.var ?? '');
+    const val = ctx.variables[varName];
+    ctx.printToOledBuffer(String(val ?? ''));
+  },
+  oled_display: (block, ctx) => {
+    ctx.updateOledScreen();
   },
   blink: async (block, ctx) => {
     const pin = Number(block.values.pin ?? 2);
@@ -73,7 +117,7 @@ const handlers: Record<string, BlockHandler> = {
   },
   var_int: (block, ctx) => {
     const name = String(block.values.name ?? 'myNum');
-    ctx.variables[name] = Math.trunc(Number(block.values.val ?? 0));
+    ctx.variables[name] = Number(block.values.val ?? 0);
   },
   var_str: (block, ctx) => {
     const name = String(block.values.name ?? 'myText');
@@ -83,15 +127,13 @@ const handlers: Record<string, BlockHandler> = {
     const name = String(block.values.name ?? 'isOn');
     ctx.variables[name] = block.values.val === 'true';
   },
-  var_float: (block, ctx) => {
-    const name = String(block.values.name ?? 'myFloat');
-    ctx.variables[name] = Number(block.values.val ?? 0);
-  },
   var_add: (block, ctx) => {
     const name = String(block.values.name ?? 'myNum');
     const step = Number(block.values.step ?? 1);
-    const current = Number(ctx.variables[name] ?? 0);
-    ctx.variables[name] = current + step;
+    if (ctx.variables[name] === undefined) {
+      ctx.variables[name] = 0;
+    }
+    ctx.variables[name] += step;
   }
 };
 
@@ -114,14 +156,14 @@ function evaluateCondition(cond: string, variables: Record<string, any>): boolea
     const [, leftRaw, op, rightRaw] = match;
     const leftVar = leftRaw.trim();
     const rightVar = rightRaw.trim();
-    
+
     // Resolve left side
-    const left = variables[leftVar] !== undefined ? variables[leftVar] : 
-                 (isNaN(Number(leftVar)) ? leftVar : Number(leftVar));
-                 
+    const left = variables[leftVar] !== undefined ? variables[leftVar] :
+      (isNaN(Number(leftVar)) ? leftVar : Number(leftVar));
+
     // Resolve right side
-    const right = variables[rightVar] !== undefined ? variables[rightVar] : 
-                  (isNaN(Number(rightVar)) ? rightVar : Number(rightVar));
+    const right = variables[rightVar] !== undefined ? variables[rightVar] :
+      (isNaN(Number(rightVar)) ? rightVar : Number(rightVar));
 
     switch (op) {
       case '==': return left == right;
@@ -313,25 +355,20 @@ export async function runLoop(blocks: Block[]) {
   const ctx: SimulationContext = {
     setPin: useSimulatorStore.getState().setPin,
     appendSerial: useSimulatorStore.getState().appendSerial,
+    clearOledBuffer: useSimulatorStore.getState().clearOledBuffer,
+    setOledCursor: useSimulatorStore.getState().setOledCursor,
+    printToOledBuffer: useSimulatorStore.getState().printToOledBuffer,
+    updateOledScreen: useSimulatorStore.getState().updateOledScreen,
     // Pre-inject common ESP32 constants so things like "btnState == HIGH" evaluate correctly
     variables: { HIGH: 1, LOW: 0, high: 1, low: 0 },
   };
 
-  // Setup phase — run variable declarations and serial_begin once only
-  const SETUP_TYPES = new Set([
-    'var_int', 'var_float', 'var_str', 'var_bool', 'serial_begin',
-  ]);
-  const setupBlocks = blocks.filter(b => SETUP_TYPES.has(b.type));
-  const loopBlocks = blocks.filter(b => !SETUP_TYPES.has(b.type));
-
-  // Execute setup blocks once
-  await execute(setupBlocks, ctx);
-
-  // Execute loop blocks continuously
+  // Run the sequence continuously
   while (useSimulatorStore.getState().isRunning) {
-    await execute(loopBlocks, ctx);
+    await execute(blocks, ctx);
 
-    // Yield thread to avoid locking the browser
+    // Critical: Yield the thread to avoid completely locking the browser
+    // when executing synchronous block loops without physical delay_ms blocks.
     await sleep(10);
   }
 }

@@ -1,9 +1,4 @@
-type BlockParam = {
-  name: string;
-  type: "number" | "text" | "select";
-  default: string | number;
-  options?: string[];
-};
+import type { BlockParam } from "@/types";
 
 type BlockTemplate = {
   type: string;
@@ -30,6 +25,7 @@ export const BLOCK_COLOURS: Record<string, string> = {
   btn_read: 'bg-purple-500',
   pir_read: 'bg-purple-500',
   analog_read: 'bg-purple-500',
+  map_val: 'bg-purple-500',
   ultrasonic: 'bg-purple-500',
 
   delay_ms: 'bg-yellow-500',
@@ -60,16 +56,29 @@ export const BLOCK_COLOURS: Record<string, string> = {
   var_str: 'bg-sky-500',
   var_bool: 'bg-sky-500',
   var_add: 'bg-sky-500',
+
+  oled_setup: 'bg-green-500',
+  oled_clear: 'bg-green-500',
+  oled_set_cursor: 'bg-green-500',
+  oled_print: 'bg-green-500',
+  oled_printvar: 'bg-green-500',
+  oled_display: 'bg-green-500',
 };
 
 export const BLOCK_CATALOGUE: BlockTemplate[] = [
+  // Output blocks
   {
     type: "pinMode",
     icon: "📌",
     label: "Set Pin <pin> as <mode>",
     params: [
       { name: "pin", type: "number", default: 2 },
-      { name: "mode", type: "select", default: "OUTPUT", options: ["OUTPUT", "INPUT", "INPUT_PULLUP"] },
+      {
+        name: "mode",
+        type: "select",
+        default: "OUTPUT",
+        options: ["OUTPUT", "INPUT", "INPUT_PULLUP"],
+      },
     ],
   },
   {
@@ -108,6 +117,8 @@ export const BLOCK_CATALOGUE: BlockTemplate[] = [
     label: "Stop buzzer on Pin <pin>",
     params: [{ name: "pin", type: "number", default: 13 }],
   },
+
+  // PWM blocks
   {
     type: "pwm_setup",
     icon: "🔆",
@@ -132,6 +143,8 @@ export const BLOCK_CATALOGUE: BlockTemplate[] = [
       { name: "deg", type: "number", default: 90 },
     ],
   },
+
+  // Sensor blocks
   {
     type: "dht_setup",
     icon: "🌡️",
@@ -178,6 +191,18 @@ export const BLOCK_CATALOGUE: BlockTemplate[] = [
     ],
   },
   {
+    type: "map_val",
+    icon: "🗺️",
+    label: "Map <var> from <fromLow>-<fromHigh> to <toLow>-<toHigh>",
+    params: [
+      { name: "var", type: "text", default: "sensorVal" },
+      { name: "fromLow", type: "number", default: 0 },
+      { name: "fromHigh", type: "number", default: 4095 },
+      { name: "toLow", type: "number", default: 0 },
+      { name: "toHigh", type: "number", default: 255 },
+    ],
+  },
+  {
     type: "ultrasonic",
     icon: "📏",
     label: "Read ultrasonic Trig <trig> Echo <echo> into <var>",
@@ -187,6 +212,8 @@ export const BLOCK_CATALOGUE: BlockTemplate[] = [
       { name: "var", type: "text", default: "distance" },
     ],
   },
+
+  // Control blocks
   {
     type: "delay_ms",
     icon: "⏳",
@@ -235,6 +262,8 @@ export const BLOCK_CATALOGUE: BlockTemplate[] = [
     label: "End If ▲",
     params: [],
   },
+
+  // WiFi blocks
   {
     type: "wifi_connect",
     icon: "📶",
@@ -256,6 +285,8 @@ export const BLOCK_CATALOGUE: BlockTemplate[] = [
     label: "Print my IP address to Serial",
     params: [],
   },
+
+  // MQTT blocks
   {
     type: "mqtt_setup",
     icon: "☁️",
@@ -283,6 +314,8 @@ export const BLOCK_CATALOGUE: BlockTemplate[] = [
     label: "Keep MQTT alive (put in loop)",
     params: [],
   },
+
+  // Serial blocks
   {
     type: "serial_begin",
     icon: "🔌",
@@ -310,6 +343,8 @@ export const BLOCK_CATALOGUE: BlockTemplate[] = [
       { name: "var", type: "text", default: "temp" },
     ],
   },
+
+  // Variable blocks
   {
     type: "var_int",
     icon: "🔢",
@@ -359,5 +394,46 @@ export const BLOCK_CATALOGUE: BlockTemplate[] = [
       { name: "name", type: "text", default: "myNum" },
       { name: "step", type: "number", default: 1 },
     ],
+  },
+
+  // Display blocks
+  {
+    type: "oled_setup",
+    icon: "📺",
+    label: "Setup OLED Display 128x64",
+    params: [],
+  },
+  {
+    type: "oled_clear",
+    icon: "🧽",
+    label: "Clear OLED Buffer",
+    params: [],
+  },
+  {
+    type: "oled_set_cursor",
+    icon: "📍",
+    label: "Set OLED Cursor X: <x> Y: <y>",
+    params: [
+      { name: "x", type: "number", default: 0 },
+      { name: "y", type: "number", default: 0 },
+    ],
+  },
+  {
+    type: "oled_print",
+    icon: "📝",
+    label: 'Print "<text>" to OLED Buffer',
+    params: [{ name: "text", type: "text", default: "Hello!" }],
+  },
+  {
+    type: "oled_printvar",
+    icon: "📊",
+    label: "Print variable <var> to OLED Buffer",
+    params: [{ name: "var", type: "text", default: "sensorVal" }],
+  },
+  {
+    type: "oled_display",
+    icon: "🖥️",
+    label: "Update OLED Screen (Display)",
+    params: [],
   },
 ];
