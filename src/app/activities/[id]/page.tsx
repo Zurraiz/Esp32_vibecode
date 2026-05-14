@@ -14,7 +14,8 @@ import { useSimulatorStore } from '@/store/useSimulatorStore';
 import { runLoop, stopSimulation } from '@/lib/simulatorEngine';
 import { deriveHardwareLayout } from '@/lib/hardwareParser';
 import HardwareBoard from '@/components/HardwareBoard';
-import WiringSimulator from '@/components/WiringSimulator';
+import DynamicWiringSimulator from '@/components/DynamicWiringSimulator';
+
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -289,7 +290,7 @@ function EquipmentStep({ activity }: { activity: any }) {
         <div className="mt-4 flex items-center gap-2 rounded-2xl bg-white/10 px-4 py-2.5">
           <span className="text-lg">🛒</span>
           <p className="text-[11px] font-semibold text-white/80">
-            {activity.equipment.length} items needed — Part of the Mediatiz Foundation Build Mind Kit
+            {activity.equipment.length} items needed — most in an ESP32 Starter Kit for under $15
           </p>
         </div>
       </div>
@@ -342,28 +343,38 @@ function EquipmentStep({ activity }: { activity: any }) {
 // ─── Step 2: Assemble ─────────────────────────────────────────────────────────
 
 function AssembleStep({ activity }: { activity: any }) {
-  const [view, setView] = useState<'simulator' | 'video'>('simulator');
+  const hasWiring = !!activity.wiringComponent;
+  const [view, setView] = useState<'wiring' | 'simulator' | 'video'>(hasWiring ? 'wiring' : 'simulator');
 
   return (
     <div className="space-y-4">
 
-      {/* 2-tab pill selector */}
+      {/* Tab pill selector */}
       <div className="flex gap-1.5 rounded-2xl bg-[#f0f2f5] p-1.5">
-        {(['simulator', 'video'] as const).map((t) => (
+        {[
+          ...(hasWiring ? [{ id: 'wiring' as const, label: '🔌 Wire It Up' }] : []),
+          { id: 'simulator' as const, label: '🧩 Simulator' },
+          { id: 'video' as const, label: '▶ Video' },
+        ].map((t) => (
           <button
-            key={t}
+            key={t.id}
             type="button"
-            onClick={() => setView(t)}
+            onClick={() => setView(t.id)}
             className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-[12px] font-semibold transition-all duration-200 ${
-              view === t
+              view === t.id
                 ? 'bg-white text-[#1a2d45] shadow-sm'
                 : 'text-gray-400 hover:text-[#1a2d45]'
             }`}
           >
-            {t === 'simulator' ? <><span>🧩</span> Our Simulator</> : <><span>▶</span> Video Tutorial</>}
+            {t.label}
           </button>
         ))}
       </div>
+
+      {/* Wiring */}
+      {view === 'wiring' && activity.wiringComponent && (
+        <DynamicWiringSimulator component={activity.wiringComponent} />
+      )}
 
       {/* Simulator */}
       {view === 'simulator' && (

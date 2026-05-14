@@ -62,6 +62,11 @@ export type Activity = {
     tips: string[];
   };
   bonusChallenge?: string; // Optional extra challenge for curious students
+  wiringComponent?: {     // Auto-generates step-by-step wiring simulator
+    type: string;
+    label?: string;
+    pins: { name: string; connectTo: string; color: 'red'|'black'|'yellow'|'orange'|'blue'|'green'|'white'|'purple' }[];
+  };
 };
 
 // ─── Common Equipment ─────────────────────────────────────────────────────────
@@ -331,6 +336,15 @@ void loop() {
       ],
     },
     bonusChallenge: 'Can you make an LED on pin 48 turn ON automatically when the temperature goes above 30°C? Hint: use an if_block with condition "temp > 30" and a dw_high block!',
+    wiringComponent: {
+      type: 'DHT22',
+      label: 'DHT22 Sensor',
+      pins: [
+        { name: 'VCC',  connectTo: '3.3V',  color: 'red'    },
+        { name: 'GND',  connectTo: 'GND',   color: 'black'  },
+        { name: 'DATA', connectTo: 'GPIO4', color: 'yellow' },
+      ],
+    },
   },
 
   // ── 2. Blink LED ───────────────────────────────────────────────────────────
@@ -462,6 +476,14 @@ void loop() {
       ],
     },
     bonusChallenge: 'Can you make the LED blink 3 times fast, then pause for 2 seconds, then repeat? Hint: use a for_loop block set to 3 repeats with a short delay inside!',
+    wiringComponent: {
+      type: 'LED',
+      label: 'LED',
+      pins: [
+        { name: 'ANODE',   connectTo: 'GPIO48', color: 'red'   },
+        { name: 'CATHODE', connectTo: 'GND',    color: 'black' },
+      ],
+    },
   },
 
   // ── 3. Button Controls LED ─────────────────────────────────────────────────
@@ -617,6 +639,14 @@ void loop() {
       ],
     },
     bonusChallenge: 'Can you make the LED stay ON after one button press and turn OFF on the next press (toggle)? Hint: create a var_bool called "isOn" and flip it each time the button is pressed!',
+    wiringComponent: {
+      type: 'BUTTON',
+      label: 'Push Button',
+      pins: [
+        { name: 'PIN1', connectTo: 'GPIO0', color: 'orange' },
+        { name: 'PIN2', connectTo: 'GND',   color: 'black'  },
+      ],
+    },
   },
 
   // ── 4. Traffic Light System (Intermediate) ─────────────────────────────────
@@ -1077,5 +1107,15 @@ void loop() {
       ],
     },
     bonusChallenge: 'Can you make the buzzer beep faster the closer something gets? Try changing the delay between beeps based on distance — short delay when close, long delay when far!',
+    wiringComponent: {
+      type: 'HC-SR04',
+      label: 'HC-SR04',
+      pins: [
+        { name: 'VCC',  connectTo: '5V',     color: 'red'    },
+        { name: 'TRIG', connectTo: 'GPIO12', color: 'orange' },
+        { name: 'ECHO', connectTo: 'GPIO13', color: 'yellow' },
+        { name: 'GND',  connectTo: 'GND',    color: 'black'  },
+      ],
+    },
   },
 ];
