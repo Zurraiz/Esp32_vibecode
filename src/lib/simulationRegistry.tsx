@@ -24,6 +24,8 @@ import RealTimeControlSimulator from '@/components/RealTimeControlSimulator';
 import DualModeSimulator from '@/components/DualModeSimulator';
 import ForLoopConceptExplorer from '@/components/ForLoopConceptExplorer';
 import ForLoopLEDChaser from '@/components/ForLoopLEDChaser';
+import WhileVsForExplorer from '@/components/WhileVsForExplorer';
+import CountdownSimulator from '@/components/CountdownSimulator';
 
 export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'missing-delay': MissingDelaySimulator,
@@ -51,4 +53,6 @@ export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'dual-mode': DualModeSimulator,
   'for-loop-concept': ForLoopConceptExplorer,
   'for-loop-chaser': ForLoopLEDChaser,
+  'while-vs-for': WhileVsForExplorer,
+  'countdown': CountdownSimulator,
 };

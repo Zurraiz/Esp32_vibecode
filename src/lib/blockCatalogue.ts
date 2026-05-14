@@ -390,8 +390,8 @@ export const BLOCK_CATALOGUE: BlockTemplate[] = [
   },
   {
     type: "var_add",
-    icon: "➕",
-    label: 'Add <step> to "<name>"',
+    icon: "🔢",
+    label: 'Change "<name>" by <step>',
     params: [
       { name: "name", type: "text", default: "myNum" },
       { name: "step", type: "number", default: 1 },
