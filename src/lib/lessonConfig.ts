@@ -849,6 +849,7 @@ export const LEVELS: Level[] = [
             type: 'mapping',
             title: 'Arduino Mapping',
             description: 'See how a for loop with IF condition generates a pattern in C++',
+            mappingSimulationId: 'pattern-chaser',
             mappingCodeComponent: 'pattern',
           },
         ],
