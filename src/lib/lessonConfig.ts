@@ -912,7 +912,7 @@ export const LEVELS: Level[] = [
           },
         ],
       },
-      
+
       {
         id: '5-2',
         title: 'Motion Detection',
@@ -957,7 +957,7 @@ export const LEVELS: Level[] = [
             type: 'mapping',
             title: 'Arduino Mapping',
             description: 'See how PIR motion detection maps to Arduino C++ code',
-            mappingSimulationId: 'pir-monitor',
+            mappingSimulationId: 'pir-autonomous',
             mappingCodeComponent: 'pir',
           },
         ],

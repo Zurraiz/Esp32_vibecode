@@ -34,7 +34,7 @@ import DHTEnvironmentExplorer from '@/components/DHTEnvironmentExplorer';
 import DHTMonitorSimulator from '@/components/DHTMonitorSimulator';
 import PIRExplorer from '@/components/PIRExplorer';
 import PIRMonitorSimulator from '@/components/PIRMonitorSimulator';
-
+import PIRAutonomousSimulator from '@/components/PIRAutonomousSimulator';
 
 export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'missing-delay': MissingDelaySimulator,
@@ -72,5 +72,5 @@ export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'dht-monitor': DHTMonitorSimulator,
   'pir-explorer': PIRExplorer,
   'pir-monitor': PIRMonitorSimulator,
-
+  'pir-autonomous': PIRAutonomousSimulator,
 };
