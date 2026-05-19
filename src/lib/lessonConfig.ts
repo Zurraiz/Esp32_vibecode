@@ -775,7 +775,7 @@ export const LEVELS: Level[] = [
             type: 'explore',
             title: 'Exploration',
             description: 'Watch how a loop and condition flow together in real time',
-            explorationSimulationId: 'loop-condition',
+            explorationSimulationId: 'signal-tree',
           },
           {
             id: 'concept',
