@@ -856,4 +856,63 @@ export const LEVELS: Level[] = [
       },
     ],
   },
+{
+    id: '5',
+    title: 'Real-World Sensing',
+    description: 'Read data from physical sensors and build reactive systems',
+    icon: '📡',
+    lessons: [
+      {
+        id: '5-1',
+        title: 'Temperature and Humidity',
+        description: 'Read environmental data from a DHT11 sensor in real time',
+        icon: '🌡️',
+        estimatedMinutes: 20,
+        steps: [
+          {
+            id: 'intro',
+            type: 'content',
+            title: 'Introduction',
+            description: 'How the ESP32 reads data from the physical world',
+            pdfUrl: '/pdfs/level-5/lesson-5-1/introduction.pdf',
+          },
+          {
+            id: 'explore',
+            type: 'explore',
+            title: 'Exploration',
+            description: 'Watch the DHT sensor read temperature and humidity live',
+            explorationSimulationId: 'dht-environment',
+          },
+          {
+            id: 'concept',
+            type: 'concept',
+            title: 'Concept Building',
+            description: 'How sensors convert physical conditions into data',
+            pdfUrl: '/pdfs/level-5/lesson-5-1/concept-building.pdf',
+          },
+          {
+            id: 'challenge',
+            type: 'challenge',
+            title: 'Student Task',
+            description: 'Build an environmental monitor that reads and prints sensor data',
+            allowedBlocks: ['dht_setup', 'serial_begin', 'dht_temp', 'dht_hum', 'serial_print', 'serial_println', 'serial_printvar', 'delay_ms'],
+            challengeBlocks: ['dht_setup', 'dht_temp', 'dht_hum', 'serial_println'],
+            challengeStrict: false,
+            simulationId: 'dht-monitor',
+            hint: 'Start with dht_setup, then read temperature and humidity into variables, then use serial_println to print both values',
+          },
+          {
+            id: 'mapping',
+            type: 'mapping',
+            title: 'Arduino Mapping',
+            description: 'See how DHT sensor blocks become real Arduino C++ code',
+            mappingSimulationId: 'dht-monitor',
+            mappingCodeComponent: 'dht',
+          },
+        ],
+      },
+    ],
+  },
 ];
+
+

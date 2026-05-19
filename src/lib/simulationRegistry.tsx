@@ -30,6 +30,8 @@ import LoopConditionExplorer from '@/components/LoopConditionExplorer';
 import SignalTreeVaultSystem from '@/components/SignalTreeVaultSystem';
 import PatternSequenceExplorer from '@/components/PatternSequenceExplorer';
 import PatternChaserSimulator from '@/components/PatternChaserSimulator';
+import DHTEnvironmentExplorer from '@/components/DHTEnvironmentExplorer';
+import DHTMonitorSimulator from '@/components/DHTMonitorSimulator';
 
 export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'missing-delay': MissingDelaySimulator,
@@ -63,4 +65,7 @@ export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'signal-tree': SignalTreeVaultSystem,
   'pattern-sequence': PatternSequenceExplorer,
   'pattern-chaser': PatternChaserSimulator,
+  'dht-environment': DHTEnvironmentExplorer,
+  'dht-monitor': DHTMonitorSimulator,
+
 };

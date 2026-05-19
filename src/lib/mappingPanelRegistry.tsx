@@ -9,6 +9,7 @@ import ForLoopMappingPanel from '@/components/ForLoopMappingPanel';
 import WhileLoopMappingPanel from '@/components/WhileLoopMappingPanel';
 import CombinedLogicMappingPanel from '@/components/CombinedLogicMappingPanel';
 import PatternMappingPanel from '@/components/PatternMappingPanel';
+import DHTMappingPanel from '@/components/DHTMappingPanel';
 
 export const MAPPING_PANEL_REGISTRY: Record<string, React.ComponentType> = {
   'button': ButtonMappingPanel,
@@ -21,4 +22,5 @@ export const MAPPING_PANEL_REGISTRY: Record<string, React.ComponentType> = {
   'while-loop': WhileLoopMappingPanel,
   'combined-logic': CombinedLogicMappingPanel,
   'pattern': PatternMappingPanel,
+  'dht': DHTMappingPanel,
 };
