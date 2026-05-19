@@ -11,6 +11,7 @@ import CombinedLogicMappingPanel from '@/components/CombinedLogicMappingPanel';
 import PatternMappingPanel from '@/components/PatternMappingPanel';
 import DHTMappingPanel from '@/components/DHTMappingPanel';
 import PIRMappingPanel from '@/components/PIRMappingPanel';
+import UltrasonicMappingPanel from '@/components/UltrasonicMappingPanel';
 
 export const MAPPING_PANEL_REGISTRY: Record<string, React.ComponentType> = {
   'button': ButtonMappingPanel,
@@ -25,4 +26,6 @@ export const MAPPING_PANEL_REGISTRY: Record<string, React.ComponentType> = {
   'pattern': PatternMappingPanel,
   'dht': DHTMappingPanel,
   'pir': PIRMappingPanel,
+  'ultrasonic': UltrasonicMappingPanel,
 };
+  

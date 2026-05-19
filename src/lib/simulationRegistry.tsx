@@ -35,6 +35,9 @@ import DHTMonitorSimulator from '@/components/DHTMonitorSimulator';
 import PIRExplorer from '@/components/PIRExplorer';
 import PIRMonitorSimulator from '@/components/PIRMonitorSimulator';
 import PIRAutonomousSimulator from '@/components/PIRAutonomousSimulator';
+import UltrasonicExplorer from '@/components/UltrasonicExplorer';
+import UltrasonicMonitorSimulator from '@/components/UltrasonicMonitorSimulator';
+import UltrasonicAutonomousSimulator from '@/components/UltrasonicAutonomousSimulator';
 
 export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'missing-delay': MissingDelaySimulator,
@@ -73,4 +76,7 @@ export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'pir-explorer': PIRExplorer,
   'pir-monitor': PIRMonitorSimulator,
   'pir-autonomous': PIRAutonomousSimulator,
+  'ultrasonic-explorer': UltrasonicExplorer,
+  'ultrasonic-monitor': UltrasonicMonitorSimulator,
+  'ultrasonic-autonomous': UltrasonicAutonomousSimulator,
 };
