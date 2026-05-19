@@ -20,13 +20,6 @@ const FLOW_NODES = [
   '🔁 loop() repeats',
 ];
 
-const INSIGHTS = [
-  'The sensor reacts to real environment conditions — not manual input.',
-  'Temperature and humidity change independently depending on conditions.',
-  'The ESP32 loop runs continuously — values update every cycle.',
-  'Serial output is how you observe data you cannot see directly.',
-];
-
 // Pre-compute rain positions to avoid hydration mismatch
 const RAIN_DROPS = Array.from({ length: 20 }, (_, i) => ({
   left: ((i * 37 + 11) % 97),
@@ -40,7 +33,6 @@ export default function DHTEnvironmentExplorer() {
   const [hum,  setHum]  = useState(40.0);
   const [pulse, setPulse] = useState(0);
   const [logs, setLogs] = useState<string[]>([]);
-  const [insightIndex, setInsightIndex] = useState(0);
   const modeRef = useRef(mode);
   modeRef.current = mode;
   const tempRef = useRef(temp);
@@ -63,8 +55,15 @@ export default function DHTEnvironmentExplorer() {
         humRef.current = next;
         return next;
       });
-      setPulse(p => (p + 1) % FLOW_NODES.length);
     }, 300);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Pipeline pulse — slower, independent of interpolation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPulse(p => (p + 1) % FLOW_NODES.length);
+    }, 900);
     return () => clearInterval(interval);
   }, []);
 
@@ -79,7 +78,6 @@ export default function DHTEnvironmentExplorer() {
         `Humidity: ${h.toFixed(1)}%`,
         '─────────────',
       ]);
-      setInsightIndex(prev => Math.min(prev + 1, INSIGHTS.length - 1));
     }, 1800);
     return () => clearInterval(serial);
   }, []);
@@ -114,7 +112,6 @@ export default function DHTEnvironmentExplorer() {
             type="button"
             onClick={() => {
               setMode(m);
-              setInsightIndex(prev => Math.max(prev, 1));
             }}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border-2 text-xs font-semibold transition-all ${
               mode === m
@@ -231,7 +228,7 @@ export default function DHTEnvironmentExplorer() {
               Live
             </span>
           </div>
-          <div className="bg-[#0d1117] p-3 font-mono text-[11px] text-green-400 flex-1 overflow-y-auto min-h-[240px] flex flex-col gap-0.5">
+          <div className="bg-[#0d1117] p-3 font-mono text-[11px] text-green-400 h-[240px] overflow-y-auto flex flex-col gap-0.5">
             {logs.length === 0 ? (
               <span className="text-gray-500 italic">Waiting for sensor data...</span>
             ) : (
@@ -253,24 +250,6 @@ export default function DHTEnvironmentExplorer() {
 
       </div>
 
-      {/* Progressive insights */}
-      <div className="rounded-xl bg-white border border-gray-200 p-5 shadow-sm">
-        <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Key Concepts</p>
-        <div className="flex flex-col gap-2">
-          {INSIGHTS.map((insight, i) => (
-            <div key={i} className={`flex gap-3 items-start rounded-lg px-3 py-2.5 transition-all duration-300 ${
-              i <= insightIndex
-                ? 'bg-[#2E4862]/5 border border-[#2E4862]/20'
-                : 'bg-gray-50 border border-transparent opacity-40'
-            }`}>
-              <span className={`text-xs font-bold w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                i <= insightIndex ? 'bg-[#2E4862] text-white' : 'bg-gray-200 text-gray-500'
-              }`}>{i + 1}</span>
-              <p className="text-xs text-gray-600 leading-relaxed">{insight}</p>
-            </div>
-          ))}
-        </div>
-      </div>
 
     </div>
   );

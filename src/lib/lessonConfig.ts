@@ -856,11 +856,12 @@ export const LEVELS: Level[] = [
       },
     ],
   },
-{
-    id: '5',
+  {
+    id: 5,
     title: 'Real-World Sensing',
     description: 'Read data from physical sensors and build reactive systems',
     icon: '📡',
+    isLocked: false,
     lessons: [
       {
         id: '5-1',

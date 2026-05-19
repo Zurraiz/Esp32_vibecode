@@ -158,7 +158,7 @@ export default function DHTMonitorSimulator() {
               </span>
             )}
           </div>
-          <div className="bg-[#0d1117] p-3 font-mono text-[11px] text-green-400 flex-1 overflow-y-auto min-h-[220px] flex flex-col gap-0.5">
+          <div className="bg-[#0d1117] p-3 font-mono text-[11px] text-green-400 h-[220px] overflow-y-auto flex flex-col gap-0.5">
             {logs.length === 0 ? (
               <span className="text-gray-500 italic">
                 {running ? 'Initialising DHT sensor...' : 'Press Run to start monitoring...'}
