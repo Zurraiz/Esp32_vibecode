@@ -28,6 +28,8 @@ import WhileVsForExplorer from '@/components/WhileVsForExplorer';
 import CountdownSimulator from '@/components/CountdownSimulator';
 import LoopConditionExplorer from '@/components/LoopConditionExplorer';
 import SignalTreeVaultSystem from '@/components/SignalTreeVaultSystem';
+import PatternSequenceExplorer from '@/components/PatternSequenceExplorer';
+import PatternChaserSimulator from '@/components/PatternChaserSimulator';
 
 export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'missing-delay': MissingDelaySimulator,
@@ -59,4 +61,6 @@ export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'countdown': CountdownSimulator,
   'loop-condition': LoopConditionExplorer,
   'signal-tree': SignalTreeVaultSystem,
+  'pattern-sequence': PatternSequenceExplorer,
+  'pattern-chaser': PatternChaserSimulator,
 };
