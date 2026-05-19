@@ -912,8 +912,57 @@ export const LEVELS: Level[] = [
           },
         ],
       },
+      
+      {
+        id: '5-2',
+        title: 'Motion Detection',
+        description: 'Detect movement events using a PIR sensor',
+        icon: '👁️',
+        estimatedMinutes: 20,
+        steps: [
+          {
+            id: 'intro',
+            type: 'content',
+            title: 'Introduction',
+            description: 'Event-based sensing and how PIR sensors detect motion',
+            pdfUrl: '/pdfs/level-5/lesson-5-2/introduction.pdf',
+          },
+          {
+            id: 'explore',
+            type: 'explore',
+            title: 'Exploration',
+            description: 'Move through the room and watch the PIR sensor react',
+            explorationSimulationId: 'pir-explorer',
+          },
+          {
+            id: 'concept',
+            type: 'concept',
+            title: 'Concept Building',
+            description: 'Event-based signals vs continuous sensor values',
+            pdfUrl: '/pdfs/level-5/lesson-5-2/concept-building.pdf',
+          },
+          {
+            id: 'challenge',
+            type: 'challenge',
+            title: 'Student Task',
+            description: 'Build a motion-activated LED system using PIR sensor',
+            allowedBlocks: ['pinMode', 'pir_read', 'if_block', 'else_block', 'end_if', 'dw_high', 'dw_low', 'serial_begin', 'serial_println', 'delay_ms'],
+            challengeBlocks: ['pir_read', 'if_block', 'dw_high', 'dw_low', 'end_if'],
+            challengeStrict: false,
+            simulationId: 'pir-monitor',
+            hint: 'Read the PIR sensor into a variable, then use if_block to check if it is HIGH — turn the LED on inside the IF and off in the else_block',
+          },
+          {
+            id: 'mapping',
+            type: 'mapping',
+            title: 'Arduino Mapping',
+            description: 'See how PIR motion detection maps to Arduino C++ code',
+            mappingSimulationId: 'pir-monitor',
+            mappingCodeComponent: 'pir',
+          },
+        ],
+      },
     ],
   },
 ];
-
 
