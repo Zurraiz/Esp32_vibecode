@@ -1,0 +1,48 @@
+Level 2.2: Introducing Inputs (Buttons)
+
+## Concept Building
+
+
+## What is an Input?
+
+An input is any signal that is sent to the ESP32 from an external device.
+Inputs allow the ESP32 to:
+Receive information
+Detect changes in the environment
+Respond to user actions
+Examples of inputs include:
+Buttons
+Sensors
+Switches
+
+## What is a Button?
+
+A button is a simple input device used to send a signal to the ESP32.
+It has two states:
+Pressed
+Not Pressed
+It is one of the most basic ways for a user to interact with a system.
+
+## How Does a Button Work?
+
+When a button is connected to a circuit:
+When pressed → the circuit is completed and a signal is sent
+When not pressed → the circuit is open and no signal is sent
+The ESP32 reads this electrical change through a pin.
+
+## Why Do We Need Inputs?
+
+Inputs are important because they allow systems to:
+Respond to user actions
+Interact with the environment
+Change behavior dynamically
+Without inputs:
+The system would only follow fixed instructions
+There would be no interaction
+
+## Key Insight of This Lesson
+
+The most important concept in this lesson is:
+The ESP32 can receive signals from the outside world.
+You are no longer just controlling outputs.
+ You are building systems that can detect and respond to user interaction.

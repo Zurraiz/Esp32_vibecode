@@ -1,0 +1,15 @@
+
+## LEVEL 2.2: Variables (Storing and Updating Values)
+
+
+## Introduction
+
+In this lesson, you will learn how to store and update values in your program using variables.
+You will use variables to keep track of information such as numbers, states, or sensor values. This is the first time you will see how your program can remember and update data during execution.
+[image: section_0.png]
+The goal of this lesson is not just to store values, but to understand that:
+Your blocks are instructions
+The ESP32 executes those instructions
+Variables store information inside the program
+The stored values can be updated and used later
+By the end of this lesson, you will have created a system where values are stored, updated, and used to control behavior, allowing your programs to become more dynamic and intelligent.

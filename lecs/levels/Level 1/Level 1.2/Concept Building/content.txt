@@ -1,0 +1,91 @@
+LEVEL 1.2: Making Changes Visible (Using Delay)
+Concept Building
+Why couldn’t you clearly see the ON and OFF?
+In the previous lesson, when you turned the LED ON and then OFF, both actions happened almost instantly.
+The ESP32 executes instructions extremely fast—far faster than the human eye can detect changes.
+Because of this:
+The LED turns ON
+Then immediately turns OFF
+And then immediately turns back ON
+These two actions happen so quickly that they appear as if they happened at the same time.
+To you, it may look like:
+Nothing happened
+or
+The LED did not turn OFF properly
+However, this is not the case. The ESP32 correctly executed both instructions. The change simply occurred too quickly to be observed by the human eye.
+This highlights an important idea:
+The system is working correctly, but the result is not always visible to us.
+
+## 
+
+
+## What is Delay?
+
+Delay is used to pause the execution of the program for a specific amount of time.
+When the ESP32 reaches a Delay block, it temporarily stops executing further instructions before moving to the next step.
+This pause gives enough time for the current action to be observed.
+Delay is measured in milliseconds:
+1000 milliseconds = 1 second
+500 milliseconds = half a second
+2000 milliseconds = 2 seconds
+This allows you to control how long the system should wait before continuing.
+
+## Why do we need Delay?
+
+We use delay to make changes visible and understandable.
+Without delay:
+Instructions execute almost instantly
+Changes happen too quickly to observe
+The result may appear incorrect or confusing
+With delay:
+The system pauses between actions
+Each step becomes clearly visible
+You can understand what each instruction is doing
+For example:
+If you:
+Turn LED ON
+Add a delay
+Turn LED OFF
+Then:
+The LED remains ON for a short period
+You can clearly see the ON state before it turns OFF
+This makes the behavior of the system easier to understand.
+
+## Understanding time and observation
+
+Computers are designed to operate at extremely high speeds.
+They can perform thousands or even millions of operations in a very short amount of time.
+Humans, on the other hand, require time to notice and understand changes.
+This creates a gap between:
+Machine speed
+Human perception
+Delay acts as a bridge between these two.
+It slows down execution so that:
+Each step becomes observable
+Each instruction becomes meaningful
+Without delay, it becomes difficult to understand what the system is doing.
+
+## 
+
+
+## What actually happens when Delay is used?
+
+When the ESP32 runs your program with delay:
+It executes the first instruction
+It reaches the Delay block
+It pauses for the specified amount of time
+After the pause, it continues to the next instruction
+This process continues until all instructions are completed
+During the delay:
+No new instructions are executed
+The current state remains unchanged
+This pause allows you to clearly observe the effect of each instruction before moving on.
+
+## Key Insight of This Lesson
+
+The ESP32 executes instructions very quickly
+Rapid changes may not be visible to the human eye
+Delay introduces a pause between instructions
+This pause makes system behavior easier to observe
+Delay does not change the logic of the program
+It only changes the timing of execution

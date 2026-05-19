@@ -1,0 +1,12 @@
+
+## LEVEL 1.1: Your First Blink
+
+Introduction
+In this lesson, you will build your first working ESP32 program.
+You will control a small LED using blocks and make it turn ON. This is the first time you will see how instructions you create in the system directly affect a physical (or simulated) output.
+[image: section_0.png]
+The goal of this lesson is not just to make the LED turn on, but to understand that:
+Your blocks are instructions
+The ESP32 executes those instructions
+The output changes based on your instructions
+By the end of this lesson, you will have created a complete working cycle of input instructions that produce visible behaviour.

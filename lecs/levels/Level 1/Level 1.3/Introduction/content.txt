@@ -1,0 +1,13 @@
+
+## LEVEL 1.3: What Just Happened?
+
+
+## Introduction
+
+In the previous lessons, you controlled an LED and learned how delay helps make changes visible.
+Now, it is time to understand something deeper:
+How does the ESP32 actually follow your instructions?
+When you connect multiple blocks together:
+Does everything happen at once?
+Or does the ESP32 follow a specific order?
+In this lesson, you will learn how the ESP32 reads and executes your program step by step.

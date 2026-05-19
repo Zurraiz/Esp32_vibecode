@@ -1,0 +1,73 @@
+
+## Student Task
+
+
+## Task: Blink LED Using For Loop
+
+Your objective is to create a system that:
+Uses a for loop to repeat an action
+Turns an LED ON and OFF multiple times
+Controls how many times the LED blinks
+
+## Requirements
+
+Use pinMode to set LED as OUTPUT
+Use for_loop and end_loop for repetition
+Use dw_high and dw_low to control the LED
+Use delay_ms or delay_sec for visibility
+Ensure correct loop structure and sequence
+
+## Expected Behavior
+
+When the system runs:
+The LED should turn ON and OFF repeatedly
+The blinking should happen a fixed number of times (e.g., 5 times)
+After completing the loop, the system stops blinking
+The loop should not run infinitely
+
+## Arduino Mapping
+
+
+## Generated Code
+
+int ledPin = 2;
+void setup() {
+pinMode(ledPin, OUTPUT);
+}
+void loop() {
+for (int i = 0; i < 5; i++) {
+digitalWrite(ledPin, HIGH);
+delay(500);
+digitalWrite(ledPin, LOW);
+delay(500);
+}
+while (true); // stop after one complete cycle
+}
+
+## Code Explanation
+
+pinMode(ledPin, OUTPUT);
+ Sets the LED pin as output.
+for (int i = 0; i < 5; i++)
+ This loop runs 5 times.
+digitalWrite(HIGH/LOW)
+ Turns the LED ON and OFF.
+delay(500);
+ Adds a pause so blinking is visible.
+while(true);
+ Stops the program after completing the loop.
+
+## Execution Flow
+
+Setup configures the LED pin
+For loop starts and runs 5 times
+LED turns ON and OFF in each iteration
+After 5 repetitions, the loop ends
+System stops execution
+
+## 🚀 Extension (Optional Challenge)
+
+Try modifying your system:
+Change the number of repetitions (e.g., 10 times)
+Change delay to make blinking faster or slower
+Try nested loops for advanced patterns

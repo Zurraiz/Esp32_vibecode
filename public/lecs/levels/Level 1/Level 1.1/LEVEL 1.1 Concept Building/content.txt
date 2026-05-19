@@ -1,0 +1,97 @@
+
+## LEVEL 1.1: Your First Blink
+
+
+## What is ESP32?
+
+The ESP32 is a small programmable microcontroller. A microcontroller is a compact computing device designed to interact with physical components such as lights, sensors, and motors.
+[image: section_0.jpg]
+The ESP32 can also be called a mini version of a computer as it is a compact computer that has been designed for tasks that require specific control and instructions.
+Unlike a normal computer, which is designed for general-purpose tasks like browsing or running applications, the ESP32 is designed for control tasks.
+Its main purpose is to:
+Receive instructions
+Execute those instructions repeatedly
+Control physical outputs based on those instructions
+Read inputs from the environment
+In this lesson, the ESP32 is being used as a controller for an LED.
+
+## What are blocks?
+
+In this system, you are not writing traditional code. Instead, you are using blocks.
+Each block represents a specific instruction that the ESP32 understands.
+For example:
+A block can set a pin mode
+A block can turn a signal ON
+A block can turn a signal OFF
+A block can introduce a delay
+Blocks are executed in sequence from top to bottom. This means the order in which you arrange them matters.
+This block-based interface allows you to create programs visually by linking blocks together, much like assembling building pieces. Each block represents a specific instruction that the ESP32 can understand, and the system automatically translates your block arrangement into executable code.
+This approach is designed to make programming more intuitive, especially for beginners, by removing the need to memorize syntax and instead focusing on logic and program flow.
+[image: section_1.png]
+[image: section_2.png]
+To use it, you simply select the required block from the sidebar and drag it into the workspace, placing it where you want it to connect.
+[image: section_3.png]
+
+## What is a Pin?
+
+A pin is a physical connection point on the ESP32.
+Each pin can be thought of as a control interface between the ESP32 and external components.
+Pins can:
+Send electrical signals (output)
+Receive electrical signals (input)
+In this lesson, we use a pin as an output to control an LED.
+[image: section_4.png]
+When a pin is connected to an LED:
+The ESP32 controls whether electricity flows to the LED
+This determines whether the LED turns ON or OFF
+
+## Why do we set pin mode?
+
+Before using a pin, we must define its behaviour.
+This is done using “Set Pin Mode”.
+[image: section_5.png]
+A pin can operate in different modes, but in this lesson, we only use:
+Output Mode
+Output mode means:
+The ESP32 will send signals out through the pin
+It will control external components like LEDs
+Without setting pin mode correctly:
+The ESP32 may not behave as expected
+The pin may not respond properly to output commands
+This step is required because the ESP32 needs to know how each pin will be used before executing instructions.
+
+## What is Digital Write (High and Low)?
+
+Digital signals have only two states:
+HIGH and LOW
+HIGH means:
+Electrical signal is ON
+Current flows through the pin
+The LED turns ON
+LOW means:
+Electrical signal is OFF
+No current flows through the pin
+The LED turns OFF
+This is called digital control because it uses only two values instead of a range of values.
+[image: section_6.png]
+You are essentially switching electricity on and off through instructions.
+
+## What actually happens when your program runs?
+
+When you connect your blocks, the ESP32 executes them in order.
+Step-by-step process:
+The ESP32 reads the first block
+It sets the pin mode to output
+It moves to the next block and turns the LED ON that is connected at Pin 2.
+It moves to next block, and turns the LED OFF that is connect at Pin 2.
+This repetition is automatic and built into the system.
+Even though you only created the sequence once, the ESP32 keeps running it repeatedly.
+This is why the LED keeps blinking.
+Remember: Here we are using blocks to simplify the coding complexity and it translates to real code which you will learn bit by bit.
+
+## Key insights of this lesson:
+
+The most important concept in this lesson is:
+You are not manually repeating actions. The system is repeating them for you.
+Your block sequence becomes a cycle that runs continuously.
+This is the foundation of all embedded systems behaviour.

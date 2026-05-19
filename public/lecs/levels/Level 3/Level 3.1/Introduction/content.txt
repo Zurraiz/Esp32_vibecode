@@ -1,0 +1,14 @@
+
+## LEVEL 3.1: Reading Changing Values (Analog Input)
+
+
+## 1. Introduction
+
+In the previous levels, you worked with signals that had only two states:
+ON or OFF
+HIGH or LOW
+However, not all inputs in real-world systems behave this way.
+Many inputs change continuously instead of switching between two fixed states.
+In this lesson, you will explore a new type of input where values are not limited to just two options. Instead, they can vary across a range.
+[image: 1_0.png]
+By the end of this lesson, you will understand how the ESP32 reads changing values and how these values behave over time.

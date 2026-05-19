@@ -1,0 +1,15 @@
+
+## LEVEL 4.4: Pattern Systems (Complex LED Patterns)
+
+
+## Introduction
+
+In this lesson, you will learn how to create patterns using LEDs by combining loops, timing, and control logic.
+ You will design sequences where LEDs turn ON and OFF in a specific order, creating visible patterns. This is the first time you will see how your program can generate structured and creative behavior.
+[image: section_0.png]
+The goal of this lesson is not just to blink LEDs, but to understand that:
+Your blocks are instructions
+The ESP32 executes those instructions
+You can control the order of actions
+You can repeat sequences to form patterns
+By the end of this lesson, you will have created a system where multiple instructions work together to produce repeating LED patterns, helping you build more complex and visually interactive programs.

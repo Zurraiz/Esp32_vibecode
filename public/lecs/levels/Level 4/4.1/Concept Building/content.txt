@@ -1,0 +1,109 @@
+
+## Level 4.1: Repetition Structures (For Loop Basics)
+
+
+## What is Repetition in Programming?
+
+Repetition means performing the same action multiple times.
+In earlier lessons:
+You wrote instructions once
+The system executed them repeatedly automatically (loop)
+Now:
+You will control repetition intentionally
+You can decide how many times something should repeat
+[image: section_0.png]
+Repetition is useful when:
+The same task needs to be done multiple times
+You want to avoid writing the same instructions again and again
+
+## What is a For Loop?
+
+A for loop is a structure that repeats a set of instructions a specific number of times.
+It works using three main parts:
+Start (Initialization) → where counting begins
+Condition → when the loop should stop
+Step (Increment) → how the count changes each time
+[image: section_1.png]
+This allows the ESP32 to repeat actions in a controlled way.
+
+## How does a For Loop work?
+
+The for loop follows a step-by-step process:
+Start from an initial value (e.g., 0)
+Check the condition (e.g., less than 5)
+Execute the instructions inside the loop
+Increase the counter (e.g., +1)
+Repeat the process until the condition becomes false
+Each repetition is called an iteration.
+
+## Why do we use for loops?
+
+For loops are important because they:
+Reduce repetition in code
+Make programs shorter and cleaner
+Save time and effort
+Improve readability
+Without loops:
+You would need to write the same instructions many times
+With loops:
+You write once and repeat automatically
+
+## Example: Repeating LED Blink
+
+Example:
+Instead of writing:
+Turn LED ON
+Turn LED OFF
+Repeat manually
+[image: section_2.png]
+You can use a for loop to:
+Blink the LED 5 times automatically
+This shows how repetition can be controlled using loops.
+A for loop is used when we know exactly how many times we want an action to repeat. In this example, the loop is used to blink an LED 5 times without writing the same code again and again.
+This makes programs:
+shorter,
+easier to read,
+and more efficient.
+In our platform, the for loop can be represented using the “Repeat N Times” block.
+[image: section_3.png]
+The loop starts with a counter variable i = 0.
+ After each repetition, the value of i increases by 1.
+ The loop continues running while the condition i < 5 remains true.
+During each repetition:
+The LED turns ON
+The program waits for 1 second
+The LED turns OFF
+The program waits for another 1 second
+The Serial Monitor prints the message "Inside the loop"
+After the loop completes 5 repetitions, the condition becomes false and the program exits the loop. The remaining code then executes, printing "Outside the loop" on the Serial Monitor.
+void loop() {
+for(int i=0; i<5; i++){
+digitalWrite(2, HIGH); // LED ON
+delay(1 * 1000);
+digitalWrite(2, LOW); // LED OFF
+delay(1 * 1000);
+Serial.print("Inside the loop ");
+}
+Serial.print("Outside the loop");
+}
+[image: section_4.png]
+
+## Controlled Vs Continuous repetition
+
+There are two types of repetition:
+Continuous (Infinite Loop)
+ Runs forever (like previous loop behavior)
+Controlled (For Loop)
+ Runs a specific number of times
+In this lesson, you are learning:
+  Controlled repetition using a for loop
+
+## Key Insights of this lesson
+
+The most important concept in this lesson is:
+You can control how many times an action is repeated using a for loop.
+You are now able to:
+Repeat actions efficiently
+Control repetition using logic
+Build more structured programs
+This is a fundamental step toward writing advanced and optimized programs.

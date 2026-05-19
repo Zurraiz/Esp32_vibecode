@@ -1,3 +1,5 @@
+import { LECTURES_DATA } from './lecturesData';
+
 export type LessonStep = {
   id: string;
   type: 'content' | 'explore' | 'concept' | 'challenge' | 'mapping';
@@ -54,11 +56,10 @@ export const LEVELS: Level[] = [
         steps: [
           {
             id: 'intro',
-            type: 'content',
+            type: 'explore',
             title: 'Introduction',
-            description: 'Learn the basics of LED control',
-            pdfLabel: 'Level1_LED_Basics.pdf',
-            pdfUrl: '/pdfs/level-1/lesson-1-1/introduction.pdf',
+            description: 'Learn the basics of LED control and how sensors read the world',
+            explorationSimulationId: 'blink-intro',
           },
           {
             id: 'explore',
@@ -447,43 +448,397 @@ export const LEVELS: Level[] = [
   },
   {
     id: 3,
-    title: 'WiFi & Cloud',
-    description: 'Connect ESP32 projects to networks and cloud messaging workflows.',
-    icon: '🔒',
-    isLocked: true,
+    title: 'Analog Input & PWM',
+    description: 'Read continuous values from sensors and control outputs like LED brightness and motor speed with precision.',
+    icon: '🟡',
+    isLocked: false,
     lessons: [
       {
         id: '3-1',
-        title: 'Connect to WiFi',
-        description: 'Join a network and verify connectivity from your device.',
-        icon: '📶',
+        title: 'Reading Changing Values',
+        description: 'Read analog inputs from photoresistors and potentiometers to measure continuous variation.',
+        icon: '📊',
         estimatedMinutes: 20,
         steps: [
           {
             id: 'intro',
             type: 'content',
             title: 'Introduction',
-            description: 'Set up reliable WiFi connectivity for IoT projects',
-            content: '<p>WiFi unlocks communication between your ESP32 and web services...</p>',
+            description: 'Learn how to read changing values (analog input)',
+          },
+          {
+            id: 'explore',
+            type: 'explore',
+            title: 'Exploration',
+            description: 'Connect a photoresistor and potentiometer and read their values',
+            explorationSimulationId: 'analog-oscilloscope',
+            allowedBlocks: ['analog_read', 'serial_begin', 'serial_printvar', 'delay_ms'],
+          },
+          {
+            id: 'concept',
+            type: 'concept',
+            title: 'Concept Building',
+            description: 'Understand analog sensors, voltages, and digital range',
+          },
+          {
+            id: 'challenge',
+            type: 'challenge',
+            title: 'Student Task',
+            description: 'Build a dual sensor reader program',
+            allowedBlocks: ['analog_read', 'serial_begin', 'serial_printvar', 'delay_ms'],
+            challengeBlocks: ['serial_begin', 'analog_read', 'serial_printvar', 'analog_read', 'serial_printvar', 'delay_ms'],
+            simulationId: 'dual-sensor',
+            showSerialOutput: true,
+            hint: 'In loop, read light sensor (Pin 34) into lightVal and potentiometer (Pin 35) into potVal. Print both to Serial Monitor.',
+          },
+          {
+            id: 'mapping',
+            type: 'mapping',
+            title: 'Arduino Mapping',
+            description: 'See how analogRead maps to real C++ code',
+            mappingSimulationId: 'dual-sensor',
+            mappingCodeComponent: 'analog',
+            showSerialOutput: true,
           },
         ],
       },
       {
         id: '3-2',
-        title: 'MQTT Messaging',
-        description: 'Publish and subscribe to cloud topics for real-time IoT control.',
-        icon: '☁️',
-        estimatedMinutes: 30,
+        title: 'Controlling Intensity (PWM)',
+        description: 'Fade LEDs and control analog outputs beyond digital ON/OFF using PWM.',
+        icon: '🔆',
+        estimatedMinutes: 20,
         steps: [
           {
             id: 'intro',
             type: 'content',
             title: 'Introduction',
-            description: 'Learn lightweight publish/subscribe communication',
-            content: '<p>MQTT is a common protocol for efficient IoT messaging...</p>',
+            description: 'Learn to adjust LED brightness using Pulse Width Modulation (PWM)',
+          },
+          {
+            id: 'explore',
+            type: 'explore',
+            title: 'Exploration',
+            description: 'Observe the PWM wave form and adjust the duty cycle',
+            explorationSimulationId: 'pwm-wave',
+            allowedBlocks: ['pwm_setup', 'pwm_write', 'delay_ms'],
+          },
+          {
+            id: 'concept',
+            type: 'concept',
+            title: 'Concept Building',
+            description: 'Learn about duty cycles, frequencies, and analogWrite',
+          },
+          {
+            id: 'challenge',
+            type: 'challenge',
+            title: 'Student Task',
+            description: 'Control LED brightness with a potentiometer',
+            allowedBlocks: ['analog_read', 'pwm_setup', 'pwm_write', 'delay_ms'],
+            challengeBlocks: ['pwm_setup', 'analog_read', 'pwm_write', 'delay_ms'],
+            simulationId: 'sensor-brightness',
+            hint: 'Set up PWM on Pin 2 first. In loop, read analog Pin 35 into potVal, then set Pin 2 brightness to potVal.',
+          },
+          {
+            id: 'mapping',
+            type: 'mapping',
+            title: 'Arduino Mapping',
+            description: 'See how PWM setup and write map to C++ code',
+            mappingSimulationId: 'sensor-brightness',
+            mappingCodeComponent: 'pwm',
+          },
+        ],
+      },
+      {
+        id: '3-3',
+        title: 'Translating Values (Mapping)',
+        description: 'Translate input ranges (e.g. 0-4095) to output ranges (e.g. 0-255) using mathematics.',
+        icon: '🗺️',
+        estimatedMinutes: 20,
+        steps: [
+          {
+            id: 'intro',
+            type: 'content',
+            title: 'Introduction',
+            description: 'Understand why we need to match sensor ranges to outputs',
+          },
+          {
+            id: 'explore',
+            type: 'explore',
+            title: 'Exploration',
+            description: 'Interact with the interactive map block and observe mapping results',
+            explorationSimulationId: 'mapping',
+            allowedBlocks: ['map_val', 'delay_ms'],
+          },
+          {
+            id: 'concept',
+            type: 'concept',
+            title: 'Concept Building',
+            description: 'Learn the mathematical map() function and linear interpolation',
+          },
+          {
+            id: 'challenge',
+            type: 'challenge',
+            title: 'Student Task',
+            description: 'Map a potentiometer (0-4095) to an LED brightness (0-255)',
+            allowedBlocks: ['analog_read', 'map_val', 'pwm_setup', 'pwm_write', 'delay_ms'],
+            challengeBlocks: ['pwm_setup', 'analog_read', 'map_val', 'pwm_write', 'delay_ms'],
+            simulationId: 'mapped-sensor',
+            hint: 'Set up PWM on Pin 2. In loop, read Pin 35 into potVal. Map potVal from 0-4095 to 0-255 into brightness. Write brightness to Pin 2.',
+          },
+          {
+            id: 'mapping',
+            type: 'mapping',
+            title: 'Arduino Mapping',
+            description: 'See how map() and pwmWrite map to C++ code',
+            mappingSimulationId: 'mapped-sensor',
+            mappingCodeComponent: 'mapping',
+          },
+        ],
+      },
+      {
+        id: '3-4',
+        title: 'Real-Time Control System',
+        description: 'Combine analog inputs, mapping, and logic to build intelligent responsive control systems.',
+        icon: '⚙️',
+        estimatedMinutes: 25,
+        steps: [
+          {
+            id: 'intro',
+            type: 'content',
+            title: 'Introduction',
+            description: 'Build responsive automatic control loops',
+          },
+          {
+            id: 'explore',
+            type: 'explore',
+            title: 'Exploration',
+            description: 'Observe real-time feedback loops and threshold actions',
+            explorationSimulationId: 'realtime-control',
+            allowedBlocks: ['analog_read', 'map_val', 'pwm_write', 'if_block', 'else_block', 'end_if', 'delay_ms'],
+          },
+          {
+            id: 'concept',
+            type: 'concept',
+            title: 'Concept Building',
+            description: 'Learn feedback loops, automated light controllers, and safety thresholds',
+          },
+          {
+            id: 'challenge',
+            type: 'challenge',
+            title: 'Student Task',
+            description: 'Build an automatic night light with adjustable override',
+            allowedBlocks: ['pinMode', 'analog_read', 'map_val', 'pwm_setup', 'pwm_write', 'if_block', 'else_block', 'end_if', 'delay_ms'],
+            challengeBlocks: ['pwm_setup', 'analog_read', 'map_val', 'pwm_write', 'delay_ms'],
+            simulationId: 'dual-mode',
+            hint: 'Read the light sensor on Pin 34. Map it to LED brightness. Then write the mapped value to PWM Pin 2.',
+          },
+          {
+            id: 'mapping',
+            type: 'mapping',
+            title: 'Arduino Mapping',
+            description: 'See how dual-mode feedback maps to C++ code',
+            mappingSimulationId: 'dual-mode',
+            mappingCodeComponent: 'dual-mode',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 4,
+    title: 'Loops & Pattern Systems',
+    description: 'Master control flow structures using For Loops, While Loops, combined conditional logic, and multi-LED patterns.',
+    icon: '🔄',
+    isLocked: false,
+    lessons: [
+      {
+        id: '4-1',
+        title: 'Repetition (For Loop)',
+        description: 'Learn how to repeat actions a specific number of times efficiently without repeating lines of code.',
+        icon: '🔁',
+        estimatedMinutes: 20,
+        steps: [
+          {
+            id: 'intro',
+            type: 'content',
+            title: 'Introduction',
+            description: 'Repeat actions without repeating lines of code',
+          },
+          {
+            id: 'explore',
+            type: 'explore',
+            title: 'Exploration',
+            description: 'Watch the execution flow repeat inside a loop block',
+            allowedBlocks: ['pinMode', 'dw_high', 'dw_low', 'delay_ms', 'for_loop', 'end_loop'],
+          },
+          {
+            id: 'concept',
+            type: 'concept',
+            title: 'Concept Building',
+            description: 'Under the hood of For Loops and control flow',
+          },
+          {
+            id: 'challenge',
+            type: 'challenge',
+            title: 'Student Task',
+            description: 'Blink an LED exactly 5 times using a For Loop',
+            allowedBlocks: ['pinMode', 'dw_high', 'dw_low', 'delay_ms', 'for_loop', 'end_loop'],
+            challengeBlocks: ['pinMode', 'for_loop', 'dw_high', 'delay_ms', 'dw_low', 'delay_ms', 'end_loop'],
+            hint: 'Set Pin 2 as OUTPUT in setup. In loop, start a For Loop (Repeat 5 times), turn Pin 2 HIGH, wait, turn Pin 2 LOW, wait, and end the loop.',
+          },
+          {
+            id: 'mapping',
+            type: 'mapping',
+            title: 'Arduino Mapping',
+            description: 'See how repeat blocks map to for loops in C++',
+          },
+        ],
+      },
+      {
+        id: '4-2',
+        title: 'Conditional Repetition (While Loop)',
+        description: 'Repeat actions while a dynamic condition remains true and learn how to avoid infinite loops.',
+        icon: '🔄',
+        estimatedMinutes: 20,
+        steps: [
+          {
+            id: 'intro',
+            type: 'content',
+            title: 'Introduction',
+            description: 'Learn loop control based on real-time conditions',
+          },
+          {
+            id: 'explore',
+            type: 'explore',
+            title: 'Exploration',
+            description: 'Experiment with conditions that keep a loop running',
+            allowedBlocks: ['btn_read', 'pinMode', 'dw_high', 'dw_low', 'while_loop', 'end_loop'],
+          },
+          {
+            id: 'concept',
+            type: 'concept',
+            title: 'Concept Building',
+            description: 'While loops vs For loops and the risk of infinite lockouts',
+          },
+          {
+            id: 'challenge',
+            type: 'challenge',
+            title: 'Student Task',
+            description: 'Keep LED ON while a button is pressed using a While Loop',
+            allowedBlocks: ['btn_read', 'pinMode', 'dw_high', 'dw_low', 'while_loop', 'end_loop'],
+            challengeBlocks: ['pinMode', 'while_loop', 'dw_high', 'end_loop', 'dw_low'],
+            hint: 'In setup, set pinModes. In loop, use while_loop with condition "digitalRead(4) == HIGH" and place dw_high inside. After the loop, turn the LED LOW.',
+          },
+          {
+            id: 'mapping',
+            type: 'mapping',
+            title: 'Arduino Mapping',
+            description: 'See how while blocks map to while loops in C++',
+          },
+        ],
+      },
+      {
+        id: '4-3',
+        title: 'Combining Logic',
+        description: 'Combine conditional checks inside loops to build complex, highly responsive program flows.',
+        icon: '🔀',
+        estimatedMinutes: 25,
+        steps: [
+          {
+            id: 'intro',
+            type: 'content',
+            title: 'Introduction',
+            description: 'Learn decision-making inside continuous repetitions',
+          },
+          {
+            id: 'explore',
+            type: 'explore',
+            title: 'Exploration',
+            description: 'Observe what happens when an IF statement runs inside a loop',
+            allowedBlocks: ['btn_read', 'pinMode', 'dw_high', 'dw_low', 'if_block', 'else_block', 'end_if', 'delay_ms'],
+          },
+          {
+            id: 'concept',
+            type: 'concept',
+            title: 'Concept Building',
+            description: 'Nested logic, execution paths, and timing states',
+          },
+          {
+            id: 'challenge',
+            type: 'challenge',
+            title: 'Student Task',
+            description: 'Blink LED if a button is pressed, otherwise keep it OFF',
+            allowedBlocks: ['btn_read', 'pinMode', 'dw_high', 'dw_low', 'if_block', 'else_block', 'end_if', 'delay_ms'],
+            challengeBlocks: ['pinMode', 'btn_read', 'if_block', 'dw_high', 'delay_ms', 'dw_low', 'delay_ms', 'else_block', 'dw_low', 'end_if'],
+            hint: 'Read button input. If it is pressed (HIGH), blink the LED on Pin 2 by turning it HIGH, waiting, turning it LOW, and waiting. Otherwise, keep Pin 2 LOW.',
+          },
+          {
+            id: 'mapping',
+            type: 'mapping',
+            title: 'Arduino Mapping',
+            description: 'See how nested conditional logic maps to C++ code',
+          },
+        ],
+      },
+      {
+        id: '4-4',
+        title: 'Pattern Systems',
+        description: 'Coordinate multiple pins in structured sequential timings to form active display sequences.',
+        icon: '⚙️',
+        estimatedMinutes: 25,
+        steps: [
+          {
+            id: 'intro',
+            type: 'content',
+            title: 'Introduction',
+            description: 'Coordinate multiple outputs in structured patterns',
+          },
+          {
+            id: 'explore',
+            type: 'explore',
+            title: 'Exploration',
+            description: 'Observe multi-LED sequential patterns and duty speeds',
+            allowedBlocks: ['pinMode', 'dw_high', 'dw_low', 'delay_ms'],
+          },
+          {
+            id: 'concept',
+            type: 'concept',
+            title: 'Concept Building',
+            description: 'Sequence arrays, indexing, and state progression',
+          },
+          {
+            id: 'challenge',
+            type: 'challenge',
+            title: 'Student Task',
+            description: 'Create a 3-LED pattern (LED1 -> LED2 -> LED3) in sequence',
+            allowedBlocks: ['pinMode', 'dw_high', 'dw_low', 'delay_ms'],
+            challengeBlocks: ['pinMode', 'pinMode', 'pinMode', 'dw_high', 'delay_ms', 'dw_low', 'dw_high', 'delay_ms', 'dw_low', 'dw_high', 'delay_ms', 'dw_low'],
+            hint: 'Configure Pins 2, 4, and 5 as OUTPUT. Then in loop, turn Pin 2 HIGH, wait 300ms, turn Pin 2 LOW. Do the same for Pin 4, then Pin 5, to create a chasing pattern.',
+          },
+          {
+            id: 'mapping',
+            type: 'mapping',
+            title: 'Arduino Mapping',
+            description: 'See how sequential output blocks map to C++ code',
           },
         ],
       },
     ],
   },
 ];
+
+// Dynamically bind the HTML contents and clear pdfUrl where applicable
+LEVELS.forEach(level => {
+  level.lessons.forEach(lesson => {
+    lesson.steps.forEach(step => {
+      const key = `${level.id}-${lesson.id}-${step.id}`;
+      if (LECTURES_DATA[key]) {
+        step.content = LECTURES_DATA[key];
+        step.pdfUrl = undefined;
+        step.pdfLabel = undefined;
+      }
+    });
+  });
+});
+

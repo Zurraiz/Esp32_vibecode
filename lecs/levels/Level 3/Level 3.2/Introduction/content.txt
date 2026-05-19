@@ -1,0 +1,15 @@
+
+## LEVEL 3.3: Controlling Output Intensity (PWM Output)
+
+
+## 1. Introduction
+
+In the previous lessons, you learned how to:
+Read continuously changing input values
+Understand what those values represent
+So far, you have only observed data.
+In this lesson, you will take the next step:
+You will use values to control an output.
+Instead of turning an LED simply ON or OFF, you will now control how bright it is.
+This introduces a new idea:
+Outputs are not always binary. They can vary in intensity.

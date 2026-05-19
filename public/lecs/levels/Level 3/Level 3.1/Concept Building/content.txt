@@ -1,0 +1,106 @@
+
+## LEVEL 3.1: Reading Changing Values (Analog Input)
+
+
+## 3.1 What kind of values are you seeing?
+
+A lot of sensors in real systems return data using analog signals.
+This means instead of giving simple ON or OFF values, they produce continuously changing signals that represent real-world conditions.
+When you print the analog value, you will notice something different from digital input.
+Instead of seeing only:
+0 or 1
+You will see a wide range of numbers.
+[image: 3.1_0.png]
+These numbers continuously change as you interact with the sensor.
+This means:
+The system is no longer reading simple states, it is reading real-world variation
+
+## 3.2 What is an analog sensor?
+
+An analog sensor (input) is a device that converts a physical property into a continuous electrical signal.
+[image: 3.2_0.png]
+In this level, you are working with:
+Photoresistor (Light Sensor)
+Measures light intensity
+Bright light → higher or lower values depending on wiring
+Dark environment → opposite values
+[image: 3.2_1.png]
+Potentiometer (Rotary Input)
+Measures position of rotation
+Left side → low values
+Right side → high values
+Middle → medium values
+These sensors do not give fixed results—they give a range of values based on physical change.
+
+## 3.3 How does the ESP32 read analog values?
+
+The ESP32 does not directly understand light, rotation or any other physical change.
+[image: 3.3_0.png]
+Instead, It measures the input signal and converts it into numbers.
+Some instances of this are:
+Measures electrical resistance or voltage change
+Converts it into a numeric value
+Represents that value in a digital range
+
+## 3.4 Understanding continuous change
+
+Unlike digital input, which jumps between two states, analog input changes smoothly.
+If you adjust the input slowly:
+The values change gradually
+If you adjust it quickly:
+The values change more rapidly
+[image: 3.4_0.png]
+This creates a continuous stream of values that reflect the current condition of the input.
+So instead of just simple ON / OFF states, You now have degrees of change
+This is much closer to how the real world behaves.
+[image: 3.4_1.png]
+[image: 3.4_2.png]
+
+## 3.5 Understanding real-world sensors
+
+Different sensors represent different physical properties:
+Photoresistor → light intensity
+Potentiometer → position
+Future sensors → temperature, pressure, distance
+But they all share one key idea, they convert physical change into measurable values.
+
+## 3.6 Why range matters
+
+Analog values always stay within a fixed range.
+For ESP32:
+Minimum → 0
+Maximum → 4095
+This means:
+[image: 3.6_0.png]
+0 = lowest physical input
+4095 = highest physical input
+Everything in between = intermediate states
+This range allows the system to:
+Detect small changes
+Represent fine variations
+Respond smoothly
+
+## 3.7 Why values are not always stable
+
+You may notice small fluctuations even when the input seems unchanged.
+This happens because:
+Electrical signals are not perfectly stable
+Real-world environments are noisy
+Sensors are sensitive to small changes
+So slight variations are normal and expected.
+[image: 3.7_0.png]
+
+## 3.8 From physical world to data
+
+Now your system works like this:
+Physical change → Sensor → Electrical signal → Numeric value → ESP32
+This is the foundation of all embedded systems.
+
+## 3.9 Key Insight of This Lesson
+
+Analog sensors measure continuous physical changes
+Photoresistors measure light
+Potentiometers measure position
+Values change smoothly, not in steps
+ESP32 converts physical signals into numeric ranges
+This enables precise measurement of real-world conditions

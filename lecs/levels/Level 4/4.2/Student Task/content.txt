@@ -1,0 +1,79 @@
+
+## Student Task
+
+
+## Task: Control LED Using While Loop
+
+Your objective is to create a system that:
+Uses a while loop to repeat actions
+Keeps an LED ON while a condition is true
+Stops the action when the condition becomes false
+
+## Requirements
+
+Use btn_read to read button input
+Use while_loop and end_loop for conditional repetition
+Use dw_high and dw_low to control the LED
+Use pinMode to configure input and output
+Ensure correct condition is used inside the while loop
+
+## Expected Behavior
+
+When the system runs:
+When the button is pressed → LED stays ON continuously
+When the button is released → LED turns OFF
+The LED should respond immediately to the button state
+The loop should run only while the condition is true
+
+## Arduino Mapping
+
+
+## Generated Code
+
+int buttonPin = 4;
+int ledPin = 2;
+void setup() {
+pinMode(buttonPin, INPUT);
+pinMode(ledPin, OUTPUT);
+}
+void loop() {
+while (digitalRead(buttonPin) == HIGH) {
+digitalWrite(ledPin, HIGH);
+}
+digitalWrite(ledPin, LOW);
+}
+
+## Code Explanation
+
+pinMode(buttonPin, INPUT);
+ Sets the button pin as input.
+pinMode(ledPin, OUTPUT);
+ Sets the LED pin as output.
+while (digitalRead(buttonPin) == HIGH)
+ Keeps checking the condition. If true, the loop keeps running.
+digitalWrite(ledPin, HIGH);
+ Turns the LED ON while the condition is true.
+digitalWrite(ledPin, LOW);
+ Turns the LED OFF when the condition becomes false.
+
+## Execution Flow
+
+Setup configures input and output pins
+ESP32 checks button state
+While button is pressed → loop runs → LED stays ON
+When button is released → loop stops
+LED turns OFF
+Process repeats continuously
+
+## ⚠️ Important Note
+
+Make sure:
+The condition can change (button press/release)
+Otherwise, the loop may run forever (infinite loop)
+
+## 🚀 Extension (Optional Challenge)
+
+Try modifying your system:
+Blink LED while button is pressed instead of keeping it ON
+Add delay to control blinking speed
+Use another condition (e.g., sensor input)

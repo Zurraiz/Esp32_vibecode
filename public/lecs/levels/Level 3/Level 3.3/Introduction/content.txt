@@ -1,0 +1,13 @@
+
+## LEVEL 3.4: Translating Values (Mapping Input to Output)
+
+
+## 1. Introduction
+
+In the previous lessons, you learned how to:
+Read analog input values
+Understand their range (0 to 4095)
+Use values to control output intensity
+However, when you try to directly use input values to control output, you may notice something does not behave correctly.
+This happens because different parts of the system use different value ranges.
+In this lesson, you will learn how to translate values from one range to another so that systems can work correctly together.

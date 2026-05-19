@@ -1,0 +1,153 @@
+LEVEL 1.1: Your First Control
+1. Introduction
+In this lesson, you will build your first working ESP32 program.
+You will control a small LED using blocks and make it turn ON. This is the first time you will see how instructions you create in the system directly affect a physical (or simulated) output.
+[image: section_0.png]
+The goal of this lesson is not just to make the LED turn on, but to understand that:
+Your blocks are instructions
+The ESP32 executes those instructions
+The output changes based on your instructions
+By the end of this lesson, you will have created a complete working cycle of input instructions that produce visible behaviour.
+2. Exploration
+Available Blocks
+Set Pin Mode
+Digital Write HIGH
+Exploration Goal
+In this phase, there is no fixed task. You are encouraged to experiment freely with the blocks to understand how each one behaves.
+You can:
+Connect blocks in any order
+Try different combinations of HIGH and LOW
+Change the sequence of actions
+Observe how the LED responds
+Suggested Exploration Questions
+What happens if you only use HIGH?
+What happens if you remove the delay?
+What happens if LOW comes before HIGH?
+What happens if you increase delay time?
+Can you make the LED stay ON permanently?
+Purpose of Exploration
+The purpose here is to build intuition before formal explanation. You are not expected to understand everything yet. You are expected to observe patterns and outcomes.
+3. Concept Building
+3.1 What is ESP32?
+The ESP32 is a small programmable microcontroller. A microcontroller is a compact computing device designed to interact with physical components such as lights, sensors, and motors.
+[image: section_1.jpg]
+The ESP32 can also be called a mini version of a computer as it is a compact computer that has been designed for tasks that require specific control and instructions.
+Unlike a normal computer, which is designed for general-purpose tasks like browsing or running applications, the ESP32 is designed for control tasks.
+Its main purpose is to:
+Receive instructions
+Execute those instructions repeatedly
+Control physical outputs based on those instructions
+Read inputs from the environment
+In this lesson, the ESP32 is being used as a controller for an LED.
+3.2 What are Blocks?
+In this system, you are not writing traditional code. Instead, you are using blocks.
+Each block represents a specific instruction that the ESP32 understands.
+For example:
+A block can set a pin mode
+A block can turn a signal ON
+A block can turn a signal OFF
+A block can introduce a delay
+Blocks are executed in sequence from top to bottom. This means the order in which you arrange them matters.
+This block-based interface allows you to create programs visually by linking blocks together, much like assembling building pieces. Each block represents a specific instruction that the ESP32 can understand, and the system automatically translates your block arrangement into executable code.
+This approach is designed to make programming more intuitive, especially for beginners, by removing the need to memorize syntax and instead focusing on logic and program flow.
+[image: section_2.png]
+[image: section_3.png]
+To use it, you simply select the required block from the sidebar and drag it into the workspace, placing it where you want it to connect.
+[image: section_4.png]
+3.3 What is a Pin?
+A pin is a physical connection point on the ESP32.
+Each pin can be thought of as a control interface between the ESP32 and external components.
+Pins can:
+Send electrical signals (output)
+Receive electrical signals (input)
+In this lesson, we use a pin as an output to control an LED.
+[image: section_5.png]
+When a pin is connected to an LED:
+The ESP32 controls whether electricity flows to the LED
+This determines whether the LED turns ON or OFF
+3.4 Why do we set Pin Mode?
+Before using a pin, we must define its behaviour.
+This is done using “Set Pin Mode”.
+[image: section_6.png]
+A pin can operate in different modes, but in this lesson, we only use:
+Output Mode
+Output mode means:
+The ESP32 will send signals out through the pin
+It will control external components like LEDs
+Without setting pin mode correctly:
+The ESP32 may not behave as expected
+The pin may not respond properly to output commands
+This step is required because the ESP32 needs to know how each pin will be used before executing instructions.
+3.5 What is Digital Write (HIGH and LOW)?
+Digital signals have only two states:
+HIGH and LOW
+HIGH means:
+Electrical signal is ON
+Current flows through the pin
+The LED turns ON
+LOW means:
+Electrical signal is OFF
+No current flows through the pin
+The LED turns OFF
+This is called digital control because it uses only two values instead of a range of values.
+[image: section_7.png]
+You are essentially switching electricity on and off through instructions.
+3.6 What actually happens when your program runs?
+When you connect your blocks, the ESP32 executes them in order.
+(image to be updated)
+Step-by-step process:
+The ESP32 reads the first block
+It sets the pin mode to output
+It moves to the next block and turns the LED ON that is connected at Pin 2.
+It moves to next block, and turns the LED OFF that is connect at Pin 2.
+This repetition is automatic and built into the system.
+Even though you only created the sequence once, the ESP32 keeps running it repeatedly.
+This is why the LED keeps blinking.
+3.8 Key Insight of This Lesson
+The most important concept in this lesson is:
+You are not manually repeating actions. The system is repeating them for you.
+Your block sequence becomes a cycle that runs continuously.
+This is the foundation of all embedded systems behaviour.
+4. Student Task
+Task: Create Your First LED Control System
+Your objective is to create a system that:
+Turns an LED ON
+Turns the LED OFF
+Requirements
+Use Set Pin Mode correctly
+Use Digital Write HIGH and LOW
+Ensure correct order of execution
+Expected Behavior
+When the system runs:
+The LED should turn ON
+Then immediately it should turn OFF
+It will alternate between on and off
+5. Arduino Mapping
+Generated Code
+void setup() {
+pinMode(2, OUTPUT);
+}
+void loop() {
+digitalWrite(2, HIGH);
+delay(1000);
+digitalWrite(2, LOW);
+delay(1000);
+}
+Code Explanation
+pinMode(2, OUTPUT);
+This configures pin 2 as an output pin so it can control external devices.
+digitalWrite(2, HIGH);
+This sends a HIGH signal to the pin, turning the LED ON.
+delay(1000);
+This pauses execution for 1 second so the LED state is visible.
+digitalWrite(2, LOW);
+This sends a LOW signal, turning the LED OFF.
+delay(1000);
+This pauses again before the cycle repeats.
+Execution Flow
+Setup runs once and configures the pin
+LED turns ON
+LED turns OFF
+System waits
+Loop repeats indefinitely
+End of Lesson 1.1

@@ -1,0 +1,96 @@
+
+## LEVEL 3.4: Real-Time Control System (Sensor → Output)
+
+
+## 3.1 What kind of system have you built?
+
+You now have two different control philosophies:
+
+## Manual Control
+
+Human directly controls the system
+Potentiometer acts as an input device
+Behavior is intentional and predictable
+
+## Automatic Control
+
+Environment controls the system
+Photoresistor reacts to light changes
+Behavior depends on external conditions
+[image: 3.1_0.png]
+This is called a dual-mode control system.
+
+## 3.2 Manual control (Potentiometer system)
+
+In manual mode:
+The user decides brightness
+The system follows user input directly
+Flow:
+ 👉 Potentiometer → Mapping → PWM → LED
+This gives:
+Predictability
+Direct control
+Full user authority
+[image: 3.2_0.png]
+It is used in systems like:
+Dimmers
+Volume knobs
+Manual sliders
+
+## 3.3 Automatic control (Photoresistor system)
+
+In automatic mode:
+The environment controls brightness
+The system reacts to external light
+Flow:
+ 👉 Light → Photoresistor → Mapping → PWM → LED
+This gives:
+Adaptive behavior
+No user input required
+Environment-driven response
+[image: 3.3_0.png]
+Light turns on when it gets dark. Simple yet automatic and convenient.
+It is used in:
+Auto-brightness screens
+Street lights
+Smart lighting systems
+
+## 3.4 Why two modes matter
+
+Real systems are not fixed to one behavior.
+They often switch between:
+Manual override (user control)
+Automatic behavior (system intelligence)
+This allows flexibility depending on context.
+For example:
+User adjusts brightness manually indoors
+System adjusts automatically outdoors
+[image: 3.4_0.png]
+
+## 3.5 Understanding control priorities
+
+In advanced systems:
+Manual control usually has higher priority
+Automatic control runs when manual input is not active
+This creates layered behavior:
+Primary control → user
+Secondary control → environment
+
+## 3.6 Connecting everything from Level 3
+
+Now all Level 3 concepts merge:
+Analog input → sensors read real-world values
+Mapping → values are normalized
+PWM → output intensity control
+Real-time loop → continuous updates
+Two modes → behavioral switching layer
+This forms a complete embedded system structure.
+
+## 3.7 Key Insight of This Lesson
+
+Systems can have multiple control modes
+Manual mode = user-driven behavior
+Automatic mode = environment-driven behavior
+Same hardware can behave differently using logic
+Mapping and PWM enable both modes
+Real systems switch between control strategies

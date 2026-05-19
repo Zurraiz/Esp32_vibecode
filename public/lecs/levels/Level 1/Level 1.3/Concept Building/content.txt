@@ -1,0 +1,111 @@
+
+## LEVEL 1.3: What Just Happened?
+
+
+## How does the ESP32 read your program?
+
+When you build a program using blocks, it may feel like you are creating one complete system where everything happens together.
+But the ESP32 does not see your program as a “whole idea.”
+Instead, it treats it as a strict sequence of steps that must be followed one after another.
+It begins from the first block, executes it completely, then moves to the next one, and continues until it reaches the end.
+[image: section_0.png]
+It does not:
+Look ahead to future blocks
+Rearrange your logic
+Skip instructions
+Try to understand your intention
+It simply follows exactly what you placed, in the exact order you placed it.
+This is the foundation of how every ESP32 program behaves.
+
+## Why order matters so much
+
+Take a simple set of blocks controlling an LED:
+If you arrange them like:
+Turn LED ON
+Wait
+Turn LED OFF
+[image: section_1.png]
+The behavior will follow that exact order:
+The LED turns ON first
+It stays ON for some time
+Then it turns OFF
+Now if you change only the order:
+Turn LED OFF
+Wait
+Turn LED ON
+[image: section_2.png]
+The behavior changes completely:
+The LED starts OFF
+Then turns ON after the delay
+Nothing in the blocks changed except their order—but the result is different.
+This is because in programming, order is not just structure—it defines behavior.
+
+## Understanding blocks as individual actions
+
+Each block represents a single, direct action.
+For example:
+A HIGH block does one thing: it turns the LED ON
+[image: section_3.png]
+A LOW block does one thing: it turns the LED OFF
+A Delay block does one thing: it pauses execution
+The ESP32 does not combine these actions or process them in parallel.
+It performs them one at a time, fully completing one before moving to the next.
+This makes behavior predictable:
+One block → one action → immediate effect
+
+## Understanding the idea of state
+
+At any moment, the system is in a condition called a state.
+[image: section_4.png]
+For an LED, the state is very simple:
+ON
+OFF
+Only one state can exist at a time.
+Each action you give changes this state.
+For example:
+HIGH changes the state to ON
+LOW changes the state to OFF
+When a new instruction is executed, it replaces whatever state existed before.
+The system does not remember previous states unless you explicitly design it to do so.
+It only reflects the most recent instruction affecting it.
+As the program runs, the system’s state changes step by step.
+For example:
+The LED becomes ON when a HIGH instruction is executed
+It remains ON during a delay
+It changes to OFF when LOW is executed
+This creates a visible progression of states over time.
+
+## What actually happens during execution
+
+When you run your program, the ESP32 follows a strict execution flow:
+It starts from the first block and processes each instruction one by one.
+[image: section_5.png]
+If it encounters a delay, it temporarily pauses before continuing.
+Once all instructions are completed, execution reaches the end of the sequence.
+At this point, the program does not stop in the traditional sense—it simply finishes that pass of execution.
+The final state remains active until another instruction changes it again.
+
+## Understanding behavior over time
+
+When you observe your program over time, you begin to see that behavior is not just about individual instructions, but about how those instructions unfold across time.
+[image: section_6.png]
+You start noticing:
+When a change happens
+How long it lasts
+What causes the next change
+This creates a relationship between:
+Order of instructions
+Timing between actions
+Visible system behavior
+In other words, programming is not just about what you write, but how those instructions behave over time.
+
+## Key insight of this lesson
+
+At the core of this lesson are a few essential ideas:
+The ESP32 executes instructions one by one
+The order of instructions directly defines behavior
+Each instruction performs a single, specific action
+Each action changes the system’s state
+The system only reflects the most recent change
+Delay affects visibility, not logic
+Behavior emerges from sequence, state, and timing working together

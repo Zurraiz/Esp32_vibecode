@@ -1,0 +1,225 @@
+
+## 🟡 LEVEL 3.4: Real-Time Control System (Manual vs Automatic Modes)
+
+
+## 1. Introduction
+
+In the previous lessons, you learned how:
+Sensors produce analog values
+Mapping translates values into usable ranges
+PWM converts values into brightness control
+Now we combine everything into a complete system.
+Real systems rarely have just one type of control. They usually support:
+Manual control (user-driven)
+Automatic control (environment-driven)
+In this lesson, you will build a system that can behave in both ways.
+
+## 2. Exploration
+
+
+## Available Blocks
+
+Analog Read
+Map Value
+PWM Write
+If / Else (optional for mode switching)
+Serial Print (for debugging mode)
+
+## Exploration Goal
+
+Your goal is to compare two different control behaviors:
+Potentiometer → manual brightness control
+Photoresistor → automatic brightness control
+
+## Try This
+
+
+## Part 1: Manual Mode
+
+Use potentiometer
+Control LED brightness directly
+Observe how intuitive control feels
+
+## Part 2: Automatic Mode
+
+Use photoresistor
+Let light in environment control brightness
+Observe system behavior without user input
+
+## Compare
+
+Which mode feels more predictable?
+Which mode feels more responsive?
+What changes when you switch between them?
+
+## 3. Concept Building
+
+
+## 3.1 What kind of system have you built?
+
+You now have two different control philosophies:
+
+## Manual Control
+
+Human directly controls the system
+Potentiometer acts as an input device
+Behavior is intentional and predictable
+
+## Automatic Control
+
+Environment controls the system
+Photoresistor reacts to light changes
+Behavior depends on external conditions
+This is called a dual-mode control system.
+
+## 3.2 Manual control (Potentiometer system)
+
+In manual mode:
+The user decides brightness
+The system follows user input directly
+Flow:
+👉 Potentiometer → Mapping → PWM → LED
+This gives:
+Predictability
+Direct control
+Full user authority
+It is used in systems like:
+Dimmers
+Volume knobs
+Manual sliders
+
+## 3.3 Automatic control (Photoresistor system)
+
+In automatic mode:
+The environment controls brightness
+The system reacts to external light
+Flow:
+👉 Light → Photoresistor → Mapping → PWM → LED
+This gives:
+Adaptive behavior
+No user input required
+Environment-driven response
+It is used in:
+Auto-brightness screens
+Street lights
+Smart lighting systems
+
+## 3.4 Why two modes matter
+
+Real systems are not fixed to one behavior.
+They often switch between:
+Manual override (user control)
+Automatic behavior (system intelligence)
+This allows flexibility depending on context.
+For example:
+User adjusts brightness manually indoors
+System adjusts automatically outdoors
+
+## 3.5 Understanding control priorities
+
+In advanced systems:
+Manual control usually has higher priority
+Automatic control runs when manual input is not active
+This creates layered behavior:
+Primary control → user
+Secondary control → environment
+
+## 3.6 What changes in system behavior?
+
+Depending on mode:
+Manual mode:
+Stable and predictable
+Controlled by user actions
+Automatic mode:
+Dynamic and changing
+Controlled by environment
+This shows that:
+👉 same hardware can behave differently based on logic
+
+## 3.7 Connecting everything from Level 3
+
+Now all Level 3 concepts merge:
+Analog input → sensors read real-world values
+Mapping → values are normalized
+PWM → output intensity control
+Real-time loop → continuous updates
+Two modes → behavioral switching layer
+This forms a complete embedded system structure.
+
+## 3.8 Key Insight of This Lesson
+
+Systems can have multiple control modes
+Manual mode = user-driven behavior
+Automatic mode = environment-driven behavior
+Same hardware can behave differently using logic
+Mapping and PWM enable both modes
+Real systems switch between control strategies
+
+## 4. Student Task
+
+
+## Task: Build a Dual Mode Light System
+
+Your objective is to:
+Create manual brightness control using potentiometer
+Create automatic brightness control using photoresistor
+Switch between modes (optional advanced step)
+
+## Requirements
+
+Use Analog Read
+Use Map Value
+Use PWM Write
+Implement both sensor behaviors
+
+## Expected Behavior
+
+Manual Mode:
+Knob directly controls brightness
+Automatic Mode:
+Light level controls brightness
+System:
+Smooth transitions in both modes
+Clear behavioral difference between modes
+
+## 5. Arduino Mapping
+
+
+## Generated Code
+
+int potPin = 34;
+int ldrPin = 35;
+int ledPin = 2;
+bool manualMode = true;
+void setup() {
+ledcSetup(0, 5000, 8);
+ledcAttachPin(ledPin, 0);
+}
+void loop() {
+int potValue = analogRead(potPin);
+int ldrValue = analogRead(ldrPin);
+int manualBrightness = map(potValue, 0, 4095, 0, 255);
+int autoBrightness = map(ldrValue, 0, 4095, 0, 255);
+if (manualMode) {
+ledcWrite(0, manualBrightness);
+} else {
+ledcWrite(0, autoBrightness);
+}
+}
+
+## Code Explanation
+
+potValue → manual input source
+ldrValue → environmental input source
+map() → converts both into usable output range
+if (manualMode) → selects system behavior
+
+## Execution Flow
+
+Both sensors are read
+Values are mapped
+Mode is checked
+Correct input controls output
+Loop repeats continuously
+
+## End of Lesson 3.4

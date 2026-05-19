@@ -1,0 +1,70 @@
+
+## Student Task
+
+
+## Task: Create a Counter Using Variable
+
+Your objective is to create a system that:
+Uses a variable to store a value
+Updates the value continuously
+Displays the updated value on the Serial Monitor
+
+## Requirements
+
+Use var_int to create a variable
+Use serial_begin to start communication
+Use serial_println or serial_printvar to display the value
+Update the variable value (increment)
+Use delay_ms or delay_sec for readability
+Ensure correct order of execution
+
+## Expected Behavior
+
+When the system runs:
+The variable should start from 0
+The value should increase step by step (0, 1, 2, 3...)
+The updated value should be displayed on the Serial Monitor
+The process should repeat continuously
+
+## Arduino Mapping
+
+
+## Generated Code
+
+int counter = 0;
+void setup() {
+Serial.begin(9600);
+}
+void loop() {
+Serial.println(counter);
+counter = counter + 1;
+delay(1000);
+}
+
+## Code Explanation
+
+int counter = 0;
+ Creates a variable and sets its initial value to 0.
+Serial.begin(9600);
+ Starts communication with the Serial Monitor.
+Serial.println(counter);
+ Displays the current value of the variable.
+counter = counter + 1;
+ Updates the variable by increasing its value.
+delay(1000);
+ Adds a delay so changes are visible.
+
+## Execution Flow
+
+Variable is initialized with value 0
+ESP32 prints the value
+Variable is updated (incremented)
+System waits for a moment
+Loop repeats and value keeps increasing
+
+## 🚀 Extension (Optional Challenge)
+
+Try modifying your system:
+Increase the value by 2 instead of 1
+Reset the counter after a certain value
+Store button presses using a variable

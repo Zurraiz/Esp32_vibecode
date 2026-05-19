@@ -1,0 +1,12 @@
+LEVEL 5.2: Conditional Repetition (While Loop Basics)
+
+## Introduction
+
+In this lesson, you will learn how to repeat actions based on a condition using a while loop.
+ You will create programs where the ESP32 continues performing actions as long as a condition remains true. This is the first time you will see how repetition can depend on a condition instead of a fixed number.
+The goal of this lesson is not just to repeat actions, but to understand that:
+Your blocks are instructions
+The ESP32 executes those instructions
+The ESP32 can repeat actions based on a condition
+The repetition stops automatically when the condition becomes false
+By the end of this lesson, you will have created a system where actions continue only while a condition is true, giving you more control over program behavior.

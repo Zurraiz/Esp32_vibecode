@@ -1,0 +1,20 @@
+
+## Level 1.4:Repeating Actions
+
+
+## Introduction
+
+So far, you have learned how to:
+Control an LED
+Use delay to make changes visible
+Understand execution order
+Observe repeating behavior
+[image: section_0.png]
+Now it is time to understand something very important:
+Why does the program repeat automatically?
+Is everything repeated?
+Or are some parts executed only once?
+In this lesson, you will learn how the ESP32 organizes your program into two main parts:
+Setup
+Loop
+This will help you understand the complete flow of how your program runs.

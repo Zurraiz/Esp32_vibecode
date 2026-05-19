@@ -1,0 +1,55 @@
+
+## Student Task
+
+
+## Task: Create Your First Serial Output System
+
+Your objective is to create a system that:
+Sends a message to the Serial Monitor
+Repeats the message continuously
+Controls how frequently the message appears
+
+## Requirements
+
+Use serial_begin to start communication
+Use serial_println to display a message
+Use delay_ms or delay_sec to control repetition
+Ensure correct order of execution
+
+## Expected Behavior
+
+When the system runs:
+A message should appear on the Serial Monitor
+The message should repeat continuously
+The delay should control how fast the message is printed
+Output should update again and again
+
+## Arduino Mapping
+
+
+## Generated Code
+
+void setup() {
+Serial.begin(9600);
+}
+void loop() {
+Serial.println("System Running...");
+delay(1000);
+}
+
+## Code Explanation
+
+Serial.begin(9600);
+ This starts serial communication between the ESP32 and the computer.
+Serial.println("System Running...");
+ This sends a message to the Serial Monitor.
+delay(1000);
+ This pauses execution for 1 second before printing again.
+
+## Execution Flow
+
+Setup runs once and starts Serial communication
+Message is printed on the Serial Monitor
+System waits for a short time
+Message is printed again
+Loop repeats continuously

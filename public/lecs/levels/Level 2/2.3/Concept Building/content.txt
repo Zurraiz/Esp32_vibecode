@@ -1,0 +1,88 @@
+
+## Level 2.3: Reading Input States
+
+
+## What Does Reading Input Mean?
+
+Reading input means checking the state of a pin connected to an external device, such as a button.
+[image: section_0.png]
+The ESP32 does not understand actions like “pressed” or “not pressed” directly.
+ Instead, it:
+Reads the electrical signal on the pin
+Determines its state
+Uses that value inside the program
+This process happens continuously while the program is running.
+
+## What are HIGH and LOW?
+
+HIGH and LOW are the two possible digital states of a signal.
+HIGH means the signal is present (usually voltage is applied)
+LOW means the signal is absent (no voltage)
+These two states form the basis of digital systems.
+[image: section_1.png]
+You can think of them as:
+HIGH → 1 (ON)
+LOW → 0 (OFF)
+All digital systems, including the ESP32, work using these two values.
+
+## How Does ESP32 Read a Button?
+
+When a button is connected to a pin:
+If the button is pressed → the pin reads HIGH
+If the button is not pressed → the pin reads LOW
+[image: section_2.png]
+The ESP32 continuously checks this pin and updates the value.
+This means:
+A physical press becomes a digital signal
+The ESP32 converts real-world actions into data
+[image: section_3.png]
+
+## How is the Input Value Used?
+
+Once the ESP32 reads the input:
+The value (HIGH or LOW) is stored
+This value can be used in the program
+It can control outputs or trigger actions
+For example:
+HIGH → can be used to turn ON an LED
+LOW → can be used to turn OFF an LED
+This is how input becomes useful in programming.
+[image: section_4.png]
+Note: If the yellow “? if “ blocks confuse you, don’t worry, they shall be explained in detail later.
+
+## Continuous Reading and Real-Time Behavior
+
+The ESP32 does not read the input just once.
+It continuously:
+Reads the input
+Updates the value
+Reacts to changes
+This creates real-time behavior where:
+Pressing the button immediately changes the system
+Releasing the button updates it again
+3.6 Reading Temperature and Humidity with DHT11
+Not all inputs are simple HIGH or LOW signals. Some sensors, like the DHT11, provide more detailed data.
+First, you can set which sensor the pin is physically connected to:
+[image: section_5.png]
+The DHT11 sensor is used to measure:
+Temperature
+Humidity
+Instead of sending just HIGH or LOW, it sends digital data values that represent real-world measurements.
+For example:
+Temperature → 28°C
+Humidity → 65%
+The ESP32 reads this data through a pin and converts it into meaningful information inside the program.
+This means:
+The ESP32 is not only detecting actions (like a button press)
+It can also measure environmental conditions
+Our system allows you to read these values and store them into variables (temp, humidity etc.) You can then use this information to perform a certain action based on the conditions of your environment.  An example use case can be a Smart Fan ; turn the fan on when the room gets hot and humid.
+
+## Key Insight of This Lesson
+
+The most important concept in this lesson is:
+The ESP32 converts physical actions into digital values (HIGH and LOW) that can be used in a program.
+You are now able to:
+Detect user actions
+Represent them as data
+Use that data to control behavior
+This is a critical step toward building interactive systems.

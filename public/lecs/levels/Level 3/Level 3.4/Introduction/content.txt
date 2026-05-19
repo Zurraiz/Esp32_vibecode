@@ -1,0 +1,17 @@
+
+## LEVEL 3.5: Real-Time Control System (Sensor → Output)
+
+
+## 1. Introduction
+
+In the previous lessons, you learned how to:
+Read analog input values
+Understand their range
+Control output intensity
+Translate values using mapping
+So far, these concepts were learned separately.
+In this lesson, you will combine everything to build a complete system where:
+Input is continuously read
+Values are processed
+Output responds immediately
+This creates a real-time control system where one component directly controls another.

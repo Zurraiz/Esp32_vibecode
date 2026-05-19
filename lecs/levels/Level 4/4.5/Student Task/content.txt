@@ -1,0 +1,80 @@
+
+## Task: Create a Multi-LED Pattern System
+
+Your objective is to create a system that:
+Controls multiple LEDs
+Turns LEDs ON and OFF in a specific sequence
+Repeats the sequence to form a visible pattern
+
+## Requirements
+
+Use pinMode to configure multiple LED pins as OUTPUT
+Use dw_high and dw_low to control each LED
+Use delay_ms or delay_sec to control timing
+Use for_loop (or loop structure) to repeat the pattern
+Ensure correct order of execution (sequence matters)
+
+## Expected Behavior
+
+When the system runs:
+LEDs should turn ON one by one in sequence (e.g., LED1 → LED2 → LED3)
+Each LED should turn OFF before the next one turns ON
+The pattern should repeat continuously
+The speed of the pattern should be controlled using delay
+
+## Arduino Mapping
+
+
+## Generated Code
+
+int led1 = 2;
+int led2 = 4;
+int led3 = 5;
+void setup() {
+pinMode(led1, OUTPUT);
+pinMode(led2, OUTPUT);
+pinMode(led3, OUTPUT);
+}
+void loop() {
+// LED 1
+digitalWrite(led1, HIGH);
+delay(300);
+digitalWrite(led1, LOW);
+// LED 2
+digitalWrite(led2, HIGH);
+delay(300);
+digitalWrite(led2, LOW);
+// LED 3
+digitalWrite(led3, HIGH);
+delay(300);
+digitalWrite(led3, LOW);
+}
+
+## Code Explanation
+
+pinMode(...)
+ Sets all LED pins as output.
+digitalWrite(HIGH/LOW)
+ Controls each LED individually.
+delay(300);
+ Controls how long each LED stays ON.
+Sequence of instructions
+ Creates the pattern by turning LEDs ON one after another.
+
+## Execution Flow
+
+Setup configures all LED pins
+Loop starts execution
+LED1 turns ON → OFF
+LED2 turns ON → OFF
+LED3 turns ON → OFF
+Sequence completes
+Loop repeats continuously
+
+## Extension (Optional Challenge)
+
+Try modifying your system:
+Reverse the pattern (LED3 → LED2 → LED1)
+Add more LEDs
+Create a back-and-forth (zig-zag) pattern
+Use a loop to automate sequence

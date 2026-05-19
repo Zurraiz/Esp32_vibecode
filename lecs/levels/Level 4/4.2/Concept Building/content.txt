@@ -1,0 +1,78 @@
+Level 5.2: Conditional Repetition (While Loop Basics)
+Concept Building
+What is Conditional Repetition?
+Conditional repetition means repeating an action based on a condition.
+In previous lessons:
+You used a for loop
+The repetition was fixed (e.g., repeat 5 times)
+Now:
+Repetition depends on a condition
+The system decides whether to continue or stop
+This means the loop is not fixed — it depends on what is happening.
+What is a While Loop?
+A while loop repeats a set of instructions as long as a condition is true.
+Structure:
+Check condition
+If TRUE → execute instructions
+Repeat
+If FALSE → stop
+This allows the ESP32 to keep running actions until something changes.
+How Does a While Loop Work?
+The while loop works step-by-step:
+Check the condition
+If the condition is TRUE → run the instructions
+Go back and check the condition again
+Repeat the process
+Stop only when the condition becomes FALSE
+This creates a loop controlled by a condition.
+Difference Between For Loop and While Loop
+There are two types of repetition:
+For Loop:
+Runs a fixed number of times
+You know how many repetitions will happen
+While Loop:
+Runs based on a condition
+You do not know exactly how many times it will run
+This makes while loops more flexible.
+Real-Life Example of While Loop
+Real-life example:
+Keep eating while you are hungry
+Stop when you are full
+Similarly:
+ESP32 keeps running actions while condition is true
+Stops when condition becomes false
+Using While Loop with Inputs
+The while loop is often used with inputs.
+Example:
+While button is pressed → LED stays ON
+When button is released → LED turns OFF
+Try to guess how the code blocks can be arranged to achieve this interaction.
+Heres how:
+Code:
+void loop() {
+btnState = digitalRead(12);
+while(btnState == HIGH){
+digitalWrite(2, HIGH); // LED ON
+btnState = digitalRead(12);
+}
+digitalWrite(2, LOW); // LED OFF
+}
+This creates real-time control based on user interaction.
+Risk of Infinite Loops
+A while loop can run forever if the condition never becomes false.
+This is called an infinite loop.
+Example:
+Condition is always TRUE → loop never stops
+So it is important to:
+Use correct conditions
+Ensure the condition can change
+
+## Key Insight of This Lesson
+
+The most important concept in this lesson is:
+A while loop repeats actions as long as a condition is true.
+You are now able to:
+Control repetition using conditions
+Create flexible and dynamic systems
+Build real-time behavior based on input
+This is a key step toward advanced logic and control structures.

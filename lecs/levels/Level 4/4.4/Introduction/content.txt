@@ -1,0 +1,13 @@
+LEVEL 5.4: Combining Logic (Loops + Conditions)
+
+## Introduction
+
+In this lesson, you will learn how to combine loops and conditions to build more advanced logic in your programs.
+You will use repetition and decision-making together to control how the system behaves. This is the first time you will see how multiple programming concepts can work together to create smarter systems.
+The goal of this lesson is not just to use loops or conditions separately, but to understand that:
+Your blocks are instructions
+The ESP32 executes those instructions
+Loops repeat actions
+Conditions control those actions
+You can combine both to create complex behavior
+By the end of this lesson, you will have created a system where actions are repeated and controlled by conditions, allowing you to build more flexible and intelligent programs.

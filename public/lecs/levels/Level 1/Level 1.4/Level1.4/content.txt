@@ -1,0 +1,232 @@
+
+## 🟢 LEVEL 1.4: Understanding Program Flow (Setup and Loop)
+
+
+## 1. Introduction
+
+So far, you have learned how to:
+Control an LED
+Use delay to make changes visible
+Understand execution order
+Observe repeating behavior
+Now it is time to understand something very important:
+Why does the program repeat automatically?
+Is everything repeated?
+Or are some parts executed only once?
+In this lesson, you will learn how the ESP32 organizes your program into two main parts:
+Setup
+Loop
+This will help you understand the complete flow of how your program runs.
+
+## 2. Exploration
+
+
+## Available Blocks
+
+Set Pin Mode
+Digital Write HIGH
+Digital Write LOW
+Delay (ms)
+
+## Exploration Goal
+
+In this phase, your goal is to observe how different blocks behave during execution.
+You should:
+Run your program
+Observe what happens at the start
+Observe what repeats over time
+
+## Suggested Exploration Questions
+
+Does the pin mode change repeatedly or only once?
+Which actions keep repeating?
+What happens at the very beginning of the program?
+Can you identify which part runs once and which part repeats?
+
+## Purpose of Exploration
+
+The purpose is to help you recognize that:
+Not all instructions behave the same way.
+Some are executed once, while others repeat continuously.
+
+## 3. Concept Building
+
+
+## 3. Concept Building
+
+
+## 3.1 Does the program run only once?
+
+When you build a sequence of blocks, it is natural to assume that the system should:
+execute the instructions once
+then stop
+This is how most instructions in daily life work. You give directions, they are completed, and the process ends.
+But when you run your ESP32 program, something different happens.
+After completing the sequence, the system does not stop. Instead, it immediately starts again from the beginning and executes the same instructions again.
+So instead of running once, your program keeps running continuously.
+
+## 3.2 Why does the ESP32 behave like this?
+
+The ESP32 is not designed like a calculator that finishes a task and stops.
+It is designed for systems that must stay alive and responsive all the time.
+Think about real-world systems:
+Traffic lights cannot stop working after one cycle
+Sensors must keep checking values continuously
+Devices must constantly respond to changes
+[image: 3.2_0.png]
+[image: 3.2_1.png]
+Because of this, the ESP32 is built to:
+keep executing instructions
+keep checking conditions
+keep updating outputs
+It only stops if it is powered off or reset.
+So continuous repetition is not accidental—it is the core design of the system.
+
+## 3.3 How is an ESP32 program structured?
+
+When you run your ESP32 program, it may look like all instructions are working together as one continuous system. But internally, the ESP32 does not treat your program as a single block of logic.
+Instead, every program is divided into two main sections:
+Setup
+Loop
+[image: 3.3_0.png]
+These two sections define how the system behaves over time. Some instructions are meant to run only once at the beginning, while others are meant to run repeatedly for as long as the system is active.
+Understanding this structure is important because it explains why some actions happen once and others continue forever.
+
+## 3.4 What is Setup?
+
+At the start of every program, there are certain tasks that prepare the system before anything else happens. These tasks belong to the Setup section.
+Setup runs only once when:
+The program starts
+The device is powered on
+The system is reset
+This is where the ESP32 prepares everything it needs before starting continuous operation.
+[image: 3.4_0.png]
+In the image are a few blocks that are examples of such instructions that only need to be executed once. The code for them goes in the setup method:
+[image: 3.4_1.png]
+For example, when you configure a pin using “Set Pin Mode,” you are defining how that pin will behave for the rest of the program. Once this is set, it does not need to be configured again.
+Setup is not concerned with repeating actions. Its purpose is to make sure everything is correctly initialized before the system begins its main behavior.
+
+## 3.5 Why Setup runs only once
+
+Some instructions are meant to define initial conditions rather than ongoing behavior.
+If these instructions were repeated continuously, the system would waste resources doing the same configuration again and again without any benefit.
+For example, repeatedly setting a pin to OUTPUT does not change anything after the first time. It simply re-applies the same configuration unnecessarily.
+Because of this, Setup is designed to execute only once. This ensures:
+The system starts in a stable state
+No unnecessary repetition occurs
+Processing power is used efficiently
+Once Setup finishes its execution, it is not called again during normal operation.
+
+## 3.6 What is Loop?
+
+After Setup completes, the ESP32 does not stop running. Instead, it enters the Loop section.
+This is where the main behavior of the system is defined.
+Everything inside the Loop is executed continuously. When the ESP32 reaches the end of the Loop, it does not stop. Instead, it automatically goes back to the beginning and starts again.
+This creates an ongoing cycle of execution that continues for as long as the device is powered on.
+The Loop is responsible for:
+Continuous actions
+Real-time responses
+Ongoing system behavior
+[image: 3.6_0.png]
+Above is an example of instructions that are repeated for a pattern of blinking LED.
+[image: 3.6_1.png]
+These blocks go into the loop section since these are instructions that need to be repeated.
+
+## 3.7 How Loop creates continuous behavior
+
+Inside the Loop, you define a sequence of instructions.
+For example:
+Turn LED ON
+Wait
+Turn LED OFF
+Wait
+When these instructions are executed, they form one complete cycle of behavior.
+Once the ESP32 reaches the end of this sequence, it immediately starts again from the beginning of the Loop.
+This results in a repeating pattern:
+ON → OFF → ON → OFF → ON → OFF
+[image: 3.7_0.png]
+Each repetition is identical because the same instructions are executed in the same order every time.
+This repetition is what allows embedded systems to behave continuously instead of performing only one action.
+
+## 3.8 What happens when the program runs
+
+When the ESP32 starts running your program, it follows a fixed execution flow.
+First, it begins with Setup. All instructions inside Setup are executed once in order. Once Setup is complete, the system transitions into the Loop.
+Inside the Loop, instructions are executed one by one. After the last instruction is executed, the ESP32 does not stop. Instead, it immediately returns to the beginning of the Loop and repeats the process.
+[image: 3.8_0.png]
+This cycle continues endlessly as long as the device remains powered.
+
+## 3.9 Connecting everything together
+
+At this point, multiple concepts come together to form a complete understanding of how the system works.
+Setup prepares the system once at the beginning. Loop handles continuous execution after that. Inside Loop, the order of instructions defines the sequence of actions. Each instruction changes the state of the system, and delay controls how quickly these changes are observed.
+Together, these concepts define the full behavior of the ESP32 over time. A simple sequence inside the Loop can create continuous, repeating system behavior that runs indefinitely.
+
+## 3.10 Key insight of this lesson
+
+Every ESP32 program is built on a simple structure.
+Setup runs once to prepare the system. Loop runs continuously to maintain system behavior.
+All actions inside the system depend on where they are placed. Sequence defines order, state defines condition, and repetition inside the Loop defines continuous behavior.
+Understanding this structure is essential because it forms the foundation for every more advanced concept you will learn later.
+
+## 4. Student Task
+
+
+## Task: Identify and Build Program Flow
+
+Your objective is to correctly structure a program using Setup and Loop behavior.
+
+## Requirements
+
+Ensure Set Pin Mode is used correctly
+Place control actions in the repeating section
+Use HIGH, LOW, and Delay
+Ensure the LED behavior repeats continuously
+
+## Expected Behavior
+
+Pin is configured once
+LED turns ON and OFF repeatedly
+Behavior continues without stopping
+
+## 5. Arduino Mapping
+
+
+## Generated Code
+
+void setup() {
+pinMode(2, OUTPUT);
+}
+void loop() {
+digitalWrite(2, HIGH);
+delay(1000);
+digitalWrite(2, LOW);
+delay(1000);
+}
+
+## Code Explanation
+
+setup()
+Runs once and prepares the system
+pinMode(2, OUTPUT);
+Configures the pin for output
+loop()
+Runs continuously
+digitalWrite(2, HIGH);
+Turns LED ON
+delay(1000);
+Waits
+digitalWrite(2, LOW);
+Turns LED OFF
+delay(1000);
+Waits before repeating
+
+## Execution Flow
+
+Setup runs once
+Loop starts
+Instructions execute in sequence
+LED behavior repeats continuously
+Loop never stops
+
+## End of Level 1.5

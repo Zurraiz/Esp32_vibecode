@@ -1,0 +1,224 @@
+
+## 🟡 LEVEL 3.3: Translating Values (Mapping Input to Output)
+
+
+## 1. Introduction
+
+In the previous lessons, you used sensors like:
+Potentiometer (knob control)
+Photoresistor (light sensor)
+These sensors produce analog values that change continuously.
+At the same time, you used PWM to control LED brightness.
+Now a problem appears:
+👉 The values coming from sensors do not naturally match the values expected by the output system.
+This mismatch is why your system sometimes behaves incorrectly or unpredictably.
+In this lesson, you will learn how to fix this using mapping.
+
+## 2. Exploration
+
+
+## Available Blocks
+
+Analog Read
+PWM Write
+Map Value
+
+## Exploration Goal
+
+Your goal is to compare:
+Raw sensor values
+Mapped sensor values
+Output behavior in both cases
+
+## Try This
+
+
+## Step 1 (Potentiometer)
+
+Turn the knob slowly
+Send raw values directly to PWM
+Observe LED behavior
+Then:
+Apply mapping
+Compare brightness control
+
+## Step 2 (Photoresistor)
+
+Cover and uncover sensor
+Send raw values to PWM
+Observe behavior
+Then:
+Apply mapping
+Compare response
+
+## Observe
+
+Potentiometer:
+Does brightness change evenly?
+Does it feel too sensitive or too weak in some regions?
+Photoresistor:
+Does light change feel smooth?
+Does LED respond across full brightness range?
+
+## Purpose of Exploration
+
+The goal is to realize:
+Sensors produce values in a wide range
+Outputs expect a different range
+Direct connection creates imbalance
+
+## 3. Concept Building
+
+
+## 3.1 Why direct connection doesn’t work
+
+Each sensor produces values in a large range.
+For example:
+Potentiometer → 0 to 4095
+Photoresistor → 0 to 4095 (varies with light conditions)
+But PWM output expects:
+0 to 255
+So if you connect them directly:
+Most of the input range is not used properly
+Output reacts too quickly or too weakly
+Control feels inconsistent
+
+## 3.2 Potentiometer: human control input
+
+The potentiometer is your manual control device.
+It represents:
+Human intention
+User-controlled input
+But raw values are too large for direct output control.
+Without conversion:
+Small movements may cause big brightness jumps
+Large movements may feel unresponsive in parts
+
+## 3.3 Photoresistor: environmental input
+
+The photoresistor represents the environment itself.
+It does not respond to human input—it responds to:
+Light intensity
+Environmental changes
+Without conversion:
+Brightness control becomes unpredictable
+Output does not fully reflect light changes
+
+## 3.4 What is mapping actually doing?
+
+Mapping converts a value from one range into another range while preserving its meaning.
+It ensures:
+Minimum input → minimum output
+Maximum input → maximum output
+Everything in between stays proportional
+So instead of raw values:
+0–4095 becomes 0–255
+This allows both systems to communicate correctly.
+
+## 3.5 Why proportional control matters
+
+Mapping does not distort behavior—it preserves proportion.
+For example:
+25% knob rotation → 25% brightness
+50% light intensity → 50% output
+75% input → 75% output
+This makes the system feel:
+Predictable
+Smooth
+Natural
+
+## 3.6 What changes after mapping?
+
+Before mapping:
+Output reacts unevenly
+Some ranges feel useless
+Control feels inaccurate
+After mapping:
+Full sensor range is usable
+Output changes smoothly
+System becomes responsive and stable
+
+## 3.7 Connecting sensors and outputs properly
+
+Now your system has a proper communication structure:
+Potentiometer → manual brightness control
+Photoresistor → automatic brightness control
+Mapping → translation layer
+PWM → physical output control
+This is the first time your system behaves like a real control interface.
+
+## 3.8 Key Insight of This Lesson
+
+Sensors produce large-range values
+Outputs require smaller, controlled ranges
+Direct connection breaks behavior
+Mapping translates values between systems
+Proportional scaling preserves meaning
+This enables accurate real-world control
+
+## 4. Student Task
+
+
+## Task: Build a Dual Sensor Control System
+
+Your objective is to:
+Use potentiometer to control LED brightness
+Use photoresistor to control LED brightness in another test
+Apply mapping in both cases
+
+## Requirements
+
+Use Analog Read
+Use Map Value
+Use PWM Write
+Test both sensors separately
+
+## Expected Behavior
+
+Potentiometer:
+Smooth manual brightness control
+Photoresistor:
+Brightness changes with light conditions
+Both:
+Full range is usable
+No sudden jumps
+Smooth control response
+
+## 5. Arduino Mapping
+
+
+## Generated Code
+
+int potPin = 34;
+int ldrPin = 35;
+int ledPin = 2;
+void setup() {
+ledcSetup(0, 5000, 8);
+ledcAttachPin(ledPin, 0);
+}
+void loop() {
+int potValue = analogRead(potPin);
+int ldrValue = analogRead(ldrPin);
+int mappedPot = map(potValue, 0, 4095, 0, 255);
+int mappedLdr = map(ldrValue, 0, 4095, 0, 255);
+ledcWrite(0, mappedPot); // or mappedLdr for test
+}
+
+## Code Explanation
+
+analogRead()
+Reads raw sensor values
+map()
+Converts sensor range into PWM range
+ledcWrite()
+Controls LED brightness
+
+## Execution Flow
+
+Sensor reads physical input
+Value is converted using mapping
+PWM receives corrected range
+LED brightness updates smoothly
+Loop repeats continuously
+
+## End of Lesson 3.3

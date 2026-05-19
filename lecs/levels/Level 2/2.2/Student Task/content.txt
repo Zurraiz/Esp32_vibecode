@@ -1,0 +1,65 @@
+
+## Student Task
+
+
+## Task: Read Button Input and Display Its State
+
+Your objective is to create a system that:
+Reads input from a button
+Detects whether the button is pressed or not
+Displays the button state on the Serial Monitor
+
+## Requirements
+
+Use btn_read to read button input
+Use serial_begin to start communication
+Use serial_println to display the button state
+Use delay_ms or delay_sec for readable output
+Ensure correct order of execution
+
+## Expected Behavior
+
+When the system runs:
+The ESP32 reads the button state continuously
+If the button is pressed → display “Pressed”
+If the button is not pressed → display “Not Pressed”
+The output should keep updating on the Serial Monitor
+
+## Arduino Mapping
+
+
+## Generated Code
+
+int buttonPin = 4;
+void setup() {
+Serial.begin(9600);
+pinMode(buttonPin, INPUT);
+}
+void loop() {
+int buttonState = digitalRead(buttonPin);
+if (buttonState == HIGH) {
+Serial.println("Pressed");
+} else {
+Serial.println("Not Pressed");
+}
+delay(500);
+}
+
+## Code Explanation
+
+pinMode(buttonPin, INPUT);
+ Configures the button pin as input.
+digitalRead(buttonPin);
+ Reads whether the button is pressed (HIGH) or not (LOW).
+Serial.println(...)
+ Displays the button state on the Serial Monitor.
+delay(500);
+ Slows down output so it is readable.
+
+## Execution Flow
+
+Setup initializes Serial and button pin
+ESP32 reads button input
+Button state is checked
+Result is printed on Serial Monitor
+Loop repeats continuously

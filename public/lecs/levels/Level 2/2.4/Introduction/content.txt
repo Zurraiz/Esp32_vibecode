@@ -1,0 +1,15 @@
+
+## Level 2.4: Making Decisions (IF Logic)
+
+
+## Introduction
+
+In this lesson, you will learn how to make decisions in your ESP32 program using IF logic.
+ You will use input values, such as a button state, to control what action the system performs. This is the first time you will see how your program can choose between different behaviors.
+The goal of this lesson is not just to use IF statements, but to understand that:
+Your blocks are instructions
+The ESP32 executes those instructions
+The ESP32 can check conditions
+The program can take different actions based on those conditions
+[image: section_0.png]
+By the end of this lesson, you will have created a system where the ESP32 makes decisions and changes behavior depending on input values.

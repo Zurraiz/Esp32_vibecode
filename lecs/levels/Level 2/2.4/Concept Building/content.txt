@@ -1,0 +1,109 @@
+
+## Level 2.4: Making Decisions (IF Logic)
+
+
+## Concept Building
+
+
+## What is Decision Making?
+
+Decision making is the ability of the ESP32 to choose between different actions based on a condition.
+In earlier lessons:
+The ESP32 followed fixed instructions
+The behavior was always the same
+Now:
+The ESP32 evaluates a condition
+It selects what to do next
+This allows the system to behave differently in different situations.
+What is an IF Condition?
+An IF condition is a rule that checks whether something is true or false.
+It creates a decision point in your program.
+
+## Structure:
+
+IF condition is TRUE → execute one action
+ELSE → execute another action
+Only one path is executed at a time.
+
+## Conditions and Comparison
+
+A condition is based on comparing values.
+For example:
+Is the button HIGH?
+Is a value equal to something?
+These comparisons result in:
+TRUE
+FALSE
+Example:
+Button = HIGH → TRUE
+Button = LOW → FALSE
+This TRUE or FALSE result determines what action is taken.
+
+## Connecting Input to Decisions
+
+The ESP32 uses input values inside IF conditions.
+
+## Example flow:
+
+The ESP32 reads the button state
+It checks: “Is the button HIGH?”
+If TRUE → it performs one action
+If FALSE → it performs another action
+Example:
+IF button is HIGH → LED ON
+ELSE → LED OFF
+From Decision to Behavior
+Once decisions are introduced, the system’s behavior changes based on input.
+This creates a cause-and-effect relationship:
+Cause → Button is pressed
+Effect → LED turns ON
+Cause → Button is released
+Effect → LED turns OFF
+The ESP32 acts as the decision-maker that connects input to action.
+When Button is Off:
+When Button is On:
+
+## 3.6 Understanding System Behavior
+
+A system’s behavior is defined by how it:
+Observes input
+Evaluates conditions
+Executes actions
+This creates a structured flow:
+Input → Condition → Action
+Because the ESP32 keeps checking and updating:
+The system responds immediately
+The output reflects the latest input
+This is why:
+When you press the button, the LED reacts instantly.
+
+## 3.7 Expanding the Same Logic
+
+This same idea can be extended to more complex systems.
+For example:
+IF button1 is pressed → LED1 ON
+IF button2 is pressed → LED2 ON
+Or:
+IF temperature is high → turn fan ON
+ELSE → keep fan OFF
+This shows how simple logic can grow into real-world systems.
+
+## 3.8 From Simple Control to Smart Systems
+
+The system you built is a basic version of real-world smart systems.
+This same pattern is used in:
+Home automation
+Security systems
+Industrial control systems
+All follow the same structure:
+Input → Condition → Action
+
+## 3.9 Key Insight of This Lesson
+
+The most important concept in this lesson is:
+The ESP32 can evaluate conditions and change its behavior based on input.
+You are now building systems that:
+Observe (input)
+Decide (condition)
+Act (output)
+This is the foundation of interactive and intelligent systems.

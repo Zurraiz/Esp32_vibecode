@@ -559,11 +559,11 @@ export default function DynamicWiringSimulator({ component }: { component: Compo
   const isLast     = cur === steps.length - 1;
   const s          = steps[cur];
 
-  const drawnPins    = new Set([...drawn].map(i => steps[i].wire?.compPinName?.toUpperCase()).filter(Boolean) as string[]);
-  const drawnEspKeys = new Set([...drawn].map(i => steps[i].wire?.espPinKey).filter(Boolean) as string[]);
+  const drawnPins    = new Set(Array.from(drawn).map(i => steps[i].wire?.compPinName?.toUpperCase()).filter(Boolean) as string[]);
+  const drawnEspKeys = new Set(Array.from(drawn).map(i => steps[i].wire?.espPinKey).filter(Boolean) as string[]);
 
   const handleNext = () => {
-    if (s.wire && !drawn.has(cur)) setDrawn(p => new Set([...p, cur]));
+    if (s.wire && !drawn.has(cur)) setDrawn(p => new Set(Array.from(p).concat(cur)));
     if (!isLast) setCur(c => c + 1);
   };
   const handleReset = () => { setCur(0); setDrawn(new Set()); setIsRunning(false); setOutput(undefined); setLogs([]); };
@@ -642,7 +642,7 @@ export default function DynamicWiringSimulator({ component }: { component: Compo
           )}
 
           {/* Drawn wires — FIX 2: orthogonal routing never crosses ESP32 */}
-          {[...drawn].map(idx => {
+          {Array.from(drawn).map(idx => {
             const w = steps[idx].wire;
             if (!w) return null;
             const d = getWirePath(w.x1, w.y1, w.x2, w.y2, w.side);

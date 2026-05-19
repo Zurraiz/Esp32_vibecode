@@ -1,0 +1,15 @@
+
+## LEVEL 2.1: Seeing Output (Serial Basics)
+
+
+## Introduction
+
+In this lesson, you will learn how to make the ESP32 send information to a screen using Serial communication.
+You will display messages and observe how your program communicates internally. This is the first time you will see how instructions you create can produce visible output without using physical components.
+The goal of this lesson is not just to display messages, but to understand that:
+Your blocks are instructions
+The ESP32 executes those instructions
+The ESP32 can send information to a screen
+You can observe what the program is doing internally
+[image: section_0.png]
+By the end of this lesson, you will have created a complete working system where your instructions produce visible informational output through the Serial Monitor.

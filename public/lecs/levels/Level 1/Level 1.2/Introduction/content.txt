@@ -1,0 +1,8 @@
+LEVEL 1.2: Making Changes Visible (Using Delay)
+Introduction
+In the previous lesson, you controlled an LED by turning it ON and OFF using blocks.
+However, you may have noticed something unusual:
+Even though you gave instructions to turn the LED ON and then OFF, it was difficult to clearly see both actions.
+[image: section_0.png]
+This happens because the ESP32 executes instructions extremely fast.
+In this lesson, you will learn how to slow down the execution so that changes become visible and easier to understand.

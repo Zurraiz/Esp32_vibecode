@@ -1,0 +1,108 @@
+
+## LEVEL 4.3: Combining Logic (Loops + Conditions)
+
+
+## What Does Combining Logic Mean?
+
+Combining logic means using multiple programming concepts together to control behavior.
+[image: section_0.png]
+In earlier lessons:
+You used loops (repetition)
+You used conditions (decision making)
+Now:
+You combine both together
+The system repeats actions and makes decisions at the same time
+This creates more powerful and flexible programs.
+
+## How Do Loops and Conditions Work Together?
+
+When combined:
+A loop repeats the process
+A condition controls what happens inside the loop
+Flow:
+Loop starts
+Input is read
+Condition is checked
+Action is executed
+Loop repeats
+[image: section_1.png]
+This means:
+ The system continuously checks and responds
+
+## Example: Button Controlled Loop Behavior
+
+Example:
+Loop runs continuously
+Inside the loop:
+IF button is pressed → LED blinks
+ELSE → LED stays OFF
+This shows:
+ Loop → keeps checking
+ Condition → decides behavior
+[image: section_2.png]
+
+## Nested Logic (Condition Inside Loop)
+
+When a condition is placed inside a loop, it is called nested logic.
+[image: section_3.png]
+This means:
+The loop runs repeatedly
+The condition is checked in every iteration
+This allows:
+Continuous monitoring
+Real-time decision making
+
+## Why is Combining Logic Important?
+
+Combining logic is important because it allows systems to:
+Continuously monitor inputs
+Make decisions repeatedly
+React instantly to changes
+Without combining logic:
+Systems would be limited
+Behavior would not adapt dynamically
+With combined logic:
+Systems become interactive and intelligent
+
+## Real-Time System Behavior
+
+When loops and conditions work together:
+The system keeps running
+It keeps checking input
+It keeps updating output
+This creates:
+Instant response
+Continuous interaction
+Real-time behavior
+[image: section_4.png]
+
+## Expanding Combined Logic
+
+This logic can be expanded:
+Multiple conditions inside a loop
+Multiple inputs controlling different outputs
+More complex behaviors
+Example:
+The following example demonstrates a double-check system. The light will only turn ON when both buttons are pressed. In this program, btn1 has priority because it is placed in the main condition.
+[image: section_5.png]
+This means:
+The program first checks whether btn1 is pressed
+Only then does it check the state of btn2
+If both conditions are true, the light turns ON
+To test, lets just turn on btn2 alone:
+[image: section_6.png]
+The light remains OFF because the second condition is nested inside the first condition. The program cannot reach the btn2 check unless btn1 is already active.
+This type of structure is called nested conditional logic, where one condition exists inside another condition.
+Now, when btn1 is pressed and then btn2 is pressed:
+[image: section_7.png]
+This shows how simple logic grows into complex systems.
+
+## Key Insight of This Lesson
+
+The most important concept in this lesson is:
+You can combine loops and conditions to create systems that continuously observe, decide, and act.
+You are now able to:
+Repeat actions continuously
+Make decisions inside repetition
+Build real-time interactive systems
+This is a major step toward advanced programming and automation.

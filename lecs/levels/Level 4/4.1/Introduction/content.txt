@@ -1,0 +1,12 @@
+LEVEL 4.1: Repetition Structures (For Loop Basics)
+
+## Introduction
+
+In this lesson, you will learn how to repeat actions automatically using repetition structures.
+You will use a for loop to make the ESP32 perform the same action multiple times without writing the same instructions again. This is the first time you will see how your program can repeat tasks in a controlled way.
+The goal of this lesson is not just to repeat actions, but to understand that:
+Your blocks are instructions
+The ESP32 executes those instructions
+The ESP32 can repeat instructions automatically
+You can control how many times an action is repeated
+By the end of this lesson, you will have created a system where a set of instructions runs multiple times using a loop, helping you build efficient and structured programs.

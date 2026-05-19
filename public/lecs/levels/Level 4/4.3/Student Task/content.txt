@@ -1,0 +1,82 @@
+
+## Student Task
+
+
+## Task: Control LED Behavior Using Loop and Condition
+
+Your objective is to create a system that:
+Continuously runs using a loop
+Reads input from a button
+Uses a condition to decide behavior inside the loop
+Controls LED behavior based on input
+
+## Requirements
+
+Use while_loop or continuous loop behavior
+Use btn_read to read button input
+Use if_block, else_block, and end_if for decision making
+Use dw_high and dw_low to control LED
+Use delay_ms for visible behavior
+Ensure correct logical flow: Loop → Input → Condition → Output
+
+## Expected Behavior
+
+When the system runs:
+The system continuously checks the button
+If the button is pressed → LED blinks repeatedly
+If the button is not pressed → LED remains OFF
+The behavior should update instantly based on input
+
+## Arduino Mapping
+
+
+## Generated Code
+
+int buttonPin = 4;
+int ledPin = 2;
+void setup() {
+pinMode(buttonPin, INPUT);
+pinMode(ledPin, OUTPUT);
+}
+void loop() {
+int buttonState = digitalRead(buttonPin);
+if (buttonState == HIGH) {
+digitalWrite(ledPin, HIGH);
+delay(300);
+digitalWrite(ledPin, LOW);
+delay(300);
+} else {
+digitalWrite(ledPin, LOW);
+}
+}
+
+## Code Explanation
+
+pinMode(buttonPin, INPUT);
+ Sets the button as input.
+pinMode(ledPin, OUTPUT);
+ Sets the LED as output.
+digitalRead(buttonPin);
+ Reads the button state.
+if (buttonState == HIGH)
+ Checks the condition inside the loop.
+digitalWrite + delay
+ Creates blinking behavior when condition is true.
+else block
+ Ensures LED stays OFF when condition is false.
+
+## Execution Flow
+
+Setup configures pins
+Loop runs continuously
+ESP32 reads button input
+Condition is evaluated
+LED behavior is controlled (blink or OFF)
+Process repeats in real time
+
+## 🚀 Extension (Optional Challenge)
+
+Try modifying your system:
+Make LED blink faster/slower
+Add another condition (e.g., second button)
+Use variable to count how many times LED blinked

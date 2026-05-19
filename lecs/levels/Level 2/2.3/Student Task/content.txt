@@ -1,0 +1,65 @@
+
+## Student Task
+
+
+## Task: Read Input State and Display HIGH/LOW
+
+Your objective is to create a system that:
+Reads the state of a button
+Displays whether the signal is HIGH or LOW
+Continuously updates the value on the Serial Monitor
+
+## Requirements
+
+Use btn_read to read the button input
+Use serial_begin to start communication
+Use serial_println to display HIGH or LOW
+Use delay_ms or delay_sec for readable output
+Ensure correct order of execution
+
+## Expected Behavior
+
+When the system runs:
+The ESP32 continuously reads the button state
+If the button is pressed → display “HIGH”
+If the button is not pressed → display “LOW”
+The values should update continuously on the Serial Monitor
+
+## Arduino Mapping
+
+
+## Generated Code
+
+int buttonPin = 4;
+void setup() {
+Serial.begin(9600);
+pinMode(buttonPin, INPUT);
+}
+void loop() {
+int buttonState = digitalRead(buttonPin);
+if (buttonState == HIGH) {
+Serial.println("HIGH");
+} else {
+Serial.println("LOW");
+}
+delay(500);
+}
+
+## Code Explanation
+
+pinMode(buttonPin, INPUT);
+ Configures the button pin as input.
+digitalRead(buttonPin);
+ Reads the electrical signal from the button (HIGH or LOW).
+Serial.println("HIGH"/"LOW");
+ Displays the current state of the input.
+delay(500);
+ Slows down output so changes can be observed clearly.
+
+## Execution Flow
+
+Setup initializes Serial communication and input pin
+ESP32 reads the button signal
+The signal is interpreted as HIGH or LOW
+The value is printed on Serial Monitor
+Loop repeats continuously

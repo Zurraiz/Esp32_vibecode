@@ -22,6 +22,7 @@ import MappingSimulator from '@/components/MappingSimulator';
 import MappedSensorSimulator from '@/components/MappedSensorSimulator';
 import RealTimeControlSimulator from '@/components/RealTimeControlSimulator';
 import DualModeSimulator from '@/components/DualModeSimulator';
+import BlinkIntroLesson from '@/components/BlinkIntroLesson';
 
 export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'missing-delay': MissingDelaySimulator,
@@ -47,4 +48,5 @@ export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'mapped-sensor': MappedSensorSimulator,
   'realtime-control': RealTimeControlSimulator,
   'dual-mode': DualModeSimulator,
+  'blink-intro': BlinkIntroLesson,
 };

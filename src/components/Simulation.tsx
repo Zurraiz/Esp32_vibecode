@@ -1,254 +1,273 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-export default function ChristmasTreeSystem() {
+// ─── Simulated Sensor Generators ─────────────────────────────────────
 
-  const [step, setStep] = useState(0);
+function clamp(n: number, min: number, max: number) {
+  return Math.max(min, Math.min(max, n));
+}
 
-  // 0 = top glow, 1 = mid glow, 2 = bottom glow, 3 = sparkle reset
-  const pattern = [0, 1, 2, 3];
+// ─── Main System ─────────────────────────────────────────────────────
+
+export default function SmartHomeFusionInteractive() {
+
+  const [motion, setMotion] = useState(false);
+  const [temp, setTemp] = useState(28);
+  const [gas, setGas] = useState(10);
+
+  const [state, setState] = useState("SAFE");
+  const [buzzer, setBuzzer] = useState("OFF");
+  const [pulse, setPulse] = useState(false);
+
+  const [doorLocked, setDoorLocked] = useState(true);
+
+  // ─── Sensor Simulation Loop ───────────────────────────────────────
 
   useEffect(() => {
 
     const interval = setInterval(() => {
-      setStep((prev) => (prev + 1) % pattern.length);
-    }, 600);
+
+      // Motion flickers (like real PIR sensor)
+      const m = Math.random() > 0.55;
+      setMotion(m);
+
+      // Temperature slowly drifts
+      setTemp(t => clamp(t + (Math.random() * 4 - 2), 20, 80));
+
+      // Gas fluctuates with spikes
+      setGas(g => clamp(g + (Math.random() * 10 - 5), 0, 100));
+
+    }, 1200);
 
     return () => clearInterval(interval);
 
   }, []);
 
-  const current = pattern[step];
+  // ─── Decision Engine (Multi-Sensor Fusion) ────────────────────────
+
+  useEffect(() => {
+
+    const danger =
+      (motion && gas > 65) ||
+      (temp > 70 && gas > 50) ||
+      (motion && temp > 75);
+
+    const warning =
+      motion || gas > 45 || temp > 55;
+
+    let newState = "SAFE";
+    let newBuzzer = "OFF";
+
+    if (danger) {
+      newState = "DANGER";
+      newBuzzer = "FAST";
+      setDoorLocked(true);
+    }
+    else if (warning) {
+      newState = "WARNING";
+      newBuzzer = "SLOW";
+    }
+    else {
+      newState = "SAFE";
+      newBuzzer = "OFF";
+      setDoorLocked(false);
+    }
+
+    setState(newState);
+    setBuzzer(newBuzzer);
+
+  }, [motion, temp, gas]);
+
+  // ─── Buzzer Pulse Animation ───────────────────────────────────────
+
+  useEffect(() => {
+
+    if (buzzer === "OFF") {
+      setPulse(false);
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setPulse(p => !p);
+    }, buzzer === "FAST" ? 120 : 500);
+
+    return () => clearInterval(interval);
+
+  }, [buzzer]);
+
+  // ───────────────────────────────────────────────────────────────
 
   return (
-    <div className="bg-slate-100 p-8 rounded-3xl space-y-10">
+    <div className="min-h-screen bg-slate-100 p-8">
 
       {/* HEADER */}
-      <div>
-        <h2 className="text-2xl font-bold text-slate-800">
-          Christmas Tree LED Pattern System
-        </h2>
-        <p className="text-sm text-slate-500">
-          Small LEDs → sequence → loop → festive animation
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-slate-800">
+          Smart Home Sensor Fusion Lab
+        </h1>
+        <p className="text-slate-500">
+          Multi-sensor decision system with live environmental simulation
         </p>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-8">
+      <div className="grid lg:grid-cols-3 gap-8">
 
-        {/* LEFT: FULL LOOP EXECUTION MODEL */}
+        {/* ─── HOUSE VISUAL ───────────────────────────────────────── */}
+        <div className="bg-white border rounded-3xl p-6 space-y-4">
 
-        <div className="bg-white border rounded-3xl p-8 space-y-6 font-mono text-sm">
+          <h2 className="text-xl font-bold">Smart House</h2>
 
-          <div className="font-bold text-slate-800 text-lg">
-            ESP32 Full Execution Cycle
+          <div className={`relative h-64 rounded-2xl overflow-hidden border flex items-center justify-center transition-all ${state === "DANGER"
+              ? "bg-red-500/20"
+              : state === "WARNING"
+                ? "bg-yellow-400/20"
+                : "bg-green-400/20"
+            }`}>
+
+            {/* Door */}
+            <div className={`absolute bottom-6 w-20 h-32 rounded-lg border-2 flex items-center justify-center text-xs font-bold transition-all ${doorLocked ? "bg-red-500 text-white border-red-700" : "bg-green-500 text-white border-green-700"
+              }`}>
+              {doorLocked ? "LOCKED" : "OPEN"}
+            </div>
+
+            {/* Motion indicator */}
+            <div className={`absolute top-6 text-sm font-bold ${motion ? "text-red-600 animate-pulse" : "text-slate-400"
+              }`}>
+              🚶 Motion: {motion ? "DETECTED" : "NONE"}
+            </div>
+
+            {/* Buzzer visual */}
+            {buzzer !== "OFF" && (
+              <div className={`absolute inset-0 flex items-center justify-center ${pulse ? "opacity-100" : "opacity-30"
+                }`}>
+                <div className="text-5xl">🔊</div>
+              </div>
+            )}
+
+            {/* State label */}
+            <div className="absolute bottom-2 text-xs font-mono text-slate-600">
+              STATE: {state}
+            </div>
+
           </div>
 
-          {/* LOOP WRAPPER */}
-          <div className="border-2 border-blue-100 rounded-2xl p-4 bg-blue-50 space-y-4">
+          {/* Sensor sliders (manual override for learning) */}
+          <div className="space-y-3">
 
-            <div className="text-blue-700 font-bold">
-              while(true) {`{`}
-            </div>
-
-            <div className="ml-4 space-y-4 border-l-2 border-blue-200 pl-4">
-
-              <FlowStep active>
-                loop() iteration starts
-              </FlowStep>
-
-              <Arrow />
-
-              <FlowStep active>
-                delay(600) → timing control
-              </FlowStep>
-
-              <Arrow />
-
-              <FlowStep active>
-                index = (index + 1) % 4
-              </FlowStep>
-
-              <Arrow />
-
-              {/* INSIDE LOOP: FULL IF/ELSE CHAIN */}
-              <div className="bg-white border rounded-xl p-3 space-y-3">
-
-                <div className="text-slate-500 text-xs">
-                  decision logic (runs every loop cycle)
-                </div>
-
-                <FlowStep active={current === 0} color="pink">
-                  if (index == 0) → topLEDs()
-                </FlowStep>
-
-                <FlowStep active={current === 1} color="yellow">
-                  else if (index == 1) → middleLEDs()
-                </FlowStep>
-
-                <FlowStep active={current === 2} color="green">
-                  else if (index == 2) → bottomLEDs()
-                </FlowStep>
-
-                <FlowStep active={current === 3} color="purple">
-                  else → sparkleEffect()
-                </FlowStep>
-
-              </div>
-
-              <Arrow />
-
-              <div className="p-3 rounded-xl border bg-emerald-50 text-emerald-700 font-bold text-center">
-                digitalWrite(LED_STRIP, currentPattern)
-              </div>
-
-            </div>
-
-            <div className="text-blue-700 font-bold">
-              {`}`}
-            </div>
+            <Slider label="Temperature" value={temp} setValue={setTemp} max={90} />
+            <Slider label="Gas Level" value={gas} setValue={setGas} max={100} />
+            <Toggle label="Force Motion Sensor" value={motion} setValue={setMotion} />
 
           </div>
 
         </div>
-        {/* RIGHT: CHRISTMAS TREE */}
-        <div className="bg-white border rounded-3xl p-10 flex flex-col items-center space-y-4">
 
-          <h3 className="font-bold text-lg text-slate-800">
-            LED Christmas Tree
-          </h3>
+        {/* ─── SENSOR PANEL ───────────────────────────────────────── */}
+        <div className="bg-white border rounded-3xl p-6 space-y-4">
 
-          {/* TREE SHAPE */}
-          <div className="relative flex flex-col items-center">
+          <h2 className="text-xl font-bold">Live Sensors</h2>
 
-            {/* STAR */}
-            <div className={`
-              text-3xl mb-2 transition-all
-              ${current === 3 ? 'scale-125 drop-shadow-xl' : 'opacity-60'}
-            `}>
-              ⭐
-            </div>
+          <Sensor label="Motion" value={motion ? "DETECTED" : "CLEAR"} />
+          <Sensor label="Temperature" value={`${temp.toFixed(1)} °C`} />
+          <Sensor label="Gas Level" value={`${gas.toFixed(1)} ppm`} />
 
-            {/* TREE BODY (triangle style) */}
-            <div className="flex flex-col items-center space-y-2">
+          <div className="p-4 bg-slate-900 text-green-400 rounded-xl text-xs font-mono space-y-1">
+            <div>STATE: {state}</div>
+            <div>BUZZER: {buzzer}</div>
+            <div>LOGIC: Motion + Gas + Temp Fusion</div>
+          </div>
 
-              {/* TOP ROW */}
-              <div className="flex gap-2">
-                <Led active={current === 0} color="pink" />
-              </div>
+        </div>
 
-              {/* MIDDLE ROW */}
-              <div className="flex gap-2">
-                <Led active={current === 1} color="yellow" />
-                <Led active={current === 1} color="yellow" />
-              </div>
+        {/* ─── LOGIC EXPLANATION ───────────────────────────────────── */}
+        <div className="bg-white border rounded-3xl p-6 space-y-4">
 
-              {/* LOWER ROW */}
-              <div className="flex gap-2">
-                <Led active={current === 2} color="green" />
-                <Led active={current === 2} color="green" />
-                <Led active={current === 2} color="green" />
-              </div>
+          <h2 className="text-xl font-bold">Decision Logic</h2>
 
-              {/* BASE ROW */}
-              <div className="flex gap-2">
-                <Led active={current === 2} color="green" />
-                <Led active={current === 2} color="green" />
-                <Led active={current === 2} color="green" />
-                <Led active={current === 2} color="green" />
-              </div>
+          <LogicBlock active={state === "SAFE"}>
+            SAFE → all sensors normal
+          </LogicBlock>
 
-            </div>
+          <LogicBlock active={state === "WARNING"}>
+            WARNING → one sensor abnormal (OR condition)
+          </LogicBlock>
 
-            {/* TRUNK */}
-            <div className="w-6 h-10 bg-amber-800 mt-2 rounded-md" />
+          <LogicBlock active={state === "DANGER"}>
+            DANGER → multiple dangerous conditions (AND logic)
+          </LogicBlock>
+
+          {/* LIVE EXPLANATION */}
+          <div className="p-4 bg-slate-950 text-green-400 rounded-xl text-xs font-mono">
+
+            <div className="font-bold mb-2">LIVE EXPLANATION</div>
+
+            {state === "SAFE" && "System is stable. No hazardous readings detected."}
+
+            {state === "WARNING" && "One or more sensors show abnormal values. System increases alert level."}
+
+            {state === "DANGER" && "Multiple sensors confirm danger. Emergency protocol activated."}
 
           </div>
 
         </div>
 
       </div>
-
     </div>
   );
 }
 
-/* SMALL LED COMPONENT */
-function Led({ active, color }: any) {
+// ─── UI COMPONENTS ─────────────────────────────────────────────────
 
-  const colors: any = {
-    pink: 'bg-pink-400 shadow-pink-300',
-    yellow: 'bg-yellow-300 shadow-yellow-200',
-    green: 'bg-green-400 shadow-green-300'
-  };
-
+function Sensor({ label, value }: { label: string; value: string | number }) {
   return (
-    <div
-      className={`
-        w-4 h-4 rounded-full transition-all duration-300
-        ${active
-          ? `${colors[color]} shadow-[0_0_10px_rgba(0,0,0,0.3)] scale-125`
-          : 'bg-slate-300'
-        }
-      `}
-    />
+    <div className="flex justify-between p-3 bg-slate-50 border rounded-xl">
+      <span className="text-slate-600">{label}</span>
+      <span className="font-bold text-slate-800">{value}</span>
+    </div>
   );
 }
 
-const base =
-  "p-3 rounded-xl border bg-slate-50 text-slate-600 text-center";
-
-const active =
-  "p-3 rounded-xl border bg-yellow-100 border-yellow-400 text-yellow-700 font-bold text-center scale-[1.03]";
-function Step({ label, active, color }: any) {
-
-  const colors: any = {
-    blue: "border-blue-200 bg-blue-50 text-blue-700",
-    red: "border-red-200 bg-red-50 text-red-700",
-    yellow: "border-yellow-200 bg-yellow-50 text-yellow-700",
-    green: "border-green-200 bg-green-50 text-green-700",
-    purple: "border-purple-200 bg-purple-50 text-purple-700"
-  };
-
+function LogicBlock({ children, active }: { children: React.ReactNode; active: boolean }) {
   return (
-    <pre
-      className={`
-        p-3 rounded-xl border whitespace-pre-wrap transition-all
-        ${active
-          ? colors[color] + " font-bold scale-[1.02] shadow-md"
-          : "bg-slate-50 text-slate-500 border-slate-200"
-        }
-      `}
+    <div className={`p-3 rounded-xl border transition-all ${active
+        ? "bg-cyan-100 border-cyan-400 text-cyan-700 font-bold"
+        : "bg-slate-50 border-slate-200 text-slate-500"
+      }`}>
+      {children}
+    </div>
+  );
+}
+
+function Toggle({ label, value, setValue }: { label: string; value: boolean; setValue: (v: boolean) => void }) {
+  return (
+    <div
+      onClick={() => setValue(!value)}
+      className={`p-3 rounded-xl border cursor-pointer ${value
+          ? "bg-green-100 border-green-400 text-green-700 font-bold"
+          : "bg-slate-50 border-slate-200 text-slate-600"
+        }`}
     >
       {label}
-    </pre>
+    </div>
   );
 }
 
-function Arrow() {
-  return <div className="text-slate-400 text-center">↓</div>;
-}
-function FlowStep({ children, active, color }: any) {
-
-  const colors: any = {
-    pink: "border-pink-200 bg-pink-50 text-pink-700",
-    yellow: "border-yellow-200 bg-yellow-50 text-yellow-700",
-    green: "border-green-200 bg-green-50 text-green-700",
-    purple: "border-purple-200 bg-purple-50 text-purple-700",
-    default: "border-slate-200 bg-slate-50 text-slate-600"
-  };
-
+function Slider({ label, value, setValue, max }: { label: string; value: number; setValue: (v: number) => void; max: number }) {
   return (
-    <div
-      className={`
-        p-3 rounded-xl border transition-all
-        ${active
-          ? (colors[color] || colors.default) + " font-bold scale-[1.02] shadow-md"
-          : "bg-white text-slate-400 border-slate-100"
-        }
-      `}
-    >
-      {children}
+    <div className="space-y-1">
+      <div className="text-xs text-slate-600 flex justify-between">
+        <span>{label}</span>
+        <span>{value.toFixed(0)}</span>
+      </div>
+      <input
+        type="range"
+        min="0"
+        max={max}
+        value={value}
+        onChange={(e) => setValue(Number(e.target.value))}
+        className="w-full accent-cyan-500"
+      />
     </div>
   );
 }

@@ -1,0 +1,102 @@
+
+## LEVEL 2.1: Seeing Output (Serial Basics)
+
+
+## What is Serial Communication?
+
+Serial communication is a method used by the ESP32 to send data to another device, usually a computer.
+Instead of controlling physical components like LEDs or motors, the ESP32 sends:
+Text messages
+Numerical values
+Status updates
+This communication happens in a sequence, one piece of data at a time, which is why it is called serial communication.
+It creates a connection between:
+The ESP32 (sender)
+The computer (receiver)
+[image: section_0.png]
+Use simpler image
+
+## What is the Serial Monitor?
+
+The Serial Monitor is a tool that displays the data sent by the ESP32.
+It acts as:
+A display screen for your program
+A communication interface between you and the ESP32
+When the ESP32 sends information, the Serial Monitor shows it instantly.
+This allows you to:
+Read messages
+Observe changing values
+Track program execution in real time
+[image: section_1.png]
+Instead of this picture, can use serial monitor output picture
+
+## Why Do We Use Serial Output?
+
+Serial output is very important when working with embedded systems.
+In many cases:
+You cannot see what is happening inside the program
+There is no physical output to observe
+You need to verify if your logic is correct
+Serial output helps solve this problem by:
+Printing values and messages
+Showing step-by-step execution
+Helping identify errors or unexpected behavior
+It is mainly used for:
+Debugging programs
+Testing logic
+Understanding system behavior
+[image: section_2.png]
+
+## What Type of Information Can Be Sent?
+
+The ESP32 can send different types of information through Serial, such as:
+Simple messages (e.g., “System Started”)
+Sensor values
+Input states (HIGH or LOW)
+Program status updates
+This makes Serial communication a flexible and powerful tool.
+
+## What Happens When the Program Runs?
+
+When your program runs, the following process occurs:
+The ESP32 starts executing instructions
+When it reaches a Serial block, it sends data
+The data travels from the ESP32 to the computer
+The Serial Monitor receives and displays the data
+The program continues running and repeating this process
+Because the program runs continuously, the output is also updated continuously.
+[image: section_3.png]
+
+## Continuous Output and Repetition
+
+The ESP32 does not send data just once.
+ It keeps sending data repeatedly as long as the program is running.
+This means:
+Messages may appear again and again
+Values may keep updating
+You can observe changes over time
+This continuous behavior helps you monitor real-time activity.
+
+## How is Serial Output Different from LED Output?
+
+LED Output:
+Physical
+Visible through light
+Limited to ON/OFF behavior
+Serial Output:
+Informational
+Visible as text
+Can show detailed data and messages
+Serial output gives you more control and more insight into your program.
+Add a section highlighting how our app handle this in simple way (i have to add this properly first)
+
+## Key Insight of This Lesson
+
+The most important concept in this lesson is:
+You can observe and understand your program’s internal behavior using Serial output.
+You are no longer limited to physical results.
+ You now have a way to:
+See what the ESP32 is doing
+Track how it is working
+Debug and improve your programs
+This is a fundamental skill for building more advanced and interactive systems.

@@ -1,0 +1,109 @@
+
+## LEVEL 2.2: Variables (Storing and Updating Values)
+
+
+## What is a variable?
+
+A variable is a place in the program where you can store a value.
+[image: section_0.png]
+You can think of a variable as:
+A container
+A box with a name
+This box stores information that your program can use.
+For example:
+Store a number
+Store a text message
+Store a sensor value
+
+## Why do we use variables?
+
+Variables are used to:
+Store information
+Keep track of values
+Use data later in the program
+[image: section_1.png]
+Without variables:
+You cannot remember values
+You cannot update information
+With variables:
+Programs become dynamic
+Values can change during execution
+
+## Types of variables
+
+Different types of variables store different kinds of data:
+[image: section_2.png]
+Integer (var_int) → stores whole numbers (e.g., 5, 10)
+Float (var_float) → stores decimal numbers (e.g., 25.5)
+String (var_str) → stores text (e.g., "Hello")
+Boolean (var_bool) → stores TRUE or FALSE
+Choosing the correct type is important.
+
+## Storing a value in a variable
+
+To store a value:
+You create a variable
+You assign a value to it
+[image: section_3.png]
+Example:
+Store number 10 in a variable
+Store button state (HIGH/LOW)
+Once stored:
+The program can use this value anytime
+
+## Updating a variable
+
+Variables are not fixed — they can be updated.
+Example:
+Start with value = 0
+Increase value by 1 each time
+This is called updating a variable.
+It allows you to:
+Count things
+Track changes
+Store new values
+
+## Using variables in programs
+
+Variables can be used to:
+Store input values
+Use values in IF conditions
+Control outputs
+[image: section_4.png]
+Example:
+Store button state in a variable
+Use that variable to decide LED behavior
+This connects:
+ Input → Variable → Condition → Output
+
+## Example: Counter Using Variable
+
+Example:
+Start counter at 0
+Increase by 1 each time
+Display value
+[image: section_5.png]
+This is useful for:
+Counting repetitions
+Tracking events
+Measuring activity
+Variables with Sensors
+Variables are very useful with sensors.
+Example:
+Read temperature from sensor
+Store it in a variable
+Use it in the program
+[image: section_6.png]
+This allows:
+Real-world data to be used in logic
+Smart decision making
+
+## Key Insight of This Lesson
+
+The most important concept in this lesson is:
+Variables allow you to store, update, and use information inside your program.
+You are now able to:
+Remember values
+Track changes
+Use data to control behavior
+This is essential for building dynamic, intelligent, and data-driven systems.

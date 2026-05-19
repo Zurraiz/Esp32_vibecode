@@ -1,0 +1,66 @@
+
+## Student Task
+
+
+## Task: Control LED Using IF Condition
+
+Your objective is to create a system that:
+Reads input from a button
+Uses an IF condition to make a decision
+Turns an LED ON or OFF based on the button state
+
+## Requirements
+
+Use btn_read to read button input
+Use if_block, else_block, and end_if for decision making
+Use dw_high and dw_low to control the LED
+Use pinMode to set LED as OUTPUT
+Ensure correct order of execution
+
+## Expected Behavior
+
+When the system runs:
+If the button is pressed (HIGH) → LED turns ON
+If the button is not pressed (LOW) → LED turns OFF
+The system continuously checks the button and updates the LED
+
+## Arduino Mapping
+
+
+## Generated Code
+
+int buttonPin = 4;
+int ledPin = 2;
+void setup() {
+pinMode(buttonPin, INPUT);
+pinMode(ledPin, OUTPUT);
+}
+void loop() {
+int buttonState = digitalRead(buttonPin);
+if (buttonState == HIGH) {
+digitalWrite(ledPin, HIGH);
+} else {
+digitalWrite(ledPin, LOW);
+}
+}
+
+## Code Explanation
+
+pinMode(buttonPin, INPUT);
+ Sets the button pin as input.
+pinMode(ledPin, OUTPUT);
+ Sets the LED pin as output.
+digitalRead(buttonPin);
+ Reads the button state (HIGH or LOW).
+if (buttonState == HIGH)
+ Checks if the condition is true.
+digitalWrite(HIGH/LOW)
+ Controls the LED based on the condition.
+
+## Execution Flow
+
+Setup configures input and output pins
+ESP32 reads button input
+Condition is evaluated (TRUE/FALSE)
+LED is turned ON or OFF accordingly
+Loop repeats continuously

@@ -16,6 +16,7 @@ import { BLOCK_CATALOGUE } from '@/lib/blockCatalogue';
 import { LEVELS } from '@/lib/lessonConfig';
 import { SIMULATION_REGISTRY } from '@/lib/simulationRegistry';
 import { useAppStore } from '@/store/useAppStore';
+import InteractiveLecture from '@/components/InteractiveLecture';
 
 export default function LessonPage() {
   const router = useRouter();
@@ -287,20 +288,13 @@ export default function LessonPage() {
                 {currentStep.pdfUrl ? (
                   <PDFViewer url={currentStep.pdfUrl} title={currentStep.pdfLabel} />
                 ) : (
-                  <div className="max-w-3xl rounded-xl bg-white p-8 shadow-sm">
-                    {currentStep.pdfLabel && (
-                      <div className="mb-4 flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-4 py-2">
-                        <span>📄</span>
-                        <span className="text-sm text-gray-600">{currentStep.pdfLabel}</span>
-                      </div>
-                    )}
-                    <div
-                      className="text-sm leading-relaxed text-gray-700"
-                      dangerouslySetInnerHTML={{ __html: currentStep.content ?? '<p>No content available.</p>' }}
-                    />
-                    </div>
+                  <InteractiveLecture
+                    levelId={levelId}
+                    lessonId={lessonId}
+                    stepId={currentStep.id}
+                  />
                 )}
-                </div>
+              </div>
             )}
 
             {(currentStep.type === 'explore' || currentStep.type === 'challenge') && (

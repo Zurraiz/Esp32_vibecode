@@ -1,0 +1,12 @@
+Level 2.2: Introducing Inputs (Buttons)
+
+## Introduction
+
+In this lesson, you will learn how to introduce input into your ESP32 program using a button.
+You will use a button to send signals to the ESP32 and observe how it detects user interaction. This is the first time you will see how external actions can affect the behavior of your program.
+The goal of this lesson is not just to use a button, but to understand that:
+Your blocks are instructions
+The ESP32 executes those instructions
+External devices can send signals to the ESP32
+The program can respond to user actions
+By the end of this lesson, you will have created a system where a physical action (button press) sends input to the ESP32 and becomes part of the program’s behavior.
