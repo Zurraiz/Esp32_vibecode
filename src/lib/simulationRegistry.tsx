@@ -22,6 +22,28 @@ import MappingSimulator from '@/components/MappingSimulator';
 import MappedSensorSimulator from '@/components/MappedSensorSimulator';
 import RealTimeControlSimulator from '@/components/RealTimeControlSimulator';
 import DualModeSimulator from '@/components/DualModeSimulator';
+import ForLoopConceptExplorer from '@/components/ForLoopConceptExplorer';
+import ForLoopLEDChaser from '@/components/ForLoopLEDChaser';
+import WhileVsForExplorer from '@/components/WhileVsForExplorer';
+import CountdownSimulator from '@/components/CountdownSimulator';
+import LoopConditionExplorer from '@/components/LoopConditionExplorer';
+import SignalTreeVaultSystem from '@/components/SignalTreeVaultSystem';
+import PatternSequenceExplorer from '@/components/PatternSequenceExplorer';
+import PatternChaserSimulator from '@/components/PatternChaserSimulator';
+import DHTEnvironmentExplorer from '@/components/DHTEnvironmentExplorer';
+import DHTMonitorSimulator from '@/components/DHTMonitorSimulator';
+import PIRExplorer from '@/components/PIRExplorer';
+import PIRMonitorSimulator from '@/components/PIRMonitorSimulator';
+import PIRAutonomousSimulator from '@/components/PIRAutonomousSimulator';
+import UltrasonicExplorer from '@/components/UltrasonicExplorer';
+import UltrasonicMonitorSimulator from '@/components/UltrasonicMonitorSimulator';
+import UltrasonicAutonomousSimulator from '@/components/UltrasonicAutonomousSimulator';
+import BuzzerExplorer from '@/components/BuzzerExplorer';
+import BuzzerMonitorSimulator from '@/components/BuzzerMonitorSimulator';
+import BuzzerAutonomousSimulator from '@/components/BuzzerAutonomousSimulator';
+import SmartSystemExplorer from '@/components/SmartSystemExplorer';
+import SmartSystemMonitorSimulator from '@/components/SmartSystemMonitorSimulator';
+import SmartSystemAutonomousSimulator from '@/components/SmartSystemAutonomousSimulator';
 import BlinkIntroLesson from '@/components/BlinkIntroLesson';
 
 export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
@@ -48,5 +70,27 @@ export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'mapped-sensor': MappedSensorSimulator,
   'realtime-control': RealTimeControlSimulator,
   'dual-mode': DualModeSimulator,
+  'for-loop-concept': ForLoopConceptExplorer,
+  'for-loop-chaser': ForLoopLEDChaser,
+  'while-vs-for': WhileVsForExplorer,
+  'countdown': CountdownSimulator,
+  'loop-condition': LoopConditionExplorer,
+  'signal-tree': SignalTreeVaultSystem,
+  'pattern-sequence': PatternSequenceExplorer,
+  'pattern-chaser': PatternChaserSimulator,
+  'dht-environment': DHTEnvironmentExplorer,
+  'dht-monitor': DHTMonitorSimulator,
+  'pir-explorer': PIRExplorer,
+  'pir-monitor': PIRMonitorSimulator,
+  'pir-autonomous': PIRAutonomousSimulator,
+  'ultrasonic-explorer': UltrasonicExplorer,
+  'ultrasonic-monitor': UltrasonicMonitorSimulator,
+  'ultrasonic-autonomous': UltrasonicAutonomousSimulator,
+  'buzzer-explorer': BuzzerExplorer,
+  'buzzer-monitor': BuzzerMonitorSimulator,
+  'buzzer-autonomous': BuzzerAutonomousSimulator,
+  'smart-explorer': SmartSystemExplorer,
+  'smart-monitor': SmartSystemMonitorSimulator,
+  'smart-autonomous': SmartSystemAutonomousSimulator,
   'blink-intro': BlinkIntroLesson,
 };

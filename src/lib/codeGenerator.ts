@@ -281,10 +281,13 @@ export function generateCode(blocks: Block[]): { code: string; english: string[]
         break;
       }
       case "while_loop": {
-        const cond = textExpr(block.values.cond, "COND", "true");
+        const varName = safeVar(block.values.var, "counter");
+        const op = String(block.values.op ?? '<').trim();
+        const val = String(block.values.val ?? "0").trim();
+        const cond = `${varName} ${op} ${val}`;
         li(`${kw("while")}(${cond}){`);
         indent += 1;
-        english.push(`Repeat enclosed blocks while condition is true.`);
+        english.push(`Repeat enclosed blocks while ${cond} is true.`);
         break;
       }
       case "end_loop": {
@@ -440,9 +443,17 @@ export function generateCode(blocks: Block[]): { code: string; english: string[]
       }
       case "var_add": {
         const name = safeVar(block.values.name, "myNum");
-        const step = numberToken(block.values.step, "STEP", 1);
-        li(`${name} = ${name} + ${step};`);
-        english.push(`Add ${step} to variable ${name}.`);
+        const stepRaw = Number(block.values.step ?? 1);
+        const stepAbs = Math.abs(stepRaw);
+        const stepToken = num(String(stepAbs));
+        if (stepRaw < 0) {
+          li(`${name} = ${name} - ${stepToken};`);
+          english.push(`Subtract ${stepAbs} from variable ${name}.`);
+        } else {
+          const step = numberToken(block.values.step, "STEP", 1);
+          li(`${name} = ${name} + ${step};`);
+          english.push(`Add ${step} to variable ${name}.`);
+        }
         break;
       }
       case "oled_setup": {

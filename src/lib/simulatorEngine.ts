@@ -272,7 +272,10 @@ async function execute(blocks: Block[], ctx: SimulationContext) {
       }
 
       case 'while_loop': {
-        const cond = String(block.values.cond ?? 'false');
+        const varName = String(block.values.var ?? 'counter').trim();
+        const op = String(block.values.op ?? '>').trim();
+        const val = String(block.values.val ?? '0').trim();
+        const cond = `${varName} ${op} ${val}`;
         if (evaluateCondition(cond, ctx.variables)) {
           // Push this loop's index so we can jump back
           if (loopStack[loopStack.length - 1] !== ip) {

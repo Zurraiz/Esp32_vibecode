@@ -10,8 +10,7 @@ import PDFViewer from '@/components/PDFViewer';
 import Sidebar from '@/components/Sidebar';
 import SimulationOverlay from '@/components/SimulationOverlay';
 import StaticCodePanel from '@/components/StaticCodePanel';
-import ButtonMappingPanel from '@/components/ButtonMappingPanel';
-import IfMappingPanel from '@/components/IfMappingPanel';
+import { MAPPING_PANEL_REGISTRY } from '@/lib/mappingPanelRegistry';
 import { BLOCK_CATALOGUE } from '@/lib/blockCatalogue';
 import { LEVELS } from '@/lib/lessonConfig';
 import { SIMULATION_REGISTRY } from '@/lib/simulationRegistry';
@@ -253,15 +252,14 @@ export default function LessonPage() {
                   type="button"
                   disabled={isLocked}
                   onClick={() => setCurrentStepIndex(index)}
-                  className={`mx-3 mb-2 flex w-[calc(100%-24px)] items-center gap-2 rounded-lg px-3 py-2.5 text-left ${
-                    isActive
+                  className={`mx-3 mb-2 flex w-[calc(100%-24px)] items-center gap-2 rounded-lg px-3 py-2.5 text-left ${isActive
                       ? 'bg-[#2E4862] text-white cursor-pointer'
                       : isCompleted
-                      ? 'bg-green-50 text-green-700 border border-green-100 cursor-pointer'
-                      : isLocked
-                      ? 'opacity-40 cursor-not-allowed text-gray-600'
-                      : 'cursor-pointer text-gray-600 hover:bg-gray-50'
-                  }`}
+                        ? 'bg-green-50 text-green-700 border border-green-100 cursor-pointer'
+                        : isLocked
+                          ? 'opacity-40 cursor-not-allowed text-gray-600'
+                          : 'cursor-pointer text-gray-600 hover:bg-gray-50'
+                    }`}
                 >
                   <span>{icon}</span>
                   <div className="min-w-0 flex-1">
@@ -348,15 +346,15 @@ export default function LessonPage() {
 
                 {currentStep.type === 'challenge' && SimulationComponent &&
                   !currentStep.challengeSimulationId && (
-                  <SimulationOverlay
-                    isOpen={challengePassed}
-                    onContinue={handleAdvance}
-                    blocks={blocks}
-                    title="See what your code does on the hardware"
-                  >
-                    <SimulationComponent />
-                  </SimulationOverlay>
-                )}
+                    <SimulationOverlay
+                      isOpen={challengePassed}
+                      onContinue={handleAdvance}
+                      blocks={blocks}
+                      title="See what your code does on the hardware"
+                    >
+                      <SimulationComponent />
+                    </SimulationOverlay>
+                  )}
               </div>
             )}
 
@@ -367,9 +365,8 @@ export default function LessonPage() {
                 </p>
                 <div className="flex flex-1 gap-3 overflow-hidden">
                   {/* Left — simulation, example program, or student blocks */}
-                  <div className={`flex-shrink-0 overflow-hidden rounded-xl bg-white shadow-sm ${
-                    currentStep.mappingSimulationId ? 'flex-1' : 'w-[360px]'
-                  }`}>
+                  <div className={`flex-shrink-0 overflow-hidden rounded-xl bg-white shadow-sm ${currentStep.mappingSimulationId ? 'flex-1' : 'w-[360px]'
+                    }`}>
                     {currentStep.mappingSimulationId ? (
                       <div className="h-full overflow-y-auto p-3">
                         {(() => {
@@ -427,18 +424,23 @@ export default function LessonPage() {
                   </div>
 
                   {/* Right — generated or hardcoded code */}
-                  <div className={`overflow-hidden rounded-xl bg-white shadow-sm ${
-                    currentStep.mappingSimulationId ? 'w-[380px] flex-shrink-0' : 'flex-1'
-                  }`}>
-                    {currentStep.mappingCodeComponent === 'button' ? (
-                      <ButtonMappingPanel />
-                    ) : currentStep.mappingCodeComponent === 'if' ? (
-                      <IfMappingPanel />
-                    ) : lesson?.steps.find(s => s.type === 'challenge')?.challengeSimulationId ? (
-                      <StaticCodePanel />
-                    ) : (
-                      <CodePanel showLiveOutput={currentStep?.showSerialOutput === true} />
-                    )}
+                  <div className={`overflow-hidden rounded-xl bg-white shadow-sm ${currentStep.mappingSimulationId ? 'w-[380px] flex-shrink-0' : 'flex-1'
+                    }`}>
+                    {(() => {
+                      if (currentStep.mappingCodeComponent) {
+                        const MappingPanel = MAPPING_PANEL_REGISTRY[
+                          currentStep.mappingCodeComponent
+                        ] ?? null;
+                        if (MappingPanel) return <MappingPanel />;
+                      }
+                      if (lesson?.steps.find(s => s.type === 'challenge')
+                        ?.challengeSimulationId) {
+                        return <StaticCodePanel />;
+                      }
+                      return <CodePanel showLiveOutput={
+                        currentStep?.showSerialOutput === true
+                      } />;
+                    })()}
                   </div>
                 </div>
               </div>
@@ -463,9 +465,8 @@ export default function LessonPage() {
                 return (
                   <span
                     key={index}
-                    className={`h-2 w-2 rounded-full ${
-                      isActive ? 'bg-[#2E4862]' : isCompleted ? 'bg-green-500' : 'bg-gray-200'
-                    }`}
+                    className={`h-2 w-2 rounded-full ${isActive ? 'bg-[#2E4862]' : isCompleted ? 'bg-green-500' : 'bg-gray-200'
+                      }`}
                   />
                 );
               })}
