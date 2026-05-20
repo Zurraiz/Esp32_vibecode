@@ -23,9 +23,13 @@ Analog Read
 Map Value
 PWM Write
 If / Else (optional for mode switching)
-Serial Print (for debugging mode)
 
 ## Exploration Goal
+
+
+```
+Serial Print (for debugging mode)
+```
 
 Your goal is to compare two different control behaviors:
 Potentiometer → manual brightness control
@@ -187,6 +191,11 @@ Clear behavioral difference between modes
 
 ## Generated Code
 
+
+## Code Explanation
+
+
+```
 int potPin = 34;
 int ldrPin = 35;
 int ledPin = 2;
@@ -206,15 +215,18 @@ ledcWrite(0, manualBrightness);
 ledcWrite(0, autoBrightness);
 }
 }
-
-## Code Explanation
+```
 
 potValue → manual input source
 ldrValue → environmental input source
 map() → converts both into usable output range
-if (manualMode) → selects system behavior
 
 ## Execution Flow
+
+
+```
+if (manualMode) → selects system behavior
+```
 
 Both sensors are read
 Values are mapped

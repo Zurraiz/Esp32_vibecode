@@ -29,7 +29,11 @@ Your goal is to observe how the system reacts when motion is detected.
 
 Connect PIR sensor block
 Read its output value
+
+```
 Print the value using Serial
+```
+
 Move in front of the sensor
 
 ## Observe
@@ -156,7 +160,11 @@ Turn LED OFF when no motion is detected
 
 Use PIR Sensor Read
 Use Digital Write
+
+```
 Use Serial Print for debugging
+```
+
 Ensure continuous monitoring
 
 ## Expected Behavior
@@ -171,6 +179,14 @@ Behavior repeats continuously
 
 ## Generated Code
 
+
+## Code Explanation
+
+
+## Execution Flow
+
+
+```
 int pirPin = 4;
 int ledPin = 2;
 void setup() {
@@ -188,9 +204,6 @@ digitalWrite(ledPin, LOW);
 Serial.println("No Motion");
 }
 }
-
-## Code Explanation
-
 digitalRead(pirPin);
 Reads motion signal
 if (motion == HIGH)
@@ -199,8 +212,7 @@ digitalWrite(ledPin, HIGH);
 Turns LED ON when motion is detected
 digitalWrite(ledPin, LOW);
 Turns LED OFF when no motion is present
-
-## Execution Flow
+```
 
 Sensor is read continuously
 Motion state is checked

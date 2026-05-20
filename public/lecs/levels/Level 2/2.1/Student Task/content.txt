@@ -29,6 +29,14 @@ Output should update again and again
 
 ## Generated Code
 
+
+## Code Explanation
+
+
+## Execution Flow
+
+
+```
 void setup() {
 Serial.begin(9600);
 }
@@ -36,17 +44,13 @@ void loop() {
 Serial.println("System Running...");
 delay(1000);
 }
-
-## Code Explanation
-
 Serial.begin(9600);
  This starts serial communication between the ESP32 and the computer.
 Serial.println("System Running...");
  This sends a message to the Serial Monitor.
 delay(1000);
  This pauses execution for 1 second before printing again.
-
-## Execution Flow
+```
 
 Setup runs once and starts Serial communication
 Message is printed on the Serial Monitor

@@ -31,9 +31,13 @@ Your goal is to observe how environmental data changes over time.
 Initialize the DHT sensor
 Read temperature value
 Read humidity value
-Print both values continuously
 
 ## Observe
+
+
+```
+Print both values continuously
+```
 
 Do values stay constant or change?
 How often do they update?
@@ -167,9 +171,21 @@ Slight variations over time are expected
 
 ## Generated Code
 
+
+```cpp
 #include "DHT.h"
+```
+
 #define DHTPIN 4
 #define DHTTYPE DHT11
+
+## Code Explanation
+
+
+## Execution Flow
+
+
+```
 DHT dht(DHTPIN, DHTTYPE);
 void setup() {
 Serial.begin(9600);
@@ -183,9 +199,6 @@ Serial.println(temperature);
 Serial.print("Humidity: ");
 Serial.println(humidity);
 }
-
-## Code Explanation
-
 dht.begin();
 Initializes the sensor
 readTemperature();
@@ -194,8 +207,7 @@ readHumidity();
 Gets current humidity value
 Serial.print/println();
 Displays real-time data
-
-## Execution Flow
+```
 
 Sensor is initialized
 Temperature is read

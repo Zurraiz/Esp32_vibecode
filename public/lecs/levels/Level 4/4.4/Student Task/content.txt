@@ -8,7 +8,11 @@ Repeats the sequence to form a visible pattern
 
 ## Requirements
 
+
+```cpp
 Use pinMode to configure multiple LED pins as OUTPUT
+```
+
 Use dw_high and dw_low to control each LED
 Use delay_ms or delay_sec to control timing
 Use for_loop (or loop structure) to repeat the pattern
@@ -27,6 +31,8 @@ The speed of the pattern should be controlled using delay
 
 ## Generated Code
 
+
+```
 int led1 = 2;
 int led2 = 4;
 int led3 = 5;
@@ -36,28 +42,42 @@ pinMode(led2, OUTPUT);
 pinMode(led3, OUTPUT);
 }
 void loop() {
+```
+
 // LED 1
+
+```cpp
 digitalWrite(led1, HIGH);
 delay(300);
 digitalWrite(led1, LOW);
+```
+
 // LED 2
+
+```cpp
 digitalWrite(led2, HIGH);
 delay(300);
 digitalWrite(led2, LOW);
+```
+
 // LED 3
+
+## Code Explanation
+
+
+```cpp
 digitalWrite(led3, HIGH);
 delay(300);
 digitalWrite(led3, LOW);
 }
-
-## Code Explanation
-
 pinMode(...)
  Sets all LED pins as output.
 digitalWrite(HIGH/LOW)
  Controls each LED individually.
 delay(300);
  Controls how long each LED stays ON.
+```
+
 Sequence of instructions
  Creates the pattern by turning LEDs ON one after another.
 

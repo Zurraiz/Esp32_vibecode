@@ -6,7 +6,11 @@
 
 A lot of sensors in real systems return data using analog signals.
 This means instead of giving simple ON or OFF values, they produce continuously changing signals that represent real-world conditions.
+
+```
 When you print the analog value, you will notice something different from digital input.
+```
+
 Instead of seeing only:
 0 or 1
 You will see a wide range of numbers.

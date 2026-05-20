@@ -185,6 +185,11 @@ Behavior is context-aware
 #define TRIG_PIN 5
 #define ECHO_PIN 18
 #define BUZZER_PIN 12
+
+## Code Explanation
+
+
+```
 void setup() {
 pinMode(PIR_PIN, INPUT);
 pinMode(TRIG_PIN, OUTPUT);
@@ -217,9 +222,6 @@ digitalWrite(BUZZER_PIN, LOW);
 Serial.println("No activity");
 }
 }
-
-## Code Explanation
-
 digitalRead(PIR_PIN);
 Detects motion
 getDistance();
@@ -228,6 +230,8 @@ if (motion && distance < 50)
 High-risk condition
 else if (motion)
 Low-risk condition
+```
+
 else
 No activity
 

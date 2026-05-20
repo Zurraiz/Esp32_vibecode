@@ -30,6 +30,14 @@ The output should keep updating on the Serial Monitor
 
 ## Generated Code
 
+
+## Code Explanation
+
+
+## Execution Flow
+
+
+```
 int buttonPin = 4;
 void setup() {
 Serial.begin(9600);
@@ -44,9 +52,6 @@ Serial.println("Not Pressed");
 }
 delay(500);
 }
-
-## Code Explanation
-
 pinMode(buttonPin, INPUT);
  Configures the button pin as input.
 digitalRead(buttonPin);
@@ -55,8 +60,7 @@ Serial.println(...)
  Displays the button state on the Serial Monitor.
 delay(500);
  Slows down output so it is readable.
-
-## Execution Flow
+```
 
 Setup initializes Serial and button pin
 ESP32 reads button input

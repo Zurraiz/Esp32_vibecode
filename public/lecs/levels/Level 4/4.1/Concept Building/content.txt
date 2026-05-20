@@ -14,9 +14,13 @@ You can decide how many times something should repeat
 [image: section_0.png]
 Repetition is useful when:
 The same task needs to be done multiple times
-You want to avoid writing the same instructions again and again
 
 ## What is a For Loop?
+
+
+```
+You want to avoid writing the same instructions again and again
+```
 
 A for loop is a structure that repeats a set of instructions a specific number of times.
 It works using three main parts:
@@ -75,6 +79,12 @@ The program waits for 1 second
 The LED turns OFF
 The program waits for another 1 second
 The Serial Monitor prints the message "Inside the loop"
+[image: section_4.png]
+
+## Controlled Vs Continuous repetition
+
+
+```
 After the loop completes 5 repetitions, the condition becomes false and the program exits the loop. The remaining code then executes, printing "Outside the loop" on the Serial Monitor.
 void loop() {
 for(int i=0; i<5; i++){
@@ -86,9 +96,7 @@ Serial.print("Inside the loop ");
 }
 Serial.print("Outside the loop");
 }
-[image: section_4.png]
-
-## Controlled Vs Continuous repetition
+```
 
 There are two types of repetition:
 Continuous (Infinite Loop)

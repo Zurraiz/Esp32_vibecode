@@ -181,6 +181,14 @@ System continuously checks input
 
 #define BUZZER_PIN 12
 #define PIR_PIN 4
+
+## Code Explanation
+
+
+## Execution Flow
+
+
+```
 void setup() {
 pinMode(BUZZER_PIN, OUTPUT);
 pinMode(PIR_PIN, INPUT);
@@ -193,9 +201,6 @@ digitalWrite(BUZZER_PIN, HIGH);
 digitalWrite(BUZZER_PIN, LOW);
 }
 }
-
-## Code Explanation
-
 digitalRead(PIR_PIN);
 Reads motion state
 if (motion == HIGH)
@@ -204,8 +209,7 @@ digitalWrite(BUZZER_PIN, HIGH);
 Turns sound ON
 digitalWrite(BUZZER_PIN, LOW);
 Turns sound OFF
-
-## Execution Flow
+```
 
 Sensor reads environment
 System checks condition

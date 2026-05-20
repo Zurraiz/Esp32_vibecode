@@ -28,7 +28,11 @@ Your goal is to observe how distance values change when objects move closer or f
 ## Try This
 
 Activate the ultrasonic sensor
+
+```
 Print distance values continuously
+```
+
 Place your hand or object at different distances
 
 ## Observe
@@ -107,7 +111,11 @@ These systems need to know not just if something exists, but how far it is.
 
 ## 3.6 From detection to measurement
 
+
+```
 At this point in your learning:
+```
+
 PIR sensor → detects motion
 Analog sensor → measures intensity
 Ultrasonic sensor → measures distance
@@ -173,6 +181,11 @@ Smooth transitions between values
 
 #define TRIG_PIN 5
 #define ECHO_PIN 18
+
+## Code Explanation
+
+
+```
 void setup() {
 Serial.begin(9600);
 pinMode(TRIG_PIN, OUTPUT);
@@ -188,8 +201,7 @@ long duration = pulseIn(ECHO_PIN, HIGH);
 float distance = duration * 0.034 / 2;
 Serial.println(distance);
 }
-
-## Code Explanation
+```
 
 TRIG_PIN
 Sends ultrasonic pulse

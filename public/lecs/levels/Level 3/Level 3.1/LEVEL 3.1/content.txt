@@ -33,9 +33,13 @@ Your goal is to observe how sensor values change when you physically interact wi
 Connect a photoresistor
 Connect a potentiometer
 Read values using Analog Read
-Print values using Serial Monitor
 
 ## Observe
+
+
+```
+Print values using Serial Monitor
+```
 
 Photoresistor:
 What happens when you cover it with your hand?
@@ -64,7 +68,11 @@ Values are not fixed—they respond to the environment
 
 ## 3.1 What kind of values are you seeing?
 
+
+```
 When you print analog values, you will notice something different from digital input.
+```
+
 Instead of only seeing:
 0 or 1
 You see:
@@ -202,6 +210,14 @@ Values reflect real-world changes
 
 ## Generated Code
 
+
+## Code Explanation
+
+
+## Execution Flow
+
+
+```
 int lightPin = 34;
 int potPin = 35;
 void setup() {
@@ -215,17 +231,13 @@ Serial.print(lightValue);
 Serial.print(" | Potentiometer: ");
 Serial.println(potValue);
 }
-
-## Code Explanation
-
 analogRead(lightPin);
 Reads light intensity
 analogRead(potPin);
 Reads rotation position
 Serial.print();
 Displays values side-by-side
-
-## Execution Flow
+```
 
 Sensors are read
 Values are converted to numbers

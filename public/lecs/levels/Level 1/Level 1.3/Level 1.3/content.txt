@@ -175,6 +175,14 @@ Final state depends on last instruction
 
 ## Generated Code
 
+
+## Code Explanation
+
+
+## Execution Flow
+
+
+```
 void setup() {
 pinMode(2, OUTPUT);
 }
@@ -183,9 +191,6 @@ digitalWrite(2, HIGH);
 delay(1000);
 digitalWrite(2, LOW);
 }
-
-## Code Explanation
-
 pinMode(2, OUTPUT);
 Sets the pin to control the LED
 digitalWrite(2, HIGH);
@@ -194,8 +199,7 @@ delay(1000);
 Waits so the ON state is visible
 digitalWrite(2, LOW);
 Turns the LED OFF
-
-## Execution Flow
+```
 
 Setup runs once
 Instructions execute in order

@@ -75,9 +75,13 @@ The ESP32 reads this data through a pin and converts it into meaningful informat
 This means:
 The ESP32 is not only detecting actions (like a button press)
 It can also measure environmental conditions
-Our system allows you to read these values and store them into variables (temp, humidity etc.) You can then use this information to perform a certain action based on the conditions of your environment.  An example use case can be a Smart Fan ; turn the fan on when the room gets hot and humid.
 
 ## Key Insight of This Lesson
+
+
+```
+Our system allows you to read these values and store them into variables (temp, humidity etc.) You can then use this information to perform a certain action based on the conditions of your environment.  An example use case can be a Smart Fan ; turn the fan on when the room gets hot and humid.
+```
 
 The most important concept in this lesson is:
 The ESP32 converts physical actions into digital values (HIGH and LOW) that can be used in a program.

@@ -14,7 +14,11 @@ Stops the action when the condition becomes false
 Use btn_read to read button input
 Use while_loop and end_loop for conditional repetition
 Use dw_high and dw_low to control the LED
+
+```cpp
 Use pinMode to configure input and output
+```
+
 Ensure correct condition is used inside the while loop
 
 ## Expected Behavior
@@ -30,6 +34,14 @@ The loop should run only while the condition is true
 
 ## Generated Code
 
+
+## Code Explanation
+
+
+## Execution Flow
+
+
+```
 int buttonPin = 4;
 int ledPin = 2;
 void setup() {
@@ -42,9 +54,6 @@ digitalWrite(ledPin, HIGH);
 }
 digitalWrite(ledPin, LOW);
 }
-
-## Code Explanation
-
 pinMode(buttonPin, INPUT);
  Sets the button pin as input.
 pinMode(ledPin, OUTPUT);
@@ -55,8 +64,7 @@ digitalWrite(ledPin, HIGH);
  Turns the LED ON while the condition is true.
 digitalWrite(ledPin, LOW);
  Turns the LED OFF when the condition becomes false.
-
-## Execution Flow
+```
 
 Setup configures input and output pins
 ESP32 checks button state

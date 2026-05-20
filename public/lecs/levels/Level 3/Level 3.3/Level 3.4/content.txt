@@ -189,6 +189,11 @@ Smooth control response
 
 ## Generated Code
 
+
+## Code Explanation
+
+
+```
 int potPin = 34;
 int ldrPin = 35;
 int ledPin = 2;
@@ -203,8 +208,7 @@ int mappedPot = map(potValue, 0, 4095, 0, 255);
 int mappedLdr = map(ldrValue, 0, 4095, 0, 255);
 ledcWrite(0, mappedPot); // or mappedLdr for test
 }
-
-## Code Explanation
+```
 
 analogRead()
 Reads raw sensor values

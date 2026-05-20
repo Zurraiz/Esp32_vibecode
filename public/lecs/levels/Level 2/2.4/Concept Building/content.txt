@@ -17,8 +17,12 @@ This allows the system to behave differently in different situations.
 ## What is an IF Condition?
 
 An IF condition is a rule that checks whether something is true or false.
-It creates a decision point in your program.
 [image: section_1.png]
+
+```
+It creates a decision point in your program.
+```
+
 Structure:
 IF condition is TRUE → execute one action
 ELSE → execute another action

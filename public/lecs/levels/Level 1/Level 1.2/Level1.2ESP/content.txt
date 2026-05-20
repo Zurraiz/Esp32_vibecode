@@ -141,6 +141,8 @@ Turns OFF
 The change is clearly visible
 5. Arduino Mapping
 Generated Code
+
+```
 void setup() {
 pinMode(2, OUTPUT);
 }
@@ -149,7 +151,11 @@ digitalWrite(2, HIGH);
 delay(1000);
 digitalWrite(2, LOW);
 }
+```
+
 Code Explanation
+
+```cpp
 pinMode(2, OUTPUT);
 Configures pin 2 to control the LED
 digitalWrite(2, HIGH);
@@ -158,6 +164,8 @@ delay(1000);
 Waits for 1 second so the LED remains visible
 digitalWrite(2, LOW);
 Turns the LED OFF
+```
+
 Execution Flow
 Setup runs once
 LED turns ON

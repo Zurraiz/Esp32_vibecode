@@ -194,6 +194,14 @@ Behavior continues without stopping
 
 ## Generated Code
 
+
+## Code Explanation
+
+
+## Execution Flow
+
+
+```
 void setup() {
 pinMode(2, OUTPUT);
 }
@@ -203,9 +211,6 @@ delay(1000);
 digitalWrite(2, LOW);
 delay(1000);
 }
-
-## Code Explanation
-
 setup()
 Runs once and prepares the system
 pinMode(2, OUTPUT);
@@ -220,8 +225,7 @@ digitalWrite(2, LOW);
 Turns LED OFF
 delay(1000);
 Waits before repeating
-
-## Execution Flow
+```
 
 Setup runs once
 Loop starts

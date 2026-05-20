@@ -34,7 +34,11 @@ To use it, you simply select the required block from the sidebar and drag it int
 
 ## What is a Pin?
 
+
+```
 A pin is a physical connection point on the ESP32.
+```
+
 Each pin can be thought of as a control interface between the ESP32 and external components.
 Pins can:
 Send electrical signals (output)

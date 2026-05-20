@@ -209,8 +209,9 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
         "accent": "#10B981",
         "blocks": [
           {
-            "type": "paragraph",
-            "text": "A pin is a physical connection point on the ESP32."
+            "type": "code",
+            "text": "A pin is a physical connection point on the ESP32.",
+            "lang": "code"
           },
           {
             "type": "paragraph",
@@ -2568,8 +2569,9 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
             "text": "Float (var_float) → stores decimal numbers (e.g., 25.5)"
           },
           {
-            "type": "bullet",
-            "text": "String (var_str) → stores text (e.g., \"Hello\")"
+            "type": "code",
+            "text": "String (var_str) → stores text (e.g., \"Hello\")",
+            "lang": "code"
           },
           {
             "type": "bullet",
@@ -3255,10 +3257,6 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
           {
             "type": "bullet",
             "text": "It can also measure environmental conditions"
-          },
-          {
-            "type": "paragraph",
-            "text": "Our system allows you to read these values and store them into variables (temp, humidity etc.) You can then use this information to perform a certain action based on the conditions of your environment.  An example use case can be a Smart Fan ; turn the fan on when the room gets hot and humid."
           }
         ]
       },
@@ -3268,6 +3266,11 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
         "icon": "🔑",
         "accent": "#0EA5E9",
         "blocks": [
+          {
+            "type": "code",
+            "text": "Our system allows you to read these values and store them into variables (temp, humidity etc.) You can then use this information to perform a certain action based on the conditions of your environment.  An example use case can be a Smart Fan ; turn the fan on when the room gets hot and humid.",
+            "lang": "code"
+          },
           {
             "type": "paragraph",
             "text": "The most important concept in this lesson is:"
@@ -3575,10 +3578,6 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
           {
             "type": "bullet",
             "text": "It can also measure environmental conditions"
-          },
-          {
-            "type": "paragraph",
-            "text": "Our system allows you to read these values and store them into variables (temp, humidity etc.) You can then use this information to perform a certain action based on the conditions of your environment.  An example use case can be a Smart Fan ; turn the fan on when the room gets hot and humid."
           }
         ]
       },
@@ -3588,6 +3587,11 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
         "icon": "🔑",
         "accent": "#0EA5E9",
         "blocks": [
+          {
+            "type": "code",
+            "text": "Our system allows you to read these values and store them into variables (temp, humidity etc.) You can then use this information to perform a certain action based on the conditions of your environment.  An example use case can be a Smart Fan ; turn the fan on when the room gets hot and humid.",
+            "lang": "code"
+          },
           {
             "type": "paragraph",
             "text": "The most important concept in this lesson is:"
@@ -3766,12 +3770,13 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
             "text": "An IF condition is a rule that checks whether something is true or false."
           },
           {
-            "type": "paragraph",
-            "text": "It creates a decision point in your program."
-          },
-          {
             "type": "image",
             "text": "/lecs/levels/Level 2/2.4/Concept Building/images/section_1.png"
+          },
+          {
+            "type": "code",
+            "text": "It creates a decision point in your program.",
+            "lang": "code"
           },
           {
             "type": "paragraph",
@@ -4457,8 +4462,9 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
             "text": "This means instead of giving simple ON or OFF values, they produce continuously changing signals that represent real-world conditions."
           },
           {
-            "type": "paragraph",
-            "text": "When you print the analog value, you will notice something different from digital input."
+            "type": "code",
+            "text": "When you print the analog value, you will notice something different from digital input.",
+            "lang": "code"
           },
           {
             "type": "paragraph",
@@ -6267,10 +6273,6 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
           {
             "type": "bullet",
             "text": "The same task needs to be done multiple times"
-          },
-          {
-            "type": "bullet",
-            "text": "You want to avoid writing the same instructions again and again"
           }
         ]
       },
@@ -6280,6 +6282,11 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
         "icon": "💡",
         "accent": "#F59E0B",
         "blocks": [
+          {
+            "type": "code",
+            "text": "You want to avoid writing the same instructions again and again",
+            "lang": "code"
+          },
           {
             "type": "paragraph",
             "text": "A for loop is a structure that repeats a set of instructions a specific number of times."
@@ -6497,50 +6504,6 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
             "text": "The Serial Monitor prints the message \"Inside the loop\""
           },
           {
-            "type": "paragraph",
-            "text": "After the loop completes 5 repetitions, the condition becomes false and the program exits the loop. The remaining code then executes, printing \"Outside the loop\" on the Serial Monitor."
-          },
-          {
-            "type": "bullet",
-            "text": "void loop() {"
-          },
-          {
-            "type": "bullet",
-            "text": "for(int i=0; i<5; i++){"
-          },
-          {
-            "type": "bullet",
-            "text": "digitalWrite(2, HIGH); // LED ON"
-          },
-          {
-            "type": "bullet",
-            "text": "delay(1 * 1000);"
-          },
-          {
-            "type": "bullet",
-            "text": "digitalWrite(2, LOW); // LED OFF"
-          },
-          {
-            "type": "bullet",
-            "text": "delay(1 * 1000);"
-          },
-          {
-            "type": "bullet",
-            "text": "Serial.print(\"Inside the loop \");"
-          },
-          {
-            "type": "bullet",
-            "text": "}"
-          },
-          {
-            "type": "bullet",
-            "text": "Serial.print(\"Outside the loop\");"
-          },
-          {
-            "type": "bullet",
-            "text": "}"
-          },
-          {
             "type": "image",
             "text": "/lecs/levels/Level 4/4.1/Concept Building/images/section_4.png"
           }
@@ -6552,6 +6515,11 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
         "icon": "📝",
         "accent": "#0EA5E9",
         "blocks": [
+          {
+            "type": "code",
+            "text": "After the loop completes 5 repetitions, the condition becomes false and the program exits the loop. The remaining code then executes, printing \"Outside the loop\" on the Serial Monitor.\nvoid loop() {\nfor(int i=0; i<5; i++){\ndigitalWrite(2, HIGH); // LED ON\ndelay(1 * 1000);\ndigitalWrite(2, LOW); // LED OFF\ndelay(1 * 1000);\nSerial.print(\"Inside the loop \");\n}\nSerial.print(\"Outside the loop\");\n}",
+            "lang": "code"
+          },
           {
             "type": "paragraph",
             "text": "There are two types of repetition:"
@@ -6962,36 +6930,9 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
             "text": "Code:"
           },
           {
-            "type": "bullet",
-            "text": "void loop() {"
-          },
-          {
-            "type": "bullet",
-            "text": "btnState = digitalRead(12);"
-          },
-          {
-            "type": "bullet",
-            "text": "while(btnState == HIGH){"
-          },
-          {
-            "type": "bullet",
-            "text": "digitalWrite(2, HIGH); // LED ON"
-          },
-          {
-            "type": "bullet",
-            "text": "btnState = digitalRead(12);"
-          },
-          {
-            "type": "bullet",
-            "text": "}"
-          },
-          {
-            "type": "bullet",
-            "text": "digitalWrite(2, LOW); // LED OFF"
-          },
-          {
-            "type": "bullet",
-            "text": "}"
+            "type": "code",
+            "text": "void loop() {\nbtnState = digitalRead(12);\nwhile(btnState == HIGH){\ndigitalWrite(2, HIGH); // LED ON\nbtnState = digitalRead(12);\n}\ndigitalWrite(2, LOW); // LED OFF\n}",
+            "lang": "code"
           },
           {
             "type": "paragraph",

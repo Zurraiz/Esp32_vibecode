@@ -35,7 +35,11 @@ Different types of variables store different kinds of data:
 [image: section_2.png]
 Integer (var_int) → stores whole numbers (e.g., 5, 10)
 Float (var_float) → stores decimal numbers (e.g., 25.5)
+
+```
 String (var_str) → stores text (e.g., "Hello")
+```
+
 Boolean (var_bool) → stores TRUE or FALSE
 Choosing the correct type is important.
 

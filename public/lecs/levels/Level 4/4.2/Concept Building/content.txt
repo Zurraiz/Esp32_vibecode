@@ -70,6 +70,8 @@ Try to guess how the code blocks can be arranged to achieve this interaction.
 Heres how:
 [image: section_7.png]
 Code:
+
+```
 void loop() {
 btnState = digitalRead(12);
 while(btnState == HIGH){
@@ -78,6 +80,8 @@ btnState = digitalRead(12);
 }
 digitalWrite(2, LOW); // LED OFF
 }
+```
+
 This creates real-time control based on user interaction.
 
 ## Risk of Infinite Loops

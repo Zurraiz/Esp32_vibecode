@@ -11,7 +11,11 @@ Controls how many times the LED blinks
 
 ## Requirements
 
+
+```cpp
 Use pinMode to set LED as OUTPUT
+```
+
 Use for_loop and end_loop for repetition
 Use dw_high and dw_low to control the LED
 Use delay_ms or delay_sec for visibility
@@ -30,6 +34,14 @@ The loop should not run infinitely
 
 ## Generated Code
 
+
+## Code Explanation
+
+
+## Execution Flow
+
+
+```
 int ledPin = 2;
 void setup() {
 pinMode(ledPin, OUTPUT);
@@ -43,9 +55,6 @@ delay(500);
 }
 while (true); // stop after one complete cycle
 }
-
-## Code Explanation
-
 pinMode(ledPin, OUTPUT);
  Sets the LED pin as output.
 for (int i = 0; i < 5; i++)
@@ -56,8 +65,7 @@ delay(500);
  Adds a pause so blinking is visible.
 while(true);
  Stops the program after completing the loop.
-
-## Execution Flow
+```
 
 Setup configures the LED pin
 For loop starts and runs 5 times

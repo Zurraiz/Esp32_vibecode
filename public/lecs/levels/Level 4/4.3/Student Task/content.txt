@@ -32,6 +32,11 @@ The behavior should update instantly based on input
 
 ## Generated Code
 
+
+## Code Explanation
+
+
+```
 int buttonPin = 4;
 int ledPin = 2;
 void setup() {
@@ -49,9 +54,6 @@ delay(300);
 digitalWrite(ledPin, LOW);
 }
 }
-
-## Code Explanation
-
 pinMode(buttonPin, INPUT);
  Sets the button as input.
 pinMode(ledPin, OUTPUT);
@@ -62,6 +64,8 @@ if (buttonState == HIGH)
  Checks the condition inside the loop.
 digitalWrite + delay
  Creates blinking behavior when condition is true.
+```
+
 else block
  Ensures LED stays OFF when condition is false.
 

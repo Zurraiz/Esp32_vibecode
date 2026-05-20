@@ -11,7 +11,11 @@ Displays the updated value on the Serial Monitor
 
 ## Requirements
 
+
+```
 Use var_int to create a variable
+```
+
 Use serial_begin to start communication
 Use serial_println or serial_printvar to display the value
 Update the variable value (increment)
@@ -31,6 +35,14 @@ The process should repeat continuously
 
 ## Generated Code
 
+
+## Code Explanation
+
+
+## Execution Flow
+
+
+```
 int counter = 0;
 void setup() {
 Serial.begin(9600);
@@ -40,9 +52,6 @@ Serial.println(counter);
 counter = counter + 1;
 delay(1000);
 }
-
-## Code Explanation
-
 int counter = 0;
  Creates a variable and sets its initial value to 0.
 Serial.begin(9600);
@@ -53,8 +62,7 @@ counter = counter + 1;
  Updates the variable by increasing its value.
 delay(1000);
  Adds a delay so changes are visible.
-
-## Execution Flow
+```
 
 Variable is initialized with value 0
 ESP32 prints the value
