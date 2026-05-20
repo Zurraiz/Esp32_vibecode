@@ -56,10 +56,9 @@ export const LEVELS: Level[] = [
         steps: [
           {
             id: 'intro',
-            type: 'explore',
+            type: 'content',
             title: 'Introduction',
             description: 'Learn the basics of LED control and how sensors read the world',
-            explorationSimulationId: 'blink-intro',
           },
           {
             id: 'explore',
@@ -73,8 +72,6 @@ export const LEVELS: Level[] = [
             type: 'concept',
             title: 'Concept Building',
             description: 'Why microcontrollers need delays',
-            pdfLabel: 'Hardware_Logic_DeepDive.pdf',
-            pdfUrl: '/pdfs/level-1/lesson-1-1/concept-building.pdf',
           },
           {
             id: 'challenge',

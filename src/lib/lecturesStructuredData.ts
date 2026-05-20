@@ -1,13 +1,15 @@
 // This file is auto-generated. Do not edit directly.
 
 export interface LectureBlock {
-  type: 'paragraph' | 'bullet' | 'callout' | 'image';
+  type: 'paragraph' | 'bullet' | 'callout' | 'image' | 'code' | 'reveal';
   text: string;
   isSubheading?: boolean;
   icon?: string;
   bg?: string;
   border?: string;
   textColor?: string;
+  lang?: string;
+  question?: string;
 }
 
 export interface LectureSection {
@@ -24,6 +26,7 @@ export interface QuizQuestion {
   options: string[];
   correct: number;
   explanation: string;
+  hint?: string;
 }
 
 export interface LectureData {
@@ -36,9 +39,9 @@ export interface LectureData {
 
 export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
   "1-1-1-intro": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 1.1: Your First Blink",
+    "levelTitle": "LEVEL 1.1: Your First Blink",
+    "lessonTitle": " Your First Blink",
+    "stepType": "Introduction",
     "sections": [
       {
         "number": "1.1.1",
@@ -46,10 +49,6 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
         "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
-          {
-            "type": "bullet",
-            "text": "Introduction"
-          },
           {
             "type": "paragraph",
             "text": "In this lesson, you will build your first working ESP32 program."
@@ -87,14 +86,14 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "1-1-1-concept": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 1.1: Your First Blink",
+    "levelTitle": "LEVEL 1.1: Your First Blink",
+    "lessonTitle": " Your First Blink",
+    "stepType": "What is ESP32?",
     "sections": [
       {
         "number": "1.2.1",
-        "title": "What is ESP32?",
-        "icon": "💡",
+        "title": "Overview",
+        "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
           {
@@ -447,6 +446,7 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     "quiz": [
       {
         "question": "What does the ESP32 microcontroller do?",
+        "hint": "Think about what the word \"controller\" means — what does a controller do to hardware?",
         "options": [
           "It is a high-end graphics card for running massive 3D video games",
           "It receives visual blocks/code instructions and directly controls physical hardware outputs",
@@ -458,6 +458,7 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
       },
       {
         "question": "Why do we need to set the \"Pin Mode\" (pinMode)?",
+        "hint": "Think of a pin like a door — before using it, does the ESP32 need to know if signals flow IN or OUT?",
         "options": [
           "To change the physical color of the connected LED bulb",
           "To tell the ESP32 whether a specific pin should act as an Input (receiver) or Output (sender)",
@@ -469,6 +470,7 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
       },
       {
         "question": "What do \"HIGH\" and \"LOW\" represent in digital control?",
+        "hint": "Digital means only two possible states — think of a simple light switch: it is either ON or OFF.",
         "options": [
           "HIGH represents a dangerous 100V spike, and LOW represents 0V safety",
           "HIGH turns the signal ON (applying full voltage), while LOW turns the signal OFF (zero voltage)",
@@ -522,12 +524,12 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
   "1-1-2-concept": {
     "levelTitle": "LEVEL 1.2: Making Changes Visible (Using Delay)",
     "lessonTitle": " Making Changes Visible (Using Delay)",
-    "stepType": "",
+    "stepType": "Why couldn’t you clearly see the ON and OFF?",
     "sections": [
       {
         "number": "2.2.1",
-        "title": "Why couldn’t you clearly see the ON and OFF?",
-        "icon": "❓",
+        "title": "Overview",
+        "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
           {
@@ -872,6 +874,7 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     "quiz": [
       {
         "question": "Why could we not clearly see the LED blinking in Lesson 1.1 without delays?",
+        "hint": "The ESP32 runs at 240MHz — try to imagine how many ON/OFF transitions happen in a single second.",
         "options": [
           "The physical LED bulb was defective and burned out",
           "The ESP32 runs commands in microseconds—too fast for the human eye to perceive the transitions",
@@ -883,6 +886,7 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
       },
       {
         "question": "What is 1 second in the millisecond (ms) scale used by delays?",
+        "hint": "The prefix \"milli\" means one-thousandth. So one millisecond = 1/1000th of a second.",
         "options": [
           "10 milliseconds",
           "100 milliseconds",
@@ -894,6 +898,7 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
       },
       {
         "question": "Does adding a delay block alter the logical rules of your program?",
+        "hint": "Think about what a pause does — does it change the ON/OFF setting of a pin, or only when it happens?",
         "options": [
           "Yes, it deletes previous pin configurations and variables",
           "No, it only pauses execution flow, changing the timing of transitions without altering states",
@@ -906,13 +911,13 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "1-1-3-intro": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 1.3: What Just Happened?",
+    "levelTitle": "LEVEL 1.3: What Just Happened?",
+    "lessonTitle": " What Just Happened?",
+    "stepType": "Introduction",
     "sections": [
       {
         "number": "3.1.1",
-        "title": "Introduction",
+        "title": "Overview",
         "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
@@ -953,13 +958,13 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "1-1-3-concept": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 1.3: What Just Happened?",
+    "levelTitle": "LEVEL 1.3: What Just Happened?",
+    "lessonTitle": " What Just Happened?",
+    "stepType": "How does the ESP32 read your program?",
     "sections": [
       {
         "number": "3.2.1",
-        "title": "How does the ESP32 read your program?",
+        "title": "Overview",
         "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
@@ -1399,13 +1404,13 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "1-1-4-intro": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## Level 1.4:Repeating Actions",
+    "levelTitle": "Level 1.4:Repeating Actions",
+    "lessonTitle": "Repeating Actions",
+    "stepType": "Introduction",
     "sections": [
       {
         "number": "4.1.1",
-        "title": "Introduction",
+        "title": "Overview",
         "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
@@ -1470,13 +1475,13 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "1-1-4-concept": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## Level 1.4:Repeating Actions",
+    "levelTitle": "Level 1.4:Repeating Actions",
+    "lessonTitle": "Repeating Actions",
+    "stepType": "Does the program run only once?",
     "sections": [
       {
         "number": "4.2.1",
-        "title": "Does the program run only once?",
+        "title": "Overview",
         "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
@@ -1928,13 +1933,13 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "2-2-1-intro": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 2.1: Seeing Output (Serial Basics)",
+    "levelTitle": "LEVEL 2.1: Seeing Output (Serial Basics)",
+    "lessonTitle": " Seeing Output (Serial Basics)",
+    "stepType": "Introduction",
     "sections": [
       {
         "number": "1.1.1",
-        "title": "Introduction",
+        "title": "Overview",
         "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
@@ -1979,14 +1984,14 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "2-2-1-concept": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 2.1: Seeing Output (Serial Basics)",
+    "levelTitle": "LEVEL 2.1: Seeing Output (Serial Basics)",
+    "lessonTitle": " Seeing Output (Serial Basics)",
+    "stepType": "What is Serial Communication?",
     "sections": [
       {
         "number": "1.2.1",
-        "title": "What is Serial Communication?",
-        "icon": "📟",
+        "title": "Overview",
+        "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
           {
@@ -2385,13 +2390,13 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "2-2-2-intro": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 2.2: Variables (Storing and Updating Values)",
+    "levelTitle": "LEVEL 2.2: Variables (Storing and Updating Values)",
+    "lessonTitle": " Variables (Storing and Updating Values)",
+    "stepType": "Introduction",
     "sections": [
       {
         "number": "2.1.1",
-        "title": "Introduction",
+        "title": "Overview",
         "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
@@ -2436,14 +2441,14 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "2-2-2-concept": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 2.2: Variables (Storing and Updating Values)",
+    "levelTitle": "LEVEL 2.2: Variables (Storing and Updating Values)",
+    "lessonTitle": " Variables (Storing and Updating Values)",
+    "stepType": "What is a variable?",
     "sections": [
       {
         "number": "2.2.1",
-        "title": "What is a variable?",
-        "icon": "💡",
+        "title": "Overview",
+        "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
           {
@@ -2874,13 +2879,13 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "2-2-3-intro": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## Level 2.3: Reading Input States",
+    "levelTitle": "Level 2.3: Reading Input States",
+    "lessonTitle": " Reading Input States",
+    "stepType": "Introduction",
     "sections": [
       {
         "number": "3.1.1",
-        "title": "Introduction",
+        "title": "Overview",
         "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
@@ -2924,7 +2929,7 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
       },
       {
         "number": "3.3.1",
-        "title": "Introduction",
+        "title": "Overview",
         "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
@@ -2969,14 +2974,14 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "2-2-3-concept": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## Level 2.3: Reading Input States",
+    "levelTitle": "Level 2.3: Reading Input States",
+    "lessonTitle": " Reading Input States",
+    "stepType": "What Does Reading Input Mean?",
     "sections": [
       {
         "number": "3.2.1",
-        "title": "What Does Reading Input Mean?",
-        "icon": "🔀",
+        "title": "Overview",
+        "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
           {
@@ -3295,8 +3300,8 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
       },
       {
         "number": "3.3.1",
-        "title": "What Does Reading Input Mean?",
-        "icon": "🔀",
+        "title": "Overview",
+        "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
           {
@@ -3651,13 +3656,13 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "2-2-4-intro": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## Level 2.4: Making Decisions (IF Logic)",
+    "levelTitle": "Level 2.4: Making Decisions (IF Logic)",
+    "lessonTitle": " Making Decisions (IF Logic)",
+    "stepType": "Introduction",
     "sections": [
       {
         "number": "4.1.1",
-        "title": "Introduction",
+        "title": "Overview",
         "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
@@ -3702,14 +3707,14 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "2-2-4-concept": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## Level 2.4: Making Decisions (IF Logic)",
+    "levelTitle": "Level 2.4: Making Decisions (IF Logic)",
+    "lessonTitle": " Making Decisions (IF Logic)",
+    "stepType": "What is Decision Making?",
     "sections": [
       {
         "number": "4.2.1",
-        "title": "What is Decision Making?",
-        "icon": "💡",
+        "title": "Overview",
+        "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
           {
@@ -4156,13 +4161,13 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "2-2-5-intro": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## Level 2.5: Introducing Inputs (Buttons)",
+    "levelTitle": "Level 2.5: Introducing Inputs (Buttons)",
+    "lessonTitle": " Introducing Inputs (Buttons)",
+    "stepType": "Introduction",
     "sections": [
       {
         "number": "4.1.1",
-        "title": "Introduction",
+        "title": "Overview",
         "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
@@ -4207,14 +4212,14 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "2-2-5-concept": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## Level 2.5: Introducing Inputs (Buttons)",
+    "levelTitle": "Level 2.5: Introducing Inputs (Buttons)",
+    "lessonTitle": " Introducing Inputs (Buttons)",
+    "stepType": "What is an Input?",
     "sections": [
       {
         "number": "4.2.1",
-        "title": "What is an Input?",
-        "icon": "🔀",
+        "title": "Overview",
+        "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
           {
@@ -4386,13 +4391,13 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "3-3-1-intro": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 3.1: Reading Changing Values (Analog Input)",
+    "levelTitle": "LEVEL 3.1: Reading Changing Values (Analog Input)",
+    "lessonTitle": " Reading Changing Values (Analog Input)",
+    "stepType": "1. Introduction",
     "sections": [
       {
         "number": "1.1.1",
-        "title": "1. Introduction",
+        "title": "Overview",
         "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
@@ -4433,14 +4438,14 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "3-3-1-concept": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 3.1: Reading Changing Values (Analog Input)",
+    "levelTitle": "LEVEL 3.1: Reading Changing Values (Analog Input)",
+    "lessonTitle": " Reading Changing Values (Analog Input)",
+    "stepType": "3.1 What kind of values are you seeing?",
     "sections": [
       {
         "number": "1.2.1",
-        "title": "3.1 What kind of values are you seeing?",
-        "icon": "📊",
+        "title": "Overview",
+        "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
           {
@@ -4851,13 +4856,13 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "3-3-2-intro": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 3.3: Controlling Output Intensity (PWM Output)",
+    "levelTitle": "LEVEL 3.3: Controlling Output Intensity (PWM Output)",
+    "lessonTitle": " Controlling Output Intensity (PWM Output)",
+    "stepType": "1. Introduction",
     "sections": [
       {
         "number": "2.1.1",
-        "title": "1. Introduction",
+        "title": "Overview",
         "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
@@ -4906,13 +4911,13 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "3-3-2-concept": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 3.2: Controlling Output Intensity (PWM Output)",
+    "levelTitle": "LEVEL 3.2: Controlling Output Intensity (PWM Output)",
+    "lessonTitle": " Controlling Output Intensity (PWM Output)",
+    "stepType": "3.1 Is the LED only ON or OFF?",
     "sections": [
       {
         "number": "2.2.1",
-        "title": "3.1 Is the LED only ON or OFF?",
+        "title": "Overview",
         "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
@@ -5308,13 +5313,13 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "3-3-3-intro": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 3.4: Translating Values (Mapping Input to Output)",
+    "levelTitle": "LEVEL 3.4: Translating Values (Mapping Input to Output)",
+    "lessonTitle": " Translating Values (Mapping Input to Output)",
+    "stepType": "1. Introduction",
     "sections": [
       {
         "number": "3.1.1",
-        "title": "1. Introduction",
+        "title": "Overview",
         "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
@@ -5351,14 +5356,14 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "3-3-3-concept": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 3.3: Translating Values (Mapping Input to Output)",
+    "levelTitle": "LEVEL 3.3: Translating Values (Mapping Input to Output)",
+    "lessonTitle": " Translating Values (Mapping Input to Output)",
+    "stepType": "3.1 Why direct connection doesn’t work",
     "sections": [
       {
         "number": "3.2.1",
-        "title": "3.1 Why direct connection doesn’t work",
-        "icon": "❓",
+        "title": "Overview",
+        "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
           {
@@ -5725,13 +5730,13 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "3-3-4-intro": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 3.5: Real-Time Control System (Sensor → Output)",
+    "levelTitle": "LEVEL 3.5: Real-Time Control System (Sensor → Output)",
+    "lessonTitle": " Real-Time Control System (Sensor → Output)",
+    "stepType": "1. Introduction",
     "sections": [
       {
         "number": "4.1.1",
-        "title": "1. Introduction",
+        "title": "Overview",
         "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
@@ -5784,14 +5789,14 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "3-3-4-concept": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 3.4: Real-Time Control System (Sensor → Output)",
+    "levelTitle": "LEVEL 3.4: Real-Time Control System (Sensor → Output)",
+    "lessonTitle": " Real-Time Control System (Sensor → Output)",
+    "stepType": "3.1 What kind of system have you built?",
     "sections": [
       {
         "number": "4.2.1",
-        "title": "3.1 What kind of system have you built?",
-        "icon": "⚙️",
+        "title": "Overview",
+        "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
           {
@@ -6162,13 +6167,13 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "4-4-1-intro": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 4.1: Repetition Structures (For Loop Basics)",
+    "levelTitle": "LEVEL 4.1: Repetition Structures (For Loop Basics)",
+    "lessonTitle": " Repetition Structures (For Loop Basics)",
+    "stepType": "Introduction",
     "sections": [
       {
         "number": "1.1.1",
-        "title": "Introduction",
+        "title": "Overview",
         "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
@@ -6213,14 +6218,14 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "4-4-1-concept": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## Level 4.1: Repetition Structures (For Loop Basics)",
+    "levelTitle": "Level 4.1: Repetition Structures (For Loop Basics)",
+    "lessonTitle": " Repetition Structures (For Loop Basics)",
+    "stepType": "What is Repetition in Programming?",
     "sections": [
       {
         "number": "1.2.1",
-        "title": "What is Repetition in Programming?",
-        "icon": "💡",
+        "title": "Overview",
+        "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
           {
@@ -6496,44 +6501,9 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
             "text": "After the loop completes 5 repetitions, the condition becomes false and the program exits the loop. The remaining code then executes, printing \"Outside the loop\" on the Serial Monitor."
           },
           {
-            "type": "bullet",
-            "text": "void loop() {"
-          },
-          {
-            "type": "bullet",
-            "text": "for(int i=0; i<5; i++){"
-          },
-          {
-            "type": "bullet",
-            "text": "digitalWrite(2, HIGH); // LED ON"
-          },
-          {
-            "type": "bullet",
-            "text": "delay(1 * 1000);"
-          },
-          {
-            "type": "bullet",
-            "text": "digitalWrite(2, LOW); // LED OFF"
-          },
-          {
-            "type": "bullet",
-            "text": "delay(1 * 1000);"
-          },
-          {
-            "type": "bullet",
-            "text": "Serial.print(\"Inside the loop \");"
-          },
-          {
-            "type": "bullet",
-            "text": "}"
-          },
-          {
-            "type": "bullet",
-            "text": "Serial.print(\"Outside the loop\");"
-          },
-          {
-            "type": "bullet",
-            "text": "}"
+            "type": "code",
+            "text": "void loop() {\nfor(int i=0; i<5; i++){\ndigitalWrite(2, HIGH); // LED ON\ndelay(1 * 1000);\ndigitalWrite(2, LOW); // LED OFF\ndelay(1 * 1000);\nSerial.print(\"Inside the loop \");\n}\nSerial.print(\"Outside the loop\");\n}",
+            "lang": "cpp"
           },
           {
             "type": "image",
@@ -6651,13 +6621,13 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "4-4-2-intro": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 4.2: Conditional Repetition (While Loop Basics)",
+    "levelTitle": "LEVEL 4.2: Conditional Repetition (While Loop Basics)",
+    "lessonTitle": " Conditional Repetition (While Loop Basics)",
+    "stepType": "Introduction",
     "sections": [
       {
         "number": "2.1.1",
-        "title": "Introduction",
+        "title": "Overview",
         "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
@@ -6702,14 +6672,14 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "4-4-2-concept": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## Level 4.2: Conditional Repetition (While Loop Basics)",
+    "levelTitle": "Level 4.2: Conditional Repetition (While Loop Basics)",
+    "lessonTitle": " Conditional Repetition (While Loop Basics)",
+    "stepType": "What is Conditional Repetition?",
     "sections": [
       {
         "number": "2.2.1",
-        "title": "What is Conditional Repetition?",
-        "icon": "💡",
+        "title": "Overview",
+        "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
           {
@@ -7104,13 +7074,13 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "4-4-3-intro": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 4.3: Combining Logic (Loops + Conditions)",
+    "levelTitle": "LEVEL 4.3: Combining Logic (Loops + Conditions)",
+    "lessonTitle": " Combining Logic (Loops + Conditions)",
+    "stepType": "Introduction",
     "sections": [
       {
         "number": "3.1.1",
-        "title": "Introduction",
+        "title": "Overview",
         "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
@@ -7159,14 +7129,14 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "4-4-3-concept": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 4.3: Combining Logic (Loops + Conditions)",
+    "levelTitle": "LEVEL 4.3: Combining Logic (Loops + Conditions)",
+    "lessonTitle": " Combining Logic (Loops + Conditions)",
+    "stepType": "What Does Combining Logic Mean?",
     "sections": [
       {
         "number": "3.2.1",
-        "title": "What Does Combining Logic Mean?",
-        "icon": "💡",
+        "title": "Overview",
+        "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
           {
@@ -7589,13 +7559,13 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "4-4-4-intro": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 4.4: Pattern Systems (Complex LED Patterns)",
+    "levelTitle": "LEVEL 4.4: Pattern Systems (Complex LED Patterns)",
+    "lessonTitle": " Pattern Systems (Complex LED Patterns)",
+    "stepType": "Introduction",
     "sections": [
       {
         "number": "4.1.1",
-        "title": "Introduction",
+        "title": "Overview",
         "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
@@ -7640,14 +7610,14 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
     ]
   },
   "4-4-4-concept": {
-    "levelTitle": "",
-    "lessonTitle": "",
-    "stepType": "## LEVEL 4.4: Pattern Systems (Complex LED Patterns)",
+    "levelTitle": "LEVEL 4.4: Pattern Systems (Complex LED Patterns)",
+    "lessonTitle": " Pattern Systems (Complex LED Patterns)",
+    "stepType": "What is a Pattern in Programming?",
     "sections": [
       {
         "number": "4.2.1",
-        "title": "What is a Pattern in Programming?",
-        "icon": "💡",
+        "title": "Overview",
+        "icon": "📝",
         "accent": "#6366F1",
         "blocks": [
           {

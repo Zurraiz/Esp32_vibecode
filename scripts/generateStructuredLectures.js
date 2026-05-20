@@ -9,6 +9,7 @@ const QUIZ_DATABASE = {
   '1-1': [
     {
       question: 'What does the ESP32 microcontroller do?',
+      hint: 'Think about what the word "controller" means — what does a controller do to hardware?',
       options: [
         'It is a high-end graphics card for running massive 3D video games',
         'It receives visual blocks/code instructions and directly controls physical hardware outputs',
@@ -20,6 +21,7 @@ const QUIZ_DATABASE = {
     },
     {
       question: 'Why do we need to set the "Pin Mode" (pinMode)?',
+      hint: 'Think of a pin like a door — before using it, does the ESP32 need to know if signals flow IN or OUT?',
       options: [
         'To change the physical color of the connected LED bulb',
         'To tell the ESP32 whether a specific pin should act as an Input (receiver) or Output (sender)',
@@ -31,6 +33,7 @@ const QUIZ_DATABASE = {
     },
     {
       question: 'What do "HIGH" and "LOW" represent in digital control?',
+      hint: 'Digital means only two possible states — think of a simple light switch: it is either ON or OFF.',
       options: [
         'HIGH represents a dangerous 100V spike, and LOW represents 0V safety',
         'HIGH turns the signal ON (applying full voltage), while LOW turns the signal OFF (zero voltage)',
@@ -44,6 +47,7 @@ const QUIZ_DATABASE = {
   '1-2': [
     {
       question: 'Why could we not clearly see the LED blinking in Lesson 1.1 without delays?',
+      hint: 'The ESP32 runs at 240MHz — try to imagine how many ON/OFF transitions happen in a single second.',
       options: [
         'The physical LED bulb was defective and burned out',
         'The ESP32 runs commands in microseconds—too fast for the human eye to perceive the transitions',
@@ -55,6 +59,7 @@ const QUIZ_DATABASE = {
     },
     {
       question: 'What is 1 second in the millisecond (ms) scale used by delays?',
+      hint: 'The prefix "milli" means one-thousandth. So one millisecond = 1/1000th of a second.',
       options: [
         '10 milliseconds',
         '100 milliseconds',
@@ -66,6 +71,7 @@ const QUIZ_DATABASE = {
     },
     {
       question: 'Does adding a delay block alter the logical rules of your program?',
+      hint: 'Think about what a pause does — does it change the ON/OFF setting of a pin, or only when it happens?',
       options: [
         'Yes, it deletes previous pin configurations and variables',
         'No, it only pauses execution flow, changing the timing of transitions without altering states',
@@ -642,13 +648,24 @@ function parseContentToStructured(filePath, relativeImageFolder, imagesList, ste
   }
 
   const text = fs.readFileSync(filePath, 'utf-8');
-  const lines = text.split(/\r?\n/);
+  const lines = text.split(/\r?\n/).map(l => l.trim());
 
   let levelTitle = '';
   let stepType = '';
+  let consumedIndices = [];
 
-  if (lines.length > 0) levelTitle = lines[0].trim();
-  if (lines.length > 1) stepType = lines[1].trim();
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i]) {
+      if (!levelTitle) {
+        levelTitle = lines[i].replace(/^#+\s*/, '').trim();
+        consumedIndices.push(i);
+      } else if (!stepType) {
+        stepType = lines[i].replace(/^#+\s*/, '').trim();
+        consumedIndices.push(i);
+        break;
+      }
+    }
+  }
 
   let sections = [];
   let currentSection = {
@@ -662,8 +679,10 @@ function parseContentToStructured(filePath, relativeImageFolder, imagesList, ste
     }
   };
 
-  for (let i = 2; i < lines.length; i++) {
-    const line = lines[i].trim();
+  const startIndex = consumedIndices.length > 0 ? Math.max(...consumedIndices) + 1 : 0;
+
+  for (let i = startIndex; i < lines.length; i++) {
+    const line = lines[i];
     if (!line) continue;
 
     if (line.startsWith('##')) {
@@ -681,8 +700,8 @@ function parseContentToStructured(filePath, relativeImageFolder, imagesList, ste
   // If no sections were found, treat it as a single block
   if (sections.length === 0) {
     let rawLines = [];
-    for (let i = 2; i < lines.length; i++) {
-      const line = lines[i].trim();
+    for (let i = startIndex; i < lines.length; i++) {
+      const line = lines[i];
       if (!line) continue;
       rawLines.push(line);
     }
@@ -703,61 +722,65 @@ function parseContentToStructured(filePath, relativeImageFolder, imagesList, ste
     const icon = getEmojiForTitle(title);
     const accent = ACCENT_COLORS[idx % ACCENT_COLORS.length];
 
-    // Parse rawLines into sequential blocks, supporting inline images!
+    // Parse rawLines into sequential blocks, supporting inline images, code fences, and reveal blocks!
     const blocks = [];
+    let inCodeFence = false;
+    let codeLang = 'code';
+    let codeLines = [];
 
-    sec.rawLines.forEach(line => {
+    for (let lineIdx = 0; lineIdx < sec.rawLines.length; lineIdx++) {
+      const line = sec.rawLines[lineIdx];
       const low = line.toLowerCase();
+
+      // Handle opening/closing code fences: ```lang
+      if (line.trim().startsWith('```')) {
+        if (!inCodeFence) {
+          inCodeFence = true;
+          codeLang = line.trim().slice(3).trim() || 'code';
+          codeLines = [];
+        } else {
+          inCodeFence = false;
+          blocks.push({ type: 'code', text: codeLines.join('\n'), lang: codeLang });
+          codeLines = []; codeLang = 'code';
+        }
+        continue;
+      }
+      if (inCodeFence) { codeLines.push(line); continue; }
+
+      // Handle reveal/spoiler: [reveal: Question text | Answer text]
+      const revealMatch = line.match(/^\[reveal:\s*([^|]+)\|\s*(.+)\]$/i);
+      if (revealMatch) {
+        blocks.push({ type: 'reveal', question: revealMatch[1].trim(), text: revealMatch[2].trim() });
+        continue;
+      }
 
       // Check for inline image tag: [image: filename.extension]
       const imageMatch = line.match(/^\[image:\s*([^\]]+)\]$/i);
       if (imageMatch) {
         const ref = imageMatch[1].trim();
-        const finalImgPath = `${relativeImageFolder}/images/${ref}`;
-
-        blocks.push({
-          type: 'image',
-          text: finalImgPath
-        });
+        blocks.push({ type: 'image', text: `${relativeImageFolder}/images/${ref}` });
       } else if (low.startsWith('key insight') || low.startsWith('remember') || low.startsWith('note:') || low.startsWith('warning:')) {
         const isWarning = low.includes('warning');
         blocks.push({
-          type: 'callout',
-          text: line,
+          type: 'callout', text: line,
           icon: isWarning ? '⚠️' : '💡',
           bg: isWarning ? '#FEF2F2' : '#EFF6FF',
           border: isWarning ? '#FECACA' : '#BFDBFE',
           textColor: isWarning ? '#991B1B' : '#1E40AF'
         });
       } else if (line.startsWith('#') && !line.startsWith('##')) {
-        blocks.push({
-          type: 'paragraph',
-          text: line.replace(/^#\s*/, '').trim(),
-          isSubheading: true
-        });
+        blocks.push({ type: 'paragraph', text: line.replace(/^#\s*/, '').trim(), isSubheading: true });
       } else {
         const isBullet = line.startsWith('-') || line.startsWith('*') || line.startsWith('•');
         const cleanLine = line.replace(/^[-*•]\s*/, '').trim();
-        // Determine if it should be rendered as a bullet (short, no ending punctuation except if bullet prefix exists)
         const isShort = cleanLine.length < 120 &&
-          !cleanLine.endsWith('.') &&
-          !cleanLine.endsWith('?') &&
-          !cleanLine.endsWith(':') &&
-          !cleanLine.endsWith('!');
-
-        if (isBullet || isShort) {
-          blocks.push({
-            type: 'bullet',
-            text: cleanLine
-          });
-        } else {
-          blocks.push({
-            type: 'paragraph',
-            text: line
-          });
-        }
+          !cleanLine.endsWith('.') && !cleanLine.endsWith('?') &&
+          !cleanLine.endsWith(':') && !cleanLine.endsWith('!');
+        blocks.push(isBullet || isShort
+          ? { type: 'bullet', text: cleanLine }
+          : { type: 'paragraph', text: line });
       }
-    });
+    }
 
     finalSections.push({
       number,
@@ -875,13 +898,15 @@ function processStructuredLevels() {
   const tsContent = `// This file is auto-generated. Do not edit directly.
 
 export interface LectureBlock {
-  type: 'paragraph' | 'bullet' | 'callout' | 'image';
+  type: 'paragraph' | 'bullet' | 'callout' | 'image' | 'code' | 'reveal';
   text: string;
   isSubheading?: boolean;
   icon?: string;
   bg?: string;
   border?: string;
   textColor?: string;
+  lang?: string;
+  question?: string;
 }
 
 export interface LectureSection {
@@ -898,6 +923,7 @@ export interface QuizQuestion {
   options: string[];
   correct: number;
   explanation: string;
+  hint?: string;
 }
 
 export interface LectureData {

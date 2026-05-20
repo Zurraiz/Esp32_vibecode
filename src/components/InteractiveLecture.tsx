@@ -284,6 +284,82 @@ function BulletItem({
   );
 }
 
+/* ─── Code Block with Copy Button ─── */
+function CodeBlock({ code, lang }: { code: string; lang: string }) {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => {
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText(code).then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2200);
+      });
+    }
+  };
+  return (
+    <div className="my-5 rounded-2xl overflow-hidden border border-slate-700/40 shadow-lg animate-fadeIn">
+      <div className="flex items-center justify-between px-4 py-2.5 bg-slate-800">
+        <div className="flex items-center gap-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
+          <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+          <span className="ml-2 text-[10px] font-black uppercase tracking-widest text-slate-400 font-mono">
+            {lang || 'code'}
+          </span>
+        </div>
+        <button
+          type="button"
+          onClick={handleCopy}
+          className="text-[10px] font-bold px-3 py-1.5 rounded-lg bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white transition-all duration-200 flex items-center gap-1.5 active:scale-95"
+        >
+          {copied ? '✓ Copied!' : '⎘ Copy'}
+        </button>
+      </div>
+      <pre className="px-5 py-4 bg-slate-900 text-emerald-300 text-xs font-mono leading-relaxed overflow-x-auto whitespace-pre">
+        {code}
+      </pre>
+    </div>
+  );
+}
+
+/* ─── Reveal / Spoiler Block ─── */
+function RevealBlock({ question, answer, accentColor }: { question: string; answer: string; accentColor: string }) {
+  const [revealed, setRevealed] = useState(false);
+  return (
+    <div
+      className="my-4 rounded-2xl border overflow-hidden animate-fadeIn"
+      style={{ borderColor: accentColor + '35' }}
+    >
+      <button
+        type="button"
+        onClick={() => setRevealed(r => !r)}
+        className="w-full flex items-center justify-between px-5 py-4 text-left transition-colors duration-200"
+        style={{ background: accentColor + '0E' }}
+      >
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          <span className="text-lg flex-shrink-0">🔍</span>
+          <span className="text-xs md:text-sm font-bold text-slate-700 leading-snug">{question}</span>
+        </div>
+        <span
+          className="ml-3 flex-shrink-0 text-[10px] font-black px-3 py-1 rounded-full text-white transition-all duration-300"
+          style={{ background: revealed ? '#10B981' : accentColor }}
+        >
+          {revealed ? 'Hide ▲' : 'Reveal ▼'}
+        </span>
+      </button>
+      {revealed && (
+        <div
+          className="px-5 py-4 border-t text-xs md:text-sm text-slate-700 leading-relaxed font-medium animate-slideDown flex items-start gap-3"
+          style={{ borderColor: accentColor + '25', background: accentColor + '05' }}
+        >
+          <span className="text-base flex-shrink-0 mt-0.5">💡</span>
+          <span>{answer}</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
 /* ─── Preprocessed Render Type for Side-by-Side Comparison Grid ─── */
 type RenderItem = 
   | { type: 'block'; block: LectureBlock; blockIndex: number }
@@ -558,16 +634,14 @@ function SectionCard({ sec, isRead, onToggleRead }: SectionProps) {
       {isOpen && (
         <div className="px-6 pb-6 pt-5 text-xs md:text-sm text-slate-600 leading-relaxed space-y-4 animate-slideDown">
           {preprocessedItems.map((item, idx) => {
+            const stagger = { animationDelay: `${idx * 45}ms`, animationFillMode: 'forwards' as const, opacity: 0 };
+
             if (item.type === 'comparison') {
               return (
-                <div key={idx}>
+                <div key={idx} className="animate-fadeIn" style={stagger}>
                   {renderComparison(
-                    item.leftTitle, 
-                    item.leftBullets, 
-                    item.leftStyleIndex,
-                    item.rightTitle, 
-                    item.rightBullets,
-                    item.rightStyleIndex
+                    item.leftTitle, item.leftBullets, item.leftStyleIndex,
+                    item.rightTitle, item.rightBullets, item.rightStyleIndex
                   )}
                 </div>
               );
@@ -575,7 +649,7 @@ function SectionCard({ sec, isRead, onToggleRead }: SectionProps) {
 
             if (item.type === 'list') {
               return (
-                <div key={idx} className="space-y-1">
+                <div key={idx} className="space-y-1 animate-fadeIn" style={stagger}>
                   {item.bullets.map(b => (
                     <BulletItem
                       key={b.blockIndex}
@@ -592,11 +666,32 @@ function SectionCard({ sec, isRead, onToggleRead }: SectionProps) {
 
             const { block, blockIndex } = item;
 
+            if (block.type === 'code') {
+              return (
+                <div key={idx} className="animate-fadeIn" style={stagger}>
+                  <CodeBlock code={block.text} lang={block.lang || 'code'} />
+                </div>
+              );
+            }
+
+            if (block.type === 'reveal') {
+              return (
+                <div key={idx} className="animate-fadeIn" style={stagger}>
+                  <RevealBlock
+                    question={block.question || 'Think about this...'}
+                    answer={block.text}
+                    accentColor={currentThemeColor}
+                  />
+                </div>
+              );
+            }
+
             if (block.type === 'paragraph') {
               return (
-                <p 
-                  key={idx} 
-                  className={`leading-relaxed ${block.isSubheading ? 'font-black text-[#2E4862] text-sm md:text-base mt-6 mb-3 border-b border-slate-100 pb-2 flex items-center gap-2' : 'text-slate-600'}`}
+                <p
+                  key={idx}
+                  className={`leading-relaxed animate-fadeIn ${block.isSubheading ? 'font-black text-[#2E4862] text-sm md:text-base mt-6 mb-3 border-b border-slate-100 pb-2 flex items-center gap-2' : 'text-slate-600'}`}
+                  style={stagger}
                 >
                   {block.isSubheading && <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ background: currentThemeColor }} />}
                   {highlightText(block.text)}
@@ -605,13 +700,8 @@ function SectionCard({ sec, isRead, onToggleRead }: SectionProps) {
             }
             if (block.type === 'callout') {
               return (
-                <div key={idx} className="my-4 animate-fadeIn">
-                  <Callout
-                    icon={block.icon || '💡'}
-                    bg={block.bg}
-                    border={block.border}
-                    text={block.textColor}
-                  >
+                <div key={idx} className="my-4 animate-fadeIn" style={stagger}>
+                  <Callout icon={block.icon || '💡'} bg={block.bg} border={block.border} text={block.textColor}>
                     {block.text}
                   </Callout>
                 </div>
@@ -619,7 +709,7 @@ function SectionCard({ sec, isRead, onToggleRead }: SectionProps) {
             }
             if (block.type === 'image') {
               return (
-                <div key={idx} className="my-6 rounded-3xl overflow-hidden border border-slate-100 shadow-md max-w-xl mx-auto bg-slate-50 transition-all duration-300 hover:scale-[1.015] hover:shadow-lg animate-fadeIn relative group">
+                <div key={idx} className="my-6 rounded-3xl overflow-hidden border border-slate-100 shadow-md max-w-xl mx-auto bg-slate-50 transition-all duration-300 hover:scale-[1.015] hover:shadow-lg animate-fadeIn relative group" style={stagger}>
                   <div className="absolute inset-0 bg-slate-900/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                   <img src={block.text} alt="Step illustration" className="w-full object-contain max-h-80 mx-auto" />
                 </div>
@@ -666,6 +756,7 @@ function SectionCard({ sec, isRead, onToggleRead }: SectionProps) {
 function QuizCard({ quiz }: { quiz: QuizQuestion[] }) {
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [revealed, setRevealed] = useState<Record<number, boolean>>({});
+  const [showHints, setShowHints] = useState<Record<number, boolean>>({});
   const [muted, setMuted] = useState(false);
 
   useEffect(() => {
@@ -697,6 +788,25 @@ function QuizCard({ quiz }: { quiz: QuizQuestion[] }) {
   ).length;
 
   const allDone = Object.keys(revealed).length === quiz.length;
+  const hasMissed = allDone && score < quiz.length;
+
+  const retryMissed = () => {
+    const missedIndices = quiz.reduce<number[]>((acc, _, i) => {
+      if (revealed[i] && answers[i] !== quiz[i].correct) acc.push(i);
+      return acc;
+    }, []);
+    const newRevealed = { ...revealed };
+    const newAnswers = { ...answers };
+    const newHints = { ...showHints };
+    missedIndices.forEach(i => {
+      delete newRevealed[i];
+      delete newAnswers[i];
+      delete newHints[i];
+    });
+    setRevealed(newRevealed);
+    setAnswers(newAnswers);
+    setShowHints(newHints);
+  };
 
   return (
     <div className="rounded-3xl border border-indigo-50 bg-white p-7 shadow-sm space-y-6">
@@ -708,8 +818,8 @@ function QuizCard({ quiz }: { quiz: QuizQuestion[] }) {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <button 
-            type="button" 
+          <button
+            type="button"
             onClick={toggleMuted}
             className="text-slate-400 hover:text-indigo-600 transition-colors p-1 rounded-lg text-sm flex items-center justify-center"
             title={muted ? 'Unmute sounds' : 'Mute sounds'}
@@ -730,7 +840,7 @@ function QuizCard({ quiz }: { quiz: QuizQuestion[] }) {
         const correct = q.correct;
 
         return (
-          <div key={qIdx} className="rounded-2xl border border-slate-100 bg-slate-50/40 p-5 md:p-6 space-y-5 animate-fadeIn">
+          <div key={qIdx} className="rounded-2xl border border-slate-100 bg-slate-50/40 p-5 md:p-6 space-y-4 animate-fadeIn">
             <div className="flex items-start gap-3">
               <span className="flex-shrink-0 w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-xs font-bold text-indigo-500 mt-0.5">
                 {qIdx + 1}
@@ -739,7 +849,27 @@ function QuizCard({ quiz }: { quiz: QuizQuestion[] }) {
                 {q.question}
               </p>
             </div>
-            
+
+            {/* Hint button — only before answering */}
+            {q.hint && !done && (
+              <div className="pl-9">
+                {showHints[qIdx] ? (
+                  <div className="text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-xl px-4 py-2.5 flex items-start gap-2 animate-fadeIn">
+                    <span className="flex-shrink-0 mt-0.5">💡</span>
+                    <span className="font-semibold leading-relaxed">{q.hint}</span>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setShowHints(prev => ({ ...prev, [qIdx]: true }))}
+                    className="text-xs text-amber-600 hover:text-amber-800 font-bold flex items-center gap-1.5 transition-colors duration-200 underline underline-offset-2 decoration-dashed"
+                  >
+                    💡 Show Hint
+                  </button>
+                )}
+              </div>
+            )}
+
             <div className="grid gap-3 pl-9">
               {q.options.map((opt, oIdx) => {
                 const choiceLetter = String.fromCharCode(65 + oIdx);
@@ -798,7 +928,7 @@ function QuizCard({ quiz }: { quiz: QuizQuestion[] }) {
                     text={chosen === correct ? '#065F46' : '#991B1B'}
                   >
                     <div className="space-y-1">
-                      <p className="font-extrabold text-sm">{chosen === correct ? 'Correct! Excellent reasoning.' : 'Incorrect. Let’s learn why:'}</p>
+                      <p className="font-extrabold text-sm">{chosen === correct ? 'Correct! Excellent reasoning.' : "Incorrect. Let's learn why:"}</p>
                       <p className="text-xs leading-relaxed opacity-95 font-semibold">{q.explanation}</p>
                     </div>
                   </Callout>
@@ -808,6 +938,19 @@ function QuizCard({ quiz }: { quiz: QuizQuestion[] }) {
           </div>
         );
       })}
+
+      {/* Retry missed questions */}
+      {hasMissed && (
+        <div className="flex justify-center pt-2 animate-fadeIn">
+          <button
+            type="button"
+            onClick={retryMissed}
+            className="text-xs font-black px-6 py-3 rounded-xl border-2 border-rose-400 text-rose-600 hover:bg-rose-50 transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] flex items-center gap-2"
+          >
+            🔁 Retry {quiz.length - score} Missed Question{quiz.length - score > 1 ? 's' : ''}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -818,6 +961,16 @@ export default function InteractiveLecture({ levelId, lessonId, stepId }: Intera
 
   const key = `${levelId}-${lessonId}-${stepId}`;
   const lecture = LECTURES_STRUCTURED_DATA[key];
+
+  const renderMarkdownInline = (text: string) => {
+    if (!text) return '';
+    const processed = text
+      .replace(/^#+\s*/, '')
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+      .replace(/`([^`]+)`/g, '<code class="bg-white/10 px-1.5 py-0.5 rounded font-mono text-[90%]">$1</code>');
+    return <span dangerouslySetInnerHTML={{ __html: processed }} />;
+  };
 
   // Reset progress when step changes
   useEffect(() => {
@@ -857,9 +1010,28 @@ export default function InteractiveLecture({ levelId, lessonId, stepId }: Intera
   const toggleRead = (idx: number) => {
     setProgress(prev => {
       const next = new Set(prev);
-      next.has(idx) ? next.delete(idx) : next.add(idx);
+      const isNewlyRead = !next.has(idx);
+      isNewlyRead ? next.add(idx) : next.delete(idx);
+
+      if (isNewlyRead && idx + 1 < totalSections) {
+        setTimeout(() => {
+          const nextEl = document.getElementById(`section-${idx + 1}`);
+          if (nextEl) {
+            nextEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 150);
+      }
       return next;
     });
+  };
+
+  const getContextualSubtitle = () => {
+    const t = lecture.stepType.toLowerCase();
+    if (t.includes('intro')) return 'Build your mental model of this topic.';
+    if (t.includes('concept')) return 'Deepen your understanding with structured theory.';
+    if (t.includes('explore') || t.includes('exploration')) return 'Experiment and observe how things work.';
+    if (t.includes('mapping')) return 'Connect block logic to real hardware.';
+    return 'Follow each collapsible step, read carefully, and test your comprehension!';
   };
 
   // Hero Card gradient based on Level ID
@@ -873,6 +1045,13 @@ export default function InteractiveLecture({ levelId, lessonId, stepId }: Intera
 
   return (
     <div className="min-h-full bg-slate-50/50 pb-16 relative">
+      {/* ── Sticky Mini Progress Bar ── */}
+      <div className="sticky top-0 left-0 right-0 h-1.5 bg-slate-200 z-50 overflow-hidden">
+        <div 
+          className="h-full bg-emerald-500 transition-all duration-700 ease-out" 
+          style={{ width: `${pct}%` }} 
+        />
+      </div>
       <style>{`
         @keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
         .animate-slideDown { animation: slideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
@@ -924,7 +1103,7 @@ export default function InteractiveLecture({ levelId, lessonId, stepId }: Intera
         
         <div className="flex flex-wrap items-center gap-2 mb-2">
           <p className="text-[10px] md:text-xs font-black uppercase tracking-widest text-white/80">
-            Level {levelId} · Lesson {lessonId} · {lecture.stepType}
+            Level {levelId} · Lesson {lessonId} · {renderMarkdownInline(lecture.stepType)}
           </p>
           <span className="text-[10px] bg-white/10 px-2 py-0.5 rounded-full font-bold backdrop-blur-sm">
             ⏱️ {readTime} min read
@@ -932,10 +1111,10 @@ export default function InteractiveLecture({ levelId, lessonId, stepId }: Intera
         </div>
         
         <h1 className="text-xl md:text-3xl font-black mb-2 leading-tight text-white flex items-center gap-2 drop-shadow-sm">
-          {lecture.levelTitle}
+          {renderMarkdownInline(lecture.levelTitle)}
         </h1>
         <p className="text-xs md:text-sm text-white/90 max-w-xl leading-relaxed font-medium">
-          Follow each collapsible step, read carefully, mark as read, and complete the quick quiz to test your comprehension!
+          {getContextualSubtitle()}
         </p>
 
         {/* Dynamic Progress Indicator */}
@@ -956,12 +1135,13 @@ export default function InteractiveLecture({ levelId, lessonId, stepId }: Intera
       {/* ── Collapsible Sections List ── */}
       <div className="space-y-4 mb-6">
         {lecture.sections.map((sec, idx) => (
-          <SectionCard
-            key={idx}
-            sec={sec}
-            isRead={progress.has(idx)}
-            onToggleRead={() => toggleRead(idx)}
-          />
+          <div key={idx} id={`section-${idx}`}>
+            <SectionCard
+              sec={sec}
+              isRead={progress.has(idx)}
+              onToggleRead={() => toggleRead(idx)}
+            />
+          </div>
         ))}
       </div>
 
