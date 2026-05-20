@@ -13,6 +13,7 @@ import DHTMappingPanel from '@/components/DHTMappingPanel';
 import PIRMappingPanel from '@/components/PIRMappingPanel';
 import UltrasonicMappingPanel from '@/components/UltrasonicMappingPanel';
 import BuzzerMappingPanel from '@/components/BuzzerMappingPanel';
+import SmartSystemMappingPanel from '@/components/SmartSystemMappingPanel';
 
 export const MAPPING_PANEL_REGISTRY: Record<string, React.ComponentType> = {
   'button': ButtonMappingPanel,
@@ -28,6 +29,7 @@ export const MAPPING_PANEL_REGISTRY: Record<string, React.ComponentType> = {
   'dht': DHTMappingPanel,
   'pir': PIRMappingPanel,
   'ultrasonic': UltrasonicMappingPanel,
-  'buzzer': BuzzerMappingPanel
+  'buzzer': BuzzerMappingPanel,
+  'smart-system': SmartSystemMappingPanel,
 };
   

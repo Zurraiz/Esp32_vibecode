@@ -41,6 +41,9 @@ import UltrasonicAutonomousSimulator from '@/components/UltrasonicAutonomousSimu
 import BuzzerExplorer from '@/components/BuzzerExplorer';
 import BuzzerMonitorSimulator from '@/components/BuzzerMonitorSimulator';
 import BuzzerAutonomousSimulator from '@/components/BuzzerAutonomousSimulator';
+import SmartSystemExplorer from '@/components/SmartSystemExplorer';
+import SmartSystemMonitorSimulator from '@/components/SmartSystemMonitorSimulator';
+import SmartSystemAutonomousSimulator from '@/components/SmartSystemAutonomousSimulator';
 
 export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'missing-delay': MissingDelaySimulator,
@@ -85,4 +88,7 @@ export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'buzzer-explorer': BuzzerExplorer,
   'buzzer-monitor': BuzzerMonitorSimulator,
   'buzzer-autonomous': BuzzerAutonomousSimulator,
+  'smart-explorer': SmartSystemExplorer,
+  'smart-monitor': SmartSystemMonitorSimulator,
+  'smart-autonomous': SmartSystemAutonomousSimulator,
 };
