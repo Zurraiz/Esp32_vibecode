@@ -38,6 +38,9 @@ import PIRAutonomousSimulator from '@/components/PIRAutonomousSimulator';
 import UltrasonicExplorer from '@/components/UltrasonicExplorer';
 import UltrasonicMonitorSimulator from '@/components/UltrasonicMonitorSimulator';
 import UltrasonicAutonomousSimulator from '@/components/UltrasonicAutonomousSimulator';
+import BuzzerExplorer from '@/components/BuzzerExplorer';
+import BuzzerMonitorSimulator from '@/components/BuzzerMonitorSimulator';
+import BuzzerAutonomousSimulator from '@/components/BuzzerAutonomousSimulator';
 
 export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'missing-delay': MissingDelaySimulator,
@@ -79,4 +82,7 @@ export const SIMULATION_REGISTRY: Record<string, React.ComponentType> = {
   'ultrasonic-explorer': UltrasonicExplorer,
   'ultrasonic-monitor': UltrasonicMonitorSimulator,
   'ultrasonic-autonomous': UltrasonicAutonomousSimulator,
+  'buzzer-explorer': BuzzerExplorer,
+  'buzzer-monitor': BuzzerMonitorSimulator,
+  'buzzer-autonomous': BuzzerAutonomousSimulator,
 };
