@@ -1,0 +1,14 @@
+
+## LEVEL 6.3: Distance Measurement (Ultrasonic Sensor)
+
+
+## 1. Introduction
+
+In the previous lesson, you learned how the system can detect motion using a PIR sensor.
+That was a binary understanding of the world:
+Motion detected
+No motion detected
+In this lesson, the system becomes more precise.
+Instead of just detecting whether something is present, the ESP32 will now measure how far away it is.
+This is done using an ultrasonic sensor, which allows the system to understand space and distance in real time.
+[image: 1_0.png]

@@ -1,0 +1,242 @@
+
+## 🟠 LEVEL 6.5: Multi-Sensor Decision System (Smart Behavior Logic)
+
+
+## 1. Introduction
+
+In the previous lessons, you learned how to:
+Detect motion using a PIR sensor
+Measure distance using an ultrasonic sensor
+Read environmental conditions using a DHT sensor
+Produce sound using a buzzer
+Each of these systems worked independently.
+In this lesson, you will combine them.
+Instead of reacting to one sensor at a time, the ESP32 will now:
+👉 use multiple inputs together to make decisions
+This is the beginning of intelligent system behavior.
+
+## 2. Exploration
+
+
+## Available Blocks
+
+PIR Sensor Read
+Ultrasonic Sensor Read
+Temperature / Humidity Read (optional)
+Buzzer Control
+LED Control
+Conditional Logic (IF / ELSE IF / ELSE)
+Serial Print
+
+## Exploration Goal
+
+Your goal is to experiment with combining multiple sensor inputs into a single response system.
+
+## Try This
+
+Read motion sensor
+Read distance sensor
+Use conditions to decide output
+Trigger LED or buzzer based on results
+
+## Observe
+
+What happens when only one sensor is active?
+What happens when multiple sensors are active together?
+Does the system behave differently based on combinations?
+How does changing conditions affect output?
+
+## Try Again
+
+Create different condition combinations
+Test edge cases (no motion, close object, both active)
+
+## Purpose of Exploration
+
+The goal is to understand that:
+Real systems do not rely on a single sensor
+Decisions are based on multiple inputs
+Behavior changes depending on combined conditions
+
+## 3. Concept Building
+
+
+## 3.1 Why combine sensors?
+
+In real-world systems, one sensor is not enough.
+For example:
+Motion alone does not guarantee danger
+Distance alone does not indicate intent
+Temperature alone does not define a situation
+Systems become intelligent when they combine multiple inputs to make better decisions.
+
+## 3.2 What does “multi-sensor logic” mean?
+
+Multi-sensor logic means:
+👉 using more than one input to decide an output
+Instead of:
+One condition → one action
+You now have:
+Multiple conditions → one decision
+This allows systems to behave more accurately and intelligently.
+
+## 3.3 Understanding decision layers
+
+When multiple sensors are used together, the system builds layers of decision-making.
+For example:
+If motion is detected AND object is close → HIGH alert
+If motion is detected but object is far → LOW alert
+If no motion → system stays idle
+Each condition adds meaning to the decision.
+
+## 3.4 Why single sensors are not enough
+
+If you rely on only one sensor:
+The system may react incorrectly
+It may trigger unnecessary actions
+It may miss important context
+By combining sensors:
+You reduce false triggers
+You increase accuracy
+You add context to decisions
+
+## 3.5 How the ESP32 processes multiple inputs
+
+The ESP32 follows a simple process:
+Read all sensors
+Evaluate conditions
+Decide outcome
+Execute output
+This cycle repeats continuously.
+Because of this:
+The system always reacts to the latest environment state
+
+## 3.6 Understanding combined conditions
+
+When multiple conditions are used together:
+AND conditions → all must be true
+OR conditions → any one can be true
+This allows flexible behavior design.
+For example:
+Motion AND close distance → trigger alarm
+Motion OR temperature change → trigger notification
+This gives control over how strict or flexible the system is.
+
+## 3.7 What makes this “smart behavior”?
+
+A system becomes “smart” when:
+It evaluates multiple inputs
+It chooses different actions based on context
+It adapts behavior dynamically
+This is exactly what happens here.
+The system is no longer reactive—it is decision-driven.
+
+## 3.8 Real-world applications
+
+Multi-sensor systems are used in:
+Smart security systems
+Home automation systems
+Industrial monitoring systems
+Smart energy systems
+In all these systems:
+One sensor is never enough
+Decisions depend on multiple signals
+
+## 3.9 Key Insight of This Lesson
+
+Real systems use multiple sensors together
+Decisions are based on combined conditions
+Logic determines system behavior
+Outputs depend on environmental context
+ESP32 continuously evaluates all inputs
+This creates intelligent, adaptive behavior
+
+## 4. Student Task
+
+
+## Task: Build a Smart Alert System
+
+Your objective is to:
+Combine at least two sensors
+Use conditional logic to decide output
+Trigger different responses based on conditions
+
+## Requirements
+
+Use PIR sensor
+Use Ultrasonic sensor
+Use at least one output (LED or buzzer)
+Use IF / ELSE logic
+Create at least 2 different conditions
+
+## Expected Behavior
+
+Different sensor combinations produce different outputs
+System reacts differently based on situation
+Output changes in real time
+Behavior is context-aware
+
+## 5. Arduino Mapping
+
+
+## Generated Code
+
+#define PIR_PIN 4
+#define TRIG_PIN 5
+#define ECHO_PIN 18
+#define BUZZER_PIN 12
+void setup() {
+pinMode(PIR_PIN, INPUT);
+pinMode(TRIG_PIN, OUTPUT);
+pinMode(ECHO_PIN, INPUT);
+pinMode(BUZZER_PIN, OUTPUT);
+Serial.begin(9600);
+}
+long getDistance() {
+digitalWrite(TRIG_PIN, LOW);
+delayMicroseconds(2);
+digitalWrite(TRIG_PIN, HIGH);
+delayMicroseconds(10);
+digitalWrite(TRIG_PIN, LOW);
+long duration = pulseIn(ECHO_PIN, HIGH);
+return duration * 0.034 / 2;
+}
+void loop() {
+int motion = digitalRead(PIR_PIN);
+long distance = getDistance();
+if (motion == HIGH && distance < 50) {
+digitalWrite(BUZZER_PIN, HIGH);
+Serial.println("HIGH ALERT");
+}
+else if (motion == HIGH) {
+digitalWrite(BUZZER_PIN, LOW);
+Serial.println("Motion detected - low risk");
+}
+else {
+digitalWrite(BUZZER_PIN, LOW);
+Serial.println("No activity");
+}
+}
+
+## Code Explanation
+
+digitalRead(PIR_PIN);
+Detects motion
+getDistance();
+Measures object distance
+if (motion && distance < 50)
+High-risk condition
+else if (motion)
+Low-risk condition
+else
+No activity
+
+## Execution Flow
+
+Sensors are read
+Conditions are evaluated
+Decision is made
+Output is triggered
+Loop repeats continuously
+
+## End of Lesson 6.5

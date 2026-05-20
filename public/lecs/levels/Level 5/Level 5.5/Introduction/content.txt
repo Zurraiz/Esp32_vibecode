@@ -1,0 +1,17 @@
+
+## LEVEL 6.5: Multi-Sensor Decision System (Smart Behavior Logic)
+
+
+## 1. Introduction
+
+In the previous lessons, you learned how to:
+Detect motion using a PIR sensor
+Measure distance using an ultrasonic sensor
+Read environmental conditions using a DHT sensor
+Produce sound using a buzzer
+Each of these systems worked independently.
+In this lesson, you will combine them.
+Instead of reacting to one sensor at a time, the ESP32 will now:
+use multiple inputs together to make decisions
+This is the beginning of intelligent system behavior.
+[image: 1_0.png]

@@ -6501,9 +6501,44 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
             "text": "After the loop completes 5 repetitions, the condition becomes false and the program exits the loop. The remaining code then executes, printing \"Outside the loop\" on the Serial Monitor."
           },
           {
-            "type": "code",
-            "text": "void loop() {\nfor(int i=0; i<5; i++){\ndigitalWrite(2, HIGH); // LED ON\ndelay(1 * 1000);\ndigitalWrite(2, LOW); // LED OFF\ndelay(1 * 1000);\nSerial.print(\"Inside the loop \");\n}\nSerial.print(\"Outside the loop\");\n}",
-            "lang": "cpp"
+            "type": "bullet",
+            "text": "void loop() {"
+          },
+          {
+            "type": "bullet",
+            "text": "for(int i=0; i<5; i++){"
+          },
+          {
+            "type": "bullet",
+            "text": "digitalWrite(2, HIGH); // LED ON"
+          },
+          {
+            "type": "bullet",
+            "text": "delay(1 * 1000);"
+          },
+          {
+            "type": "bullet",
+            "text": "digitalWrite(2, LOW); // LED OFF"
+          },
+          {
+            "type": "bullet",
+            "text": "delay(1 * 1000);"
+          },
+          {
+            "type": "bullet",
+            "text": "Serial.print(\"Inside the loop \");"
+          },
+          {
+            "type": "bullet",
+            "text": "}"
+          },
+          {
+            "type": "bullet",
+            "text": "Serial.print(\"Outside the loop\");"
+          },
+          {
+            "type": "bullet",
+            "text": "}"
           },
           {
             "type": "image",
@@ -7980,6 +8015,1784 @@ export const LECTURES_STRUCTURED_DATA: Record<string, LectureData> = {
         ],
         "correct": 1,
         "explanation": "Iterating over sequence indices allows you to drive complex, multi-pin displays using a tiny set of loops, rather than writing hundreds of individual lines."
+      }
+    ]
+  },
+  "5-5-1-intro": {
+    "levelTitle": "LEVEL 6.1: Temperature and Humidity (DHT Sensor Basics)",
+    "lessonTitle": " Temperature and Humidity (DHT Sensor Basics)",
+    "stepType": "1. Introduction",
+    "sections": [
+      {
+        "number": "1.1.1",
+        "title": "Overview",
+        "icon": "📝",
+        "accent": "#6366F1",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Until now, you have been working with simulated inputs like sliders and basic analog signals."
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.1/Introduction/images/1_0.png"
+          },
+          {
+            "type": "paragraph",
+            "text": "In real systems, however, computers often read data from the physical world."
+          },
+          {
+            "type": "paragraph",
+            "text": "One of the most common types of real-world data is environmental data:"
+          },
+          {
+            "type": "bullet",
+            "text": "Temperature"
+          },
+          {
+            "type": "bullet",
+            "text": "Humidity"
+          },
+          {
+            "type": "paragraph",
+            "text": "In this lesson, you will learn how the ESP32 reads data from a sensor that measures these conditions."
+          },
+          {
+            "type": "paragraph",
+            "text": "Instead of manually changing values, the system will now receive information from the environment."
+          }
+        ]
+      }
+    ]
+  },
+  "5-5-1-concept": {
+    "levelTitle": "3. Concept Building",
+    "lessonTitle": "3. Concept Building",
+    "stepType": "3.1 What is a sensor?",
+    "sections": [
+      {
+        "number": "1.2.1",
+        "title": "Overview",
+        "icon": "📝",
+        "accent": "#6366F1",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "A sensor is a component that reads information from the physical world and converts it into data that the ESP32 can understand."
+          },
+          {
+            "type": "paragraph",
+            "text": "Instead of manually providing input (like a slider), the system now receives input from the environment itself."
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.1/Concept Building/images/3.1_0.png"
+          },
+          {
+            "type": "paragraph",
+            "text": "In this lesson, the sensor measures:"
+          },
+          {
+            "type": "bullet",
+            "text": "Temperature (heat level)"
+          },
+          {
+            "type": "bullet",
+            "text": "Humidity (moisture in air)"
+          }
+        ]
+      },
+      {
+        "number": "1.2.2",
+        "title": "3.2 What is the DHT sensor doing?",
+        "icon": "🔬",
+        "accent": "#F59E0B",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "The DHT sensor continuously monitors the environment and sends updated values to the ESP32."
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.1/Concept Building/images/3.2_0.png"
+          },
+          {
+            "type": "paragraph",
+            "text": "It does not give a single fixed value. Instead:"
+          },
+          {
+            "type": "bullet",
+            "text": "It keeps measuring"
+          },
+          {
+            "type": "bullet",
+            "text": "It keeps updating"
+          },
+          {
+            "type": "bullet",
+            "text": "It reflects real-world changes"
+          },
+          {
+            "type": "paragraph",
+            "text": "This means the input is now external and dynamic, not manually controlled."
+          }
+        ]
+      },
+      {
+        "number": "1.2.3",
+        "title": "3.3 Why do values change over time?",
+        "icon": "📊",
+        "accent": "#10B981",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "You will notice that temperature and humidity values are not always stable."
+          },
+          {
+            "type": "paragraph",
+            "text": "This happens because:"
+          },
+          {
+            "type": "bullet",
+            "text": "The environment is always changing slightly"
+          },
+          {
+            "type": "bullet",
+            "text": "Air movement affects readings"
+          },
+          {
+            "type": "bullet",
+            "text": "Heat sources affect temperature"
+          },
+          {
+            "type": "bullet",
+            "text": "Humidity varies naturally"
+          },
+          {
+            "type": "paragraph",
+            "text": "So even if nothing seems to change, the sensor may still show small variations."
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.1/Concept Building/images/3.3_0.png"
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.1/Concept Building/images/3.3_1.png"
+          }
+        ]
+      },
+      {
+        "number": "1.2.4",
+        "title": "3.4 Understanding real-world input",
+        "icon": "🔀",
+        "accent": "#EF4444",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Unlike previous lessons where:"
+          },
+          {
+            "type": "bullet",
+            "text": "You controlled the input manually"
+          },
+          {
+            "type": "paragraph",
+            "text": "Now:"
+          },
+          {
+            "type": "bullet",
+            "text": "The environment controls the input"
+          },
+          {
+            "type": "paragraph",
+            "text": "This is a major shift."
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.1/Concept Building/images/3.4_0.png"
+          },
+          {
+            "type": "paragraph",
+            "text": "The system is no longer just reacting to user input—it is reacting to real conditions. The environment alone controls what the values will be."
+          }
+        ]
+      },
+      {
+        "number": "1.2.5",
+        "title": "3.5 Why sensors are important",
+        "icon": "🔬",
+        "accent": "#8B5CF6",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Sensors allow systems to:"
+          },
+          {
+            "type": "bullet",
+            "text": "Understand their surroundings"
+          },
+          {
+            "type": "bullet",
+            "text": "Make decisions based on real conditions"
+          },
+          {
+            "type": "bullet",
+            "text": "React to changes without human input"
+          },
+          {
+            "type": "paragraph",
+            "text": "This is the foundation of all smart systems:"
+          },
+          {
+            "type": "bullet",
+            "text": "Smart homes"
+          },
+          {
+            "type": "bullet",
+            "text": "Weather stations"
+          },
+          {
+            "type": "bullet",
+            "text": "Industrial monitoring"
+          },
+          {
+            "type": "bullet",
+            "text": "IoT devices"
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.1/Concept Building/images/3.5_0.png"
+          }
+        ]
+      },
+      {
+        "number": "1.2.6",
+        "title": "3.6 How the ESP32 reads sensor data",
+        "icon": "🔬",
+        "accent": "#0EA5E9",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "The process is simple:"
+          },
+          {
+            "type": "bullet",
+            "text": "The sensor measures temperature and humidity"
+          },
+          {
+            "type": "bullet",
+            "text": "It sends this data to the ESP32"
+          },
+          {
+            "type": "bullet",
+            "text": "The ESP32 reads the values"
+          },
+          {
+            "type": "bullet",
+            "text": "The values are then used in your program"
+          },
+          {
+            "type": "paragraph",
+            "text": "This happens repeatedly in a loop, so the system always stays updated."
+          },
+          {
+            "type": "bullet",
+            "text": "3.7 Why Serial is important here"
+          },
+          {
+            "type": "paragraph",
+            "text": "Since sensor values change over time, you need a way to observe them."
+          },
+          {
+            "type": "paragraph",
+            "text": "Serial output allows you to:"
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.1/Concept Building/images/3.6_0.png"
+          },
+          {
+            "type": "bullet",
+            "text": "See live data"
+          },
+          {
+            "type": "bullet",
+            "text": "Track changes over time"
+          },
+          {
+            "type": "bullet",
+            "text": "Understand environmental behavior"
+          },
+          {
+            "type": "paragraph",
+            "text": "Without Serial, the data would exist but remain invisible."
+          }
+        ]
+      },
+      {
+        "number": "1.2.7",
+        "title": "3.8 Understanding real-time environmental systems",
+        "icon": "⚙️",
+        "accent": "#F97316",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Now your system behaves like a real monitoring device."
+          },
+          {
+            "type": "paragraph",
+            "text": "It:"
+          },
+          {
+            "type": "bullet",
+            "text": "Continuously reads environmental data"
+          },
+          {
+            "type": "bullet",
+            "text": "Updates values in real time"
+          },
+          {
+            "type": "bullet",
+            "text": "Reflects changes in surroundings"
+          },
+          {
+            "type": "paragraph",
+            "text": "This is the first step toward building real IoT systems."
+          }
+        ]
+      },
+      {
+        "number": "1.2.8",
+        "title": "3.9 Key Insight of This Lesson",
+        "icon": "🔑",
+        "accent": "#14B8A6",
+        "blocks": [
+          {
+            "type": "bullet",
+            "text": "Sensors read data from the physical world"
+          },
+          {
+            "type": "bullet",
+            "text": "DHT measures temperature and humidity"
+          },
+          {
+            "type": "bullet",
+            "text": "Values change based on real environmental conditions"
+          },
+          {
+            "type": "bullet",
+            "text": "The ESP32 continuously reads updated data"
+          },
+          {
+            "type": "bullet",
+            "text": "Systems are no longer manually controlled only—they react to reality"
+          }
+        ]
+      }
+    ]
+  },
+  "5-5-2-intro": {
+    "levelTitle": "LEVEL 6.2: Motion Detection (PIR Sensor)",
+    "lessonTitle": " Motion Detection (PIR Sensor)",
+    "stepType": "1. Introduction",
+    "sections": [
+      {
+        "number": "2.1.1",
+        "title": "Overview",
+        "icon": "📝",
+        "accent": "#6366F1",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "In the previous lesson, your system was observing the environment by reading temperature and humidity."
+          },
+          {
+            "type": "paragraph",
+            "text": "In this lesson, the system will go one step further."
+          },
+          {
+            "type": "paragraph",
+            "text": "Instead of continuously measuring values, it will now detect events—specifically, movement."
+          },
+          {
+            "type": "paragraph",
+            "text": "A PIR sensor (Passive Infrared Sensor) allows the ESP32 to detect when a person or object moves in its field of view."
+          },
+          {
+            "type": "paragraph",
+            "text": "This introduces a new type of input:"
+          },
+          {
+            "type": "bullet",
+            "text": "Not continuous values"
+          },
+          {
+            "type": "bullet",
+            "text": "But event-based signals"
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.2/Introduction/images/1_0.png"
+          }
+        ]
+      }
+    ]
+  },
+  "5-5-2-concept": {
+    "levelTitle": "3. Concept Building",
+    "lessonTitle": "3. Concept Building",
+    "stepType": "3.1 What is a PIR sensor actually doing?",
+    "sections": [
+      {
+        "number": "2.2.1",
+        "title": "Overview",
+        "icon": "📝",
+        "accent": "#6366F1",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "A PIR sensor does not measure gradual changes like temperature or humidity."
+          },
+          {
+            "type": "paragraph",
+            "text": "Instead, it detects motion by sensing changes in infrared radiation."
+          },
+          {
+            "type": "paragraph",
+            "text": "In simple terms:"
+          },
+          {
+            "type": "bullet",
+            "text": "When nothing moves → no signal change"
+          },
+          {
+            "type": "bullet",
+            "text": "When something moves → signal becomes active"
+          },
+          {
+            "type": "paragraph",
+            "text": "This makes it a binary event detector, not a continuous sensor."
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.2/Concept Building/images/3.1_0.png"
+          }
+        ]
+      },
+      {
+        "number": "2.2.2",
+        "title": "3.2 Understanding event-based input",
+        "icon": "🔀",
+        "accent": "#F59E0B",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Unlike analog sensors that give you a range of values, the PIR sensor behaves differently."
+          },
+          {
+            "type": "paragraph",
+            "text": "It only tells you:"
+          },
+          {
+            "type": "bullet",
+            "text": "Motion detected"
+          },
+          {
+            "type": "bullet",
+            "text": "No motion detected"
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.2/Concept Building/images/3.2_0.png"
+          },
+          {
+            "type": "paragraph",
+            "text": "This is similar to digital input, but it is triggered by real-world movement, not a manual button."
+          }
+        ]
+      },
+      {
+        "number": "2.2.3",
+        "title": "3.3 Why does motion detection matter?",
+        "icon": "❓",
+        "accent": "#10B981",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Motion detection allows systems to:"
+          },
+          {
+            "type": "bullet",
+            "text": "React only when something happens"
+          },
+          {
+            "type": "bullet",
+            "text": "Save energy by staying idle otherwise"
+          },
+          {
+            "type": "bullet",
+            "text": "Trigger actions automatically"
+          },
+          {
+            "type": "paragraph",
+            "text": "For example:"
+          },
+          {
+            "type": "bullet",
+            "text": "Security lights turning on when someone enters"
+          },
+          {
+            "type": "bullet",
+            "text": "Alarms activating when movement is detected"
+          },
+          {
+            "type": "bullet",
+            "text": "Smart cameras starting recording"
+          },
+          {
+            "type": "bullet",
+            "text": "This is the foundation of automated response systems"
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.2/Concept Building/images/3.3_0.png"
+          }
+        ]
+      },
+      {
+        "number": "2.2.4",
+        "title": "3.4 How the ESP32 interprets PIR signals",
+        "icon": "📝",
+        "accent": "#EF4444",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "The PIR sensor sends a simple signal to the ESP32:"
+          },
+          {
+            "type": "bullet",
+            "text": "HIGH → motion detected"
+          },
+          {
+            "type": "bullet",
+            "text": "LOW → no motion detected"
+          },
+          {
+            "type": "paragraph",
+            "text": "The ESP32 reads this signal repeatedly inside the loop and updates behavior accordingly."
+          },
+          {
+            "type": "paragraph",
+            "text": "This allows the system to respond instantly when movement occurs."
+          }
+        ]
+      },
+      {
+        "number": "2.2.5",
+        "title": "3.5 From observation to reaction",
+        "icon": "📝",
+        "accent": "#8B5CF6",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "In previous lessons, the system:"
+          },
+          {
+            "type": "bullet",
+            "text": "Observed values continuously"
+          },
+          {
+            "type": "paragraph",
+            "text": "Now, the system:"
+          },
+          {
+            "type": "bullet",
+            "text": "Waits for an event"
+          },
+          {
+            "type": "bullet",
+            "text": "Reacts when it happens"
+          },
+          {
+            "type": "paragraph",
+            "text": "This is an important shift in thinking:"
+          },
+          {
+            "type": "bullet",
+            "text": "From passive monitoring"
+          },
+          {
+            "type": "bullet",
+            "text": "To active response"
+          }
+        ]
+      },
+      {
+        "number": "2.2.6",
+        "title": "3.6 How motion triggers behavior",
+        "icon": "📝",
+        "accent": "#0EA5E9",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "You can now connect input to output directly."
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.2/Concept Building/images/3.6_0.png"
+          },
+          {
+            "type": "paragraph",
+            "text": "For example:"
+          },
+          {
+            "type": "bullet",
+            "text": "If motion is detected → turn LED ON"
+          },
+          {
+            "type": "bullet",
+            "text": "If no motion → turn LED OFF"
+          },
+          {
+            "type": "paragraph",
+            "text": "This creates a simple rule-based system that reacts to the environment."
+          },
+          {
+            "type": "paragraph",
+            "text": "The system no longer just displays information, it performs actions based on conditions."
+          }
+        ]
+      },
+      {
+        "number": "2.2.7",
+        "title": "3.7 Why stability matters in PIR readings",
+        "icon": "❓",
+        "accent": "#F97316",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "You may notice:"
+          },
+          {
+            "type": "bullet",
+            "text": "The sensor may stay HIGH for a short time after motion"
+          },
+          {
+            "type": "bullet",
+            "text": "Then return to LOW when no movement is detected"
+          },
+          {
+            "type": "paragraph",
+            "text": "This is normal behavior."
+          },
+          {
+            "type": "paragraph",
+            "text": "It ensures that:"
+          },
+          {
+            "type": "bullet",
+            "text": "Motion is not missed"
+          },
+          {
+            "type": "bullet",
+            "text": "Small movements still trigger detection"
+          },
+          {
+            "type": "paragraph",
+            "text": "The system smooths real-world activity into readable signals."
+          }
+        ]
+      },
+      {
+        "number": "2.2.8",
+        "title": "3.8 Key Insight of This Lesson",
+        "icon": "🔑",
+        "accent": "#14B8A6",
+        "blocks": [
+          {
+            "type": "bullet",
+            "text": "PIR sensors detect motion, not continuous values"
+          },
+          {
+            "type": "bullet",
+            "text": "Output is event-based (motion / no motion)"
+          },
+          {
+            "type": "bullet",
+            "text": "Systems react only when a condition is triggered"
+          },
+          {
+            "type": "bullet",
+            "text": "This enables automation and smart behavior"
+          },
+          {
+            "type": "bullet",
+            "text": "ESP32 continuously checks for events in a loop"
+          },
+          {
+            "type": "bullet",
+            "text": "Motion detection is the foundation of reactive systems"
+          }
+        ]
+      }
+    ]
+  },
+  "5-5-3-intro": {
+    "levelTitle": "LEVEL 6.3: Distance Measurement (Ultrasonic Sensor)",
+    "lessonTitle": " Distance Measurement (Ultrasonic Sensor)",
+    "stepType": "1. Introduction",
+    "sections": [
+      {
+        "number": "3.1.1",
+        "title": "Overview",
+        "icon": "📝",
+        "accent": "#6366F1",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "In the previous lesson, you learned how the system can detect motion using a PIR sensor."
+          },
+          {
+            "type": "paragraph",
+            "text": "That was a binary understanding of the world:"
+          },
+          {
+            "type": "bullet",
+            "text": "Motion detected"
+          },
+          {
+            "type": "bullet",
+            "text": "No motion detected"
+          },
+          {
+            "type": "paragraph",
+            "text": "In this lesson, the system becomes more precise."
+          },
+          {
+            "type": "paragraph",
+            "text": "Instead of just detecting whether something is present, the ESP32 will now measure how far away it is."
+          },
+          {
+            "type": "paragraph",
+            "text": "This is done using an ultrasonic sensor, which allows the system to understand space and distance in real time."
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.3/Introduction/images/1_0.png"
+          }
+        ]
+      }
+    ]
+  },
+  "5-5-3-concept": {
+    "levelTitle": "3. Concept Building",
+    "lessonTitle": "3. Concept Building",
+    "stepType": "3.1 What is an ultrasonic sensor measuring?",
+    "sections": [
+      {
+        "number": "3.2.1",
+        "title": "Overview",
+        "icon": "📝",
+        "accent": "#6366F1",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "An ultrasonic sensor does not detect presence or motion."
+          },
+          {
+            "type": "paragraph",
+            "text": "Instead, it measures distance by sending sound waves and calculating how long they take to return."
+          },
+          {
+            "type": "paragraph",
+            "text": "In simple terms:"
+          },
+          {
+            "type": "bullet",
+            "text": "It sends a signal"
+          },
+          {
+            "type": "bullet",
+            "text": "The signal reflects off an object"
+          },
+          {
+            "type": "bullet",
+            "text": "It measures how long the return takes"
+          },
+          {
+            "type": "bullet",
+            "text": "That time is converted into distance"
+          },
+          {
+            "type": "paragraph",
+            "text": "This allows the system to understand how far away an object is."
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.3/Concept Building/images/3.1_0.png"
+          }
+        ]
+      },
+      {
+        "number": "3.2.2",
+        "title": "3.2 Understanding distance as a value",
+        "icon": "📊",
+        "accent": "#F59E0B",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Unlike previous sensors:"
+          },
+          {
+            "type": "bullet",
+            "text": "PIR → only detects motion"
+          },
+          {
+            "type": "bullet",
+            "text": "Analog input → measures intensity"
+          },
+          {
+            "type": "bullet",
+            "text": "Ultrasonic sensor → measures space"
+          },
+          {
+            "type": "paragraph",
+            "text": "The output is a number that represents distance."
+          },
+          {
+            "type": "paragraph",
+            "text": "For example:"
+          },
+          {
+            "type": "bullet",
+            "text": "Small value → object is close"
+          },
+          {
+            "type": "bullet",
+            "text": "Large value → object is far"
+          },
+          {
+            "type": "paragraph",
+            "text": "This introduces a new type of understanding called  spatial awareness."
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.3/Concept Building/images/3.2_0.png"
+          }
+        ]
+      },
+      {
+        "number": "3.2.3",
+        "title": "3.3 Why does distance change smoothly?",
+        "icon": "❓",
+        "accent": "#10B981",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "As you move an object:"
+          },
+          {
+            "type": "bullet",
+            "text": "Distance decreases gradually when approaching"
+          },
+          {
+            "type": "bullet",
+            "text": "Distance increases gradually when moving away"
+          },
+          {
+            "type": "paragraph",
+            "text": "This creates a smooth, continuous stream of values."
+          },
+          {
+            "type": "paragraph",
+            "text": "This is similar to analog behavior, but applied to physical space."
+          }
+        ]
+      },
+      {
+        "number": "3.2.4",
+        "title": "3.4 What does the ESP32 actually receive?",
+        "icon": "💡",
+        "accent": "#EF4444",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "The sensor converts physical distance into a numeric value."
+          },
+          {
+            "type": "paragraph",
+            "text": "The ESP32 receives:"
+          },
+          {
+            "type": "bullet",
+            "text": "A number representing how far the object is"
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.3/Concept Building/images/3.4_0.png"
+          },
+          {
+            "type": "paragraph",
+            "text": "This allows the system to:"
+          },
+          {
+            "type": "bullet",
+            "text": "React to proximity"
+          },
+          {
+            "type": "bullet",
+            "text": "Measure space accurately"
+          },
+          {
+            "type": "bullet",
+            "text": "Make decisions based on distance"
+          },
+          {
+            "type": "paragraph",
+            "text": "3.5 Why is this important?"
+          },
+          {
+            "type": "paragraph",
+            "text": "Distance measurement is used in real systems such as:"
+          },
+          {
+            "type": "bullet",
+            "text": "Parking sensors in cars"
+          },
+          {
+            "type": "bullet",
+            "text": "Obstacle avoidance robots"
+          },
+          {
+            "type": "bullet",
+            "text": "Smart door systems"
+          },
+          {
+            "type": "bullet",
+            "text": "Level detection in tanks"
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.3/Concept Building/images/3.4_1.png"
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.3/Concept Building/images/3.4_2.png"
+          },
+          {
+            "type": "paragraph",
+            "text": "These systems need to know not just if something exists, but how far it is."
+          }
+        ]
+      },
+      {
+        "number": "3.2.5",
+        "title": "3.6 How systems use distance values",
+        "icon": "📊",
+        "accent": "#8B5CF6",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Distance values are often used to:"
+          },
+          {
+            "type": "bullet",
+            "text": "Trigger actions when objects are too close"
+          },
+          {
+            "type": "bullet",
+            "text": "Adjust behavior based on proximity"
+          },
+          {
+            "type": "bullet",
+            "text": "Create safety responses"
+          },
+          {
+            "type": "paragraph",
+            "text": "For example:"
+          },
+          {
+            "type": "bullet",
+            "text": "If object is too close → stop motor"
+          },
+          {
+            "type": "bullet",
+            "text": "If object is far → continue movement"
+          },
+          {
+            "type": "paragraph",
+            "text": "This turns raw distance into decision-making logic."
+          }
+        ]
+      },
+      {
+        "number": "3.2.6",
+        "title": "3.7 Real-time behavior of distance systems",
+        "icon": "⚙️",
+        "accent": "#0EA5E9",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Since the sensor runs continuously:"
+          },
+          {
+            "type": "bullet",
+            "text": "Distance values are updated constantly"
+          },
+          {
+            "type": "bullet",
+            "text": "Movement instantly changes readings"
+          },
+          {
+            "type": "bullet",
+            "text": "The system always has the latest information"
+          },
+          {
+            "type": "paragraph",
+            "text": "This makes it suitable for dynamic environments."
+          }
+        ]
+      },
+      {
+        "number": "3.2.7",
+        "title": "3.8 Key Insight of This Lesson",
+        "icon": "🔑",
+        "accent": "#F97316",
+        "blocks": [
+          {
+            "type": "bullet",
+            "text": "Ultrasonic sensors measure distance using sound waves"
+          },
+          {
+            "type": "bullet",
+            "text": "Output is a numeric value representing space"
+          },
+          {
+            "type": "bullet",
+            "text": "Distance changes continuously as objects move"
+          },
+          {
+            "type": "bullet",
+            "text": "Systems can now understand physical space"
+          },
+          {
+            "type": "bullet",
+            "text": "This enables proximity-based decision making"
+          },
+          {
+            "type": "bullet",
+            "text": "ESP32 continuously updates distance in real time"
+          }
+        ]
+      }
+    ]
+  },
+  "5-5-4-intro": {
+    "levelTitle": "LEVEL 6.4: Sound Output (Buzzer Control)",
+    "lessonTitle": " Sound Output (Buzzer Control)",
+    "stepType": "1. Introduction",
+    "sections": [
+      {
+        "number": "4.1.1",
+        "title": "Overview",
+        "icon": "📝",
+        "accent": "#6366F1",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "In the previous lessons, your system learned how to:"
+          },
+          {
+            "type": "bullet",
+            "text": "Detect motion using PIR sensors"
+          },
+          {
+            "type": "bullet",
+            "text": "Measure distance using ultrasonic sensors"
+          },
+          {
+            "type": "bullet",
+            "text": "Observe real-world conditions continuously"
+          },
+          {
+            "type": "paragraph",
+            "text": "So far, the ESP32 has only been receiving information."
+          },
+          {
+            "type": "paragraph",
+            "text": "In this lesson, the system will take a new step:"
+          },
+          {
+            "type": "paragraph",
+            "text": "It will produce sound based on conditions."
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.4/Introduction/images/1_0.png"
+          },
+          {
+            "type": "paragraph",
+            "text": "You will use a buzzer to generate sound signals that respond to sensor input."
+          },
+          {
+            "type": "paragraph",
+            "text": "This introduces a new idea:"
+          },
+          {
+            "type": "bullet",
+            "text": "The system can now communicate back to the physical world"
+          }
+        ]
+      }
+    ]
+  },
+  "5-5-4-concept": {
+    "levelTitle": "3. Concept Building",
+    "lessonTitle": "3. Concept Building",
+    "stepType": "3.1 What is a buzzer?",
+    "sections": [
+      {
+        "number": "4.2.1",
+        "title": "Overview",
+        "icon": "📝",
+        "accent": "#6366F1",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "A buzzer is an output device that produces sound when electrical signals are applied to it."
+          },
+          {
+            "type": "paragraph",
+            "text": "Unlike LEDs (which produce light), a buzzer:"
+          },
+          {
+            "type": "bullet",
+            "text": "Produces sound waves"
+          },
+          {
+            "type": "bullet",
+            "text": "Can turn ON and OFF rapidly"
+          },
+          {
+            "type": "bullet",
+            "text": "Can create patterns of sound"
+          },
+          {
+            "type": "paragraph",
+            "text": "This allows the system to communicate through audio signals."
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.4/Concept Building/images/3.1_0.png"
+          }
+        ]
+      },
+      {
+        "number": "4.2.2",
+        "title": "3.2 How does the ESP32 control sound?",
+        "icon": "📝",
+        "accent": "#F59E0B",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "The ESP32 controls a buzzer by sending electrical signals in patterns."
+          },
+          {
+            "type": "paragraph",
+            "text": "When the signal is:"
+          },
+          {
+            "type": "bullet",
+            "text": "ON → sound is produced"
+          },
+          {
+            "type": "bullet",
+            "text": "OFF → sound stops"
+          },
+          {
+            "type": "paragraph",
+            "text": "By controlling timing and repetition, different sound behaviors can be created."
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.4/Concept Building/images/3.2_0.png"
+          }
+        ]
+      },
+      {
+        "number": "4.2.3",
+        "title": "3.3 Why is sound important in systems?",
+        "icon": "⭐",
+        "accent": "#10B981",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Sound is used in many real-world applications because it:"
+          },
+          {
+            "type": "bullet",
+            "text": "Provides immediate feedback"
+          },
+          {
+            "type": "bullet",
+            "text": "Works without visual attention"
+          },
+          {
+            "type": "bullet",
+            "text": "Can warn or alert users"
+          },
+          {
+            "type": "paragraph",
+            "text": "For example:"
+          },
+          {
+            "type": "bullet",
+            "text": "Car parking sensors"
+          },
+          {
+            "type": "bullet",
+            "text": "Alarm systems"
+          },
+          {
+            "type": "bullet",
+            "text": "Notification devices"
+          },
+          {
+            "type": "bullet",
+            "text": "Safety warnings"
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.4/Concept Building/images/3.3_0.png"
+          }
+        ]
+      },
+      {
+        "number": "4.2.4",
+        "title": "3.4 Understanding sound as a pattern",
+        "icon": "⚙️",
+        "accent": "#EF4444",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Sound is not just ON or OFF."
+          },
+          {
+            "type": "paragraph",
+            "text": "It becomes meaningful when:"
+          },
+          {
+            "type": "bullet",
+            "text": "Timing is controlled"
+          },
+          {
+            "type": "bullet",
+            "text": "Patterns are created"
+          },
+          {
+            "type": "bullet",
+            "text": "Repetition is structured"
+          },
+          {
+            "type": "paragraph",
+            "text": "For example:"
+          },
+          {
+            "type": "bullet",
+            "text": "Continuous ON → constant tone"
+          },
+          {
+            "type": "bullet",
+            "text": "Fast ON/OFF → beep sound"
+          },
+          {
+            "type": "bullet",
+            "text": "Slow ON/OFF → alert pulses"
+          },
+          {
+            "type": "paragraph",
+            "text": "The system is no longer just switching signals—it is creating communication patterns."
+          }
+        ]
+      },
+      {
+        "number": "4.2.5",
+        "title": "3.5 Connecting sound with sensors",
+        "icon": "🔬",
+        "accent": "#8B5CF6",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Now you can combine input and output systems:"
+          },
+          {
+            "type": "bullet",
+            "text": "If object is close → buzzer ON"
+          },
+          {
+            "type": "bullet",
+            "text": "If object is far → buzzer OFF"
+          },
+          {
+            "type": "paragraph",
+            "text": "Or:"
+          },
+          {
+            "type": "bullet",
+            "text": "If motion is detected → beep sound"
+          },
+          {
+            "type": "bullet",
+            "text": "If no motion → silence"
+          },
+          {
+            "type": "paragraph",
+            "text": "This allows the system to respond directly to the environment using sound."
+          }
+        ]
+      },
+      {
+        "number": "4.2.6",
+        "title": "3.6 From observation to feedback",
+        "icon": "⚙️",
+        "accent": "#0EA5E9",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Earlier:"
+          },
+          {
+            "type": "bullet",
+            "text": "System observed environment"
+          },
+          {
+            "type": "paragraph",
+            "text": "Now:"
+          },
+          {
+            "type": "bullet",
+            "text": "System responds to environment"
+          },
+          {
+            "type": "paragraph",
+            "text": "This creates a feedback loop:"
+          },
+          {
+            "type": "bullet",
+            "text": "Sensor detects change"
+          },
+          {
+            "type": "bullet",
+            "text": "System processes it"
+          },
+          {
+            "type": "bullet",
+            "text": "Output reacts physically"
+          },
+          {
+            "type": "paragraph",
+            "text": "This is the foundation of interactive embedded systems."
+          }
+        ]
+      },
+      {
+        "number": "4.2.7",
+        "title": "3.7 Why timing matters in sound output",
+        "icon": "❓",
+        "accent": "#F97316",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Unlike LEDs, sound depends heavily on timing."
+          },
+          {
+            "type": "paragraph",
+            "text": "Small changes in timing can:"
+          },
+          {
+            "type": "bullet",
+            "text": "Change perception of urgency"
+          },
+          {
+            "type": "bullet",
+            "text": "Create different alert levels"
+          },
+          {
+            "type": "bullet",
+            "text": "Alter user interpretation"
+          },
+          {
+            "type": "paragraph",
+            "text": "This makes timing a critical part of system behavior."
+          }
+        ]
+      },
+      {
+        "number": "4.2.8",
+        "title": "3.8 Key Insight of This Lesson",
+        "icon": "🔑",
+        "accent": "#14B8A6",
+        "blocks": [
+          {
+            "type": "bullet",
+            "text": "Buzzers convert electrical signals into sound"
+          },
+          {
+            "type": "bullet",
+            "text": "Sound is controlled using ON/OFF timing"
+          },
+          {
+            "type": "bullet",
+            "text": "Patterns create meaningful audio feedback"
+          },
+          {
+            "type": "bullet",
+            "text": "Systems can now communicate, not just compute"
+          },
+          {
+            "type": "bullet",
+            "text": "Sensor input can directly trigger sound output"
+          },
+          {
+            "type": "bullet",
+            "text": "This completes basic sense → react behavior"
+          }
+        ]
+      }
+    ]
+  },
+  "5-5-5-intro": {
+    "levelTitle": "LEVEL 6.5: Multi-Sensor Decision System (Smart Behavior Logic)",
+    "lessonTitle": " Multi-Sensor Decision System (Smart Behavior Logic)",
+    "stepType": "1. Introduction",
+    "sections": [
+      {
+        "number": "5.1.1",
+        "title": "Overview",
+        "icon": "📝",
+        "accent": "#6366F1",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "In the previous lessons, you learned how to:"
+          },
+          {
+            "type": "bullet",
+            "text": "Detect motion using a PIR sensor"
+          },
+          {
+            "type": "bullet",
+            "text": "Measure distance using an ultrasonic sensor"
+          },
+          {
+            "type": "bullet",
+            "text": "Read environmental conditions using a DHT sensor"
+          },
+          {
+            "type": "bullet",
+            "text": "Produce sound using a buzzer"
+          },
+          {
+            "type": "paragraph",
+            "text": "Each of these systems worked independently."
+          },
+          {
+            "type": "paragraph",
+            "text": "In this lesson, you will combine them."
+          },
+          {
+            "type": "paragraph",
+            "text": "Instead of reacting to one sensor at a time, the ESP32 will now:"
+          },
+          {
+            "type": "bullet",
+            "text": "use multiple inputs together to make decisions"
+          },
+          {
+            "type": "paragraph",
+            "text": "This is the beginning of intelligent system behavior."
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.5/Introduction/images/1_0.png"
+          }
+        ]
+      }
+    ]
+  },
+  "5-5-5-concept": {
+    "levelTitle": "3. Concept Building",
+    "lessonTitle": "3. Concept Building",
+    "stepType": "3.1 Why combine sensors?",
+    "sections": [
+      {
+        "number": "5.2.1",
+        "title": "Overview",
+        "icon": "📝",
+        "accent": "#6366F1",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "In real-world systems, one sensor is not enough."
+          },
+          {
+            "type": "paragraph",
+            "text": "For example:"
+          },
+          {
+            "type": "bullet",
+            "text": "Motion alone does not guarantee danger"
+          },
+          {
+            "type": "bullet",
+            "text": "Distance alone does not indicate intent"
+          },
+          {
+            "type": "bullet",
+            "text": "Temperature alone does not define a situation"
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.5/Concept Building/images/3.1_0.png"
+          },
+          {
+            "type": "paragraph",
+            "text": "Systems become intelligent when they combine multiple inputs to make better decisions."
+          }
+        ]
+      },
+      {
+        "number": "5.2.2",
+        "title": "3.2 What does “multi-sensor logic” mean?",
+        "icon": "🔬",
+        "accent": "#F59E0B",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Multi-sensor logic means:"
+          },
+          {
+            "type": "bullet",
+            "text": "👉 using more than one input to decide an output"
+          },
+          {
+            "type": "paragraph",
+            "text": "Instead of:"
+          },
+          {
+            "type": "bullet",
+            "text": "One condition → one action"
+          },
+          {
+            "type": "paragraph",
+            "text": "You now have:"
+          },
+          {
+            "type": "bullet",
+            "text": "Multiple conditions → one decision"
+          },
+          {
+            "type": "paragraph",
+            "text": "This allows systems to behave more accurately and intelligently."
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.5/Concept Building/images/3.2_0.png"
+          }
+        ]
+      },
+      {
+        "number": "5.2.3",
+        "title": "3.3 How the ESP32 processes multiple inputs",
+        "icon": "🔀",
+        "accent": "#10B981",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "The ESP32 follows a simple process:"
+          },
+          {
+            "type": "bullet",
+            "text": "Read all sensors"
+          },
+          {
+            "type": "bullet",
+            "text": "Evaluate conditions"
+          },
+          {
+            "type": "bullet",
+            "text": "Decide outcome"
+          },
+          {
+            "type": "bullet",
+            "text": "Execute output"
+          },
+          {
+            "type": "paragraph",
+            "text": "This cycle repeats continuously."
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.5/Concept Building/images/3.3_0.png"
+          },
+          {
+            "type": "paragraph",
+            "text": "Because of this:"
+          },
+          {
+            "type": "bullet",
+            "text": "The system always reacts to the latest environment state"
+          }
+        ]
+      },
+      {
+        "number": "5.2.4",
+        "title": "3.4 Understanding combined conditions",
+        "icon": "📝",
+        "accent": "#EF4444",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "When multiple conditions are used together:"
+          },
+          {
+            "type": "bullet",
+            "text": "AND conditions → all must be true"
+          },
+          {
+            "type": "bullet",
+            "text": "OR conditions → any one can be true"
+          },
+          {
+            "type": "paragraph",
+            "text": "This allows flexible behavior design."
+          },
+          {
+            "type": "paragraph",
+            "text": "For example:"
+          },
+          {
+            "type": "bullet",
+            "text": "Motion AND close distance → trigger alarm"
+          },
+          {
+            "type": "bullet",
+            "text": "Motion OR temperature change → trigger notification"
+          },
+          {
+            "type": "image",
+            "text": "/lecs/levels/Level 5/Level 5.5/Concept Building/images/3.4_0.png"
+          },
+          {
+            "type": "paragraph",
+            "text": "This gives control over how strict or flexible the system is."
+          }
+        ]
+      },
+      {
+        "number": "5.2.5",
+        "title": "3.5 What makes this “smart behavior”?",
+        "icon": "💡",
+        "accent": "#8B5CF6",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "A system becomes “smart” when:"
+          },
+          {
+            "type": "bullet",
+            "text": "It evaluates multiple inputs"
+          },
+          {
+            "type": "bullet",
+            "text": "It chooses different actions based on context"
+          },
+          {
+            "type": "bullet",
+            "text": "It adapts behavior dynamically"
+          },
+          {
+            "type": "paragraph",
+            "text": "This is exactly what happens here."
+          },
+          {
+            "type": "paragraph",
+            "text": "The system is no longer reactive—it is decision-driven."
+          }
+        ]
+      },
+      {
+        "number": "5.2.6",
+        "title": "3.6 Real-world applications",
+        "icon": "📝",
+        "accent": "#0EA5E9",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Multi-sensor systems are used in:"
+          },
+          {
+            "type": "bullet",
+            "text": "Smart security systems"
+          },
+          {
+            "type": "bullet",
+            "text": "Home automation systems"
+          },
+          {
+            "type": "bullet",
+            "text": "Industrial monitoring systems"
+          },
+          {
+            "type": "bullet",
+            "text": "Smart energy systems"
+          },
+          {
+            "type": "paragraph",
+            "text": "In all these systems:"
+          },
+          {
+            "type": "bullet",
+            "text": "One sensor is never enough"
+          },
+          {
+            "type": "bullet",
+            "text": "Decisions depend on multiple signals"
+          }
+        ]
+      },
+      {
+        "number": "5.2.7",
+        "title": "3.7 Key Insight of This Lesson",
+        "icon": "🔑",
+        "accent": "#F97316",
+        "blocks": [
+          {
+            "type": "bullet",
+            "text": "Real systems use multiple sensors together"
+          },
+          {
+            "type": "bullet",
+            "text": "Decisions are based on combined conditions"
+          },
+          {
+            "type": "bullet",
+            "text": "Logic determines system behavior"
+          },
+          {
+            "type": "bullet",
+            "text": "Outputs depend on environmental context"
+          },
+          {
+            "type": "bullet",
+            "text": "ESP32 continuously evaluates all inputs"
+          },
+          {
+            "type": "bullet",
+            "text": "This creates intelligent, adaptive behavior"
+          }
+        ]
       }
     ]
   }

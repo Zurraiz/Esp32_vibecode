@@ -1,0 +1,17 @@
+
+## LEVEL 6.4: Sound Output (Buzzer Control)
+
+
+## 1. Introduction
+
+In the previous lessons, your system learned how to:
+Detect motion using PIR sensors
+Measure distance using ultrasonic sensors
+Observe real-world conditions continuously
+So far, the ESP32 has only been receiving information.
+In this lesson, the system will take a new step:
+ It will produce sound based on conditions.
+[image: 1_0.png]
+You will use a buzzer to generate sound signals that respond to sensor input.
+This introduces a new idea:
+The system can now communicate back to the physical world

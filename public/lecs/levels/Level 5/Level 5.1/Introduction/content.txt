@@ -1,0 +1,14 @@
+
+## LEVEL 6.1: Temperature and Humidity (DHT Sensor Basics)
+
+
+## 1. Introduction
+
+Until now, you have been working with simulated inputs like sliders and basic analog signals.
+[image: 1_0.png]
+In real systems, however, computers often read data from the physical world.
+One of the most common types of real-world data is environmental data:
+Temperature
+Humidity
+In this lesson, you will learn how the ESP32 reads data from a sensor that measures these conditions.
+Instead of manually changing values, the system will now receive information from the environment.

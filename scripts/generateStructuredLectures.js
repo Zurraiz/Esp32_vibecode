@@ -839,6 +839,16 @@ function processStructuredLevels() {
         { lessonId: '4-3', stepIndex: 3, folders: { intro: 'Level 4/4.3/Introduction', concept: 'Level 4/4.3/Concept Building' } },
         { lessonId: '4-4', stepIndex: 4, folders: { intro: 'Level 4/4.4/Introduction', concept: 'Level 4/4.4/Concept Building' } }
       ]
+    },
+    {
+      levelId: 5,
+      lessons: [
+        { lessonId: '5-1', stepIndex: 1, folders: { intro: 'Level 5/Level 5.1/Introduction', concept: 'Level 5/Level 5.1/Concept Building' } },
+        { lessonId: '5-2', stepIndex: 2, folders: { intro: 'Level 5/Level 5.2/Introduction', concept: 'Level 5/Level 5.2/Concept Building' } },
+        { lessonId: '5-3', stepIndex: 3, folders: { intro: 'Level 5/Level 5.3/Introduction', concept: 'Level 5/Level 5.3/Concept Building' } },
+        { lessonId: '5-4', stepIndex: 4, folders: { intro: 'Level 5/Level 5.4/Introduction', concept: 'Level 5/Level 5.4/Concept Building' } },
+        { lessonId: '5-5', stepIndex: 5, folders: { intro: 'Level 5/Level 5.5/Introduction', concept: 'Level 5/Level 5.5/Concept Building' } }
+      ]
     }
   ];
 

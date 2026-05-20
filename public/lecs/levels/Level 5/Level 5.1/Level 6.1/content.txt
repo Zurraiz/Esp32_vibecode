@@ -1,0 +1,206 @@
+
+## 🟠 LEVEL 6.1: Temperature and Humidity (DHT Sensor Basics)
+
+
+## 1. Introduction
+
+Until now, you have been working with simulated inputs like sliders and basic analog signals.
+In real systems, however, computers often read data from the physical world.
+One of the most common types of real-world data is environmental data:
+Temperature
+Humidity
+In this lesson, you will learn how the ESP32 reads data from a sensor that measures these conditions.
+Instead of manually changing values, the system will now receive information from the environment.
+
+## 2. Exploration
+
+
+## Available Blocks
+
+DHT Setup
+Read Temperature
+Read Humidity
+Serial Print
+
+## Exploration Goal
+
+Your goal is to observe how environmental data changes over time.
+
+## Try This
+
+Initialize the DHT sensor
+Read temperature value
+Read humidity value
+Print both values continuously
+
+## Observe
+
+Do values stay constant or change?
+How often do they update?
+Do temperature and humidity change together or separately?
+Are values always exact or slightly varying?
+
+## Try Again
+
+Run the system for a longer time
+Compare values at different moments
+
+## Purpose of Exploration
+
+The goal is to experience that:
+Real-world data is dynamic
+Sensors continuously update values
+The system is now interacting with the environment
+
+## 3. Concept Building
+
+
+## 3.1 What is a sensor?
+
+A sensor is a component that reads information from the physical world and converts it into data that the ESP32 can understand.
+Instead of manually providing input (like a slider), the system now receives input from the environment itself.
+In this lesson, the sensor measures:
+Temperature (heat level)
+Humidity (moisture in air)
+
+## 3.2 What is the DHT sensor doing?
+
+The DHT sensor continuously monitors the environment and sends updated values to the ESP32.
+It does not give a single fixed value. Instead:
+It keeps measuring
+It keeps updating
+It reflects real-world changes
+This means the input is now external and dynamic, not manually controlled.
+
+## 3.3 Why do values change over time?
+
+You will notice that temperature and humidity values are not always stable.
+This happens because:
+The environment is always changing slightly
+Air movement affects readings
+Heat sources affect temperature
+Humidity varies naturally
+So even if nothing seems to change, the sensor may still show small variations.
+
+## 3.4 Understanding real-world input
+
+Unlike previous lessons where:
+You controlled the input manually
+Now:
+The environment controls the input
+This is a major shift.
+The system is no longer just reacting to user input—it is reacting to real conditions.
+
+## 3.5 Why sensors are important
+
+Sensors allow systems to:
+Understand their surroundings
+Make decisions based on real conditions
+React to changes without human input
+This is the foundation of all smart systems:
+Smart homes
+Weather stations
+Industrial monitoring
+IoT devices
+
+## 3.6 How the ESP32 reads sensor data
+
+The process is simple:
+The sensor measures temperature and humidity
+It sends this data to the ESP32
+The ESP32 reads the values
+The values are then used in your program
+This happens repeatedly in a loop, so the system always stays updated.
+
+## 3.7 Why Serial is important here
+
+Since sensor values change over time, you need a way to observe them.
+Serial output allows you to:
+See live data
+Track changes over time
+Understand environmental behavior
+Without Serial, the data would exist but remain invisible.
+
+## 3.8 Understanding real-time environmental systems
+
+Now your system behaves like a real monitoring device.
+It:
+Continuously reads environmental data
+Updates values in real time
+Reflects changes in surroundings
+This is the first step toward building real IoT systems.
+
+## 3.9 Key Insight of This Lesson
+
+Sensors read data from the physical world
+DHT measures temperature and humidity
+Values change based on real environmental conditions
+The ESP32 continuously reads updated data
+Systems are no longer manually controlled only—they react to reality
+
+## 4. Student Task
+
+
+## Task: Build an Environmental Monitor
+
+Your objective is to:
+Read temperature and humidity
+Display both values continuously
+Observe how they change over time
+
+## Requirements
+
+Use DHT Setup block
+Use Temperature Read
+Use Humidity Read
+Use Serial Print
+
+## Expected Behavior
+
+Temperature values should be displayed in real time
+Humidity values should be displayed alongside
+Values should update continuously
+Slight variations over time are expected
+
+## 5. Arduino Mapping
+
+
+## Generated Code
+
+#include "DHT.h"
+#define DHTPIN 4
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
+void setup() {
+Serial.begin(9600);
+dht.begin();
+}
+void loop() {
+float temperature = dht.readTemperature();
+float humidity = dht.readHumidity();
+Serial.print("Temperature: ");
+Serial.println(temperature);
+Serial.print("Humidity: ");
+Serial.println(humidity);
+}
+
+## Code Explanation
+
+dht.begin();
+Initializes the sensor
+readTemperature();
+Gets current temperature value
+readHumidity();
+Gets current humidity value
+Serial.print/println();
+Displays real-time data
+
+## Execution Flow
+
+Sensor is initialized
+Temperature is read
+Humidity is read
+Values are printed
+Loop repeats continuously
+
+## End of Lesson 6.1

@@ -1,0 +1,14 @@
+
+## LEVEL 6.2: Motion Detection (PIR Sensor)
+
+
+## 1. Introduction
+
+In the previous lesson, your system was observing the environment by reading temperature and humidity.
+In this lesson, the system will go one step further.
+Instead of continuously measuring values, it will now detect events—specifically, movement.
+A PIR sensor (Passive Infrared Sensor) allows the ESP32 to detect when a person or object moves in its field of view.
+This introduces a new type of input:
+Not continuous values
+But event-based signals
+[image: 1_0.png]
